@@ -16,7 +16,27 @@
     {% endif %}
 </head>
 <body>
-    <div class="container">
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-baylor-green-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="/">Baylor UYP</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
+              <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main role="main" class="container">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -27,7 +47,7 @@
             {% endif %}
         {% endwith %}
         {% block content %}{% endblock %}
-    </div>
+    </main>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
