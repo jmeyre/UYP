@@ -15,3 +15,7 @@ This program is a Python web application using the Flask framework.
 3. Choose Run->Edit Configurations
 4. Ensure that the FLASK_DEBUG option is checked. (This will allow you to make changes to the project without having to rerun the app each time.
 5. Navigate to "localhost:5000" in your browser. If you do not get an error, then this worked correctly.
+
+### Required Packages (pip install [packageName])
+* flask
+* flask-wtf
