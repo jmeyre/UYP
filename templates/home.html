@@ -1,7 +1,23 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <h1>Home Page</h1>
-    <div>
-        <h3>Welcome to University for Young People!</h3>
+    <div class="row">
+        <h1 class="col-md-12 text-center">Home Page</h1>
+    </div>
+    <div class="row">
+        <h3 class="col-md-12 text-center">Welcome to University for Young People!</h3>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-4 card">
+            <h3 class="card-header bg-baylor-green-std text-white text-center">Profile Info</h3>
+            <div class="card-body">
+                <h6>Information here:</h6>
+                <p>Name</p>
+                <p>Favorite Color</p>
+            </div>
+        </div>
+        <div class="col-md-8 card">
+            <h3 class="card-header bg-baylor-green-std text-white text-center">Dashboard</h3>
+        </div>
     </div>
 {% endblock content %}
