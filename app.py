@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, flash, redirect
 from forms import LoginForm
+from mysql import connector
 # from forms import ApplyForm
 app = Flask(__name__)
 
@@ -21,6 +22,7 @@ def apply():
         return redirect(url_for('home'))
     return render_template('apply.html', title='Apply', form=form)
 """
+
 
 
 @app.route('/login', methods=['GET', 'POST'])
