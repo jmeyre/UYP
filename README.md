@@ -19,3 +19,5 @@ This program is a Python web application using the Flask framework.
 ### Required Packages (pip install [packageName])
 * flask
 * flask-wtf
+* mysql-connector
+* bcrypt
