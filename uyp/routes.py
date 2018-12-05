@@ -1,11 +1,7 @@
-from flask import Flask, render_template, url_for, flash, redirect
-from forms import LoginForm
-from mysql import connector
-# from forms import ApplyForm
-app = Flask(__name__)
-
-app.config['SECRET_KEY'] = '2d7596cbe025473acb2bb5d8f268f5a5'
-
+from flask import render_template, url_for, flash, redirect
+from uyp import app
+from uyp.forms import LoginForm
+# from uyp.models import user,etc.
 
 @app.route('/')
 @app.route('/home')
@@ -14,7 +10,7 @@ def home():
 
 
 """ (No need to apply online)
-@app.route('/apply', methods=['GET', 'POST'])
+@uyp.route('/apply', methods=['GET', 'POST'])
 def apply():
     form = ApplyForm()
     if form.validate_on_submit():
@@ -22,7 +18,6 @@ def apply():
         return redirect(url_for('home'))
     return render_template('apply.html', title='Apply', form=form)
 """
-
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -35,7 +30,3 @@ def login():
         else:
             flash('Login failed. Incorrect username or password.', 'danger')
     return render_template('login.html', title='Login', form=form)
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
