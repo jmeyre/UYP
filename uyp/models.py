@@ -1,6 +1,3 @@
-from uyp import config, DB_NAME
-
-
 class User:
     def __init__(self, id, category, pword):
         self.id = id

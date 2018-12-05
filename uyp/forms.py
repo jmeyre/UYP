@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 
 class ApplyForm(FlaskForm):
-    user_id = StringField('User ID', validators=[DataRequired(), Length(min=11, max=11)])
+    user_id = IntegerField('User ID', validators=[DataRequired()])
     category = RadioField('Account Category', choices=[('Student', 'Student'), ('Staff', 'Staff')])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
