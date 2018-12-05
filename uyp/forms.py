@@ -13,10 +13,14 @@ class ApplyForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
+    user_id = IntegerField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
+
+
+class AccountForm(FlaskForm):
+    submit = SubmitField('Save Changes')
 
 
 class StudentInfo(FlaskForm):
