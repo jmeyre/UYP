@@ -3,14 +3,13 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateF
     IntegerField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
-""" (No need to apply online)
+
 class ApplyForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    user_id = StringField('User ID', validators=[DataRequired(), Length(min=11, max=11)])
+    category = RadioField('Account Category', choices=[('Student', 'Student'), ('Staff', 'Staff')])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
-"""
 
 
 class LoginForm(FlaskForm):

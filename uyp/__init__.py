@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 
@@ -15,5 +16,7 @@ config = {
 
 # The name of the database
 DB_NAME = 'ufyp'
+
+bcrypt = Bcrypt(app)
 
 from uyp import routes

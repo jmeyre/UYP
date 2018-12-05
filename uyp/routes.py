@@ -1,7 +1,8 @@
 from flask import render_template, url_for, flash, redirect
-from uyp import app
-from uyp.forms import LoginForm
-# from uyp.models import user,etc.
+from uyp import app, bcrypt
+from uyp.forms import LoginForm, ApplyForm
+from uyp.models import User
+
 
 @app.route('/')
 @app.route('/home')
@@ -9,15 +10,15 @@ def home():
     return render_template('home.html')
 
 
-""" (No need to apply online)
-@uyp.route('/apply', methods=['GET', 'POST'])
+@app.route('/apply', methods=['GET', 'POST'])
 def apply():
     form = ApplyForm()
     if form.validate_on_submit():
-        flash('Account created for {0}!'.format(form.username.data), 'success')
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(form.user_id.data, form.category.data, hashed_password)
+        flash('{0} account created for {1}!'.format(user.category, user.id), 'success')
         return redirect(url_for('home'))
     return render_template('apply.html', title='Apply', form=form)
-"""
 
 
 @app.route('/login', methods=['GET', 'POST'])
