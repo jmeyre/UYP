@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from uyp import app, config, bcrypt
-from uyp.forms import LoginForm, CreateAccountForm, ProfileForm
+from uyp.forms import LoginForm, CreateAccountForm, ProfileForm, StudentSearchForm
 from uyp.models import User
 from mysql import connector
 from flask_login import login_user, current_user, logout_user, login_required
@@ -110,10 +110,10 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route('/profile', methods=['GET', 'POST'])
+@app.route('/profile/<user_id>', methods=['GET', 'POST'])
 @login_required
-def profile():
-    form = ProfileForm()
+def profile(user_id):
+    form = ProfileForm(user_id=user_id)
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
 
@@ -123,7 +123,7 @@ def profile():
         # Create the cursor for the connection
         cursor = conn.cursor()
 
-        cursor.execute("UPDATE users SET pword = '{0}'".format(hashed_password))
+        cursor.execute("UPDATE users SET pword = '{0}' WHERE ID = {1}".format(hashed_password, user_id))
 
         # Commit the data to the database
         conn.commit()

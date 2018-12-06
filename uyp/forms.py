@@ -84,3 +84,7 @@ class SchoolForm(FlaskForm):
     type = RadioField('Type', choices=[('Public', 'public'), ('Private', 'private'), ('Home', 'home')])
     district = StringField('District', validators=[Length(min=2, max=20)])
 
+
+class StudentSearchForm(FlaskForm):
+    search = StringField('Find Student...')
+
