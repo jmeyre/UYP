@@ -31,7 +31,7 @@ def create_account():
         p_chars = "abcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyz01234567890-_?!#$^"
 
         id = ''
-        for x in range(7):
+        for x in range(6):
             id += random.choice(id_chars)
 
         password = ''
