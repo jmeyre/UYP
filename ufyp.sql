@@ -35,8 +35,8 @@ CREATE TABLE `class` (
   KEY `Session_ID` (`Session_ID`),
   KEY `Time_Slot_ID` (`Time_Slot_ID`),
   CONSTRAINT `class_ibfk_1` FOREIGN KEY (`instructorID`) REFERENCES `instructors` (`id`),
-  CONSTRAINT `class_ibfk_2` FOREIGN KEY (`Session_ID`) REFERENCES `sessions` (`id`),
-  CONSTRAINT `class_ibfk_3` FOREIGN KEY (`Time_Slot_ID`) REFERENCES `timeslot` (`id`)
+  CONSTRAINT `class_ibfk_2` FOREIGN KEY (`sessionID`) REFERENCES `sessions` (`id`),
+  CONSTRAINT `class_ibfk_3` FOREIGN KEY (`timeSlotID`) REFERENCES `timeslot` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -144,7 +144,7 @@ CREATE TABLE `instructors` (
   `lName` varchar(255) NOT NULL,
   `suffix` varchar(255) DEFAULT NULL,
   KEY `ID` (`ID`),
-  CONSTRAINT `instructors_ibfk_1` FOREIGN KEY (`ID`) REFERENCES `users` (`id`)
+  CONSTRAINT `instructors_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
