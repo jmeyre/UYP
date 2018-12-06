@@ -21,7 +21,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 
-class AccountForm(FlaskForm):
+class ProfileForm(FlaskForm):
     new_password = PasswordField('New Password')
     confirm_new_password = PasswordField('Retype New Password', validators=[EqualTo('new_password')])
     submit = SubmitField('Save Changes')

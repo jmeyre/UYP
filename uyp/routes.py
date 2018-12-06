@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from uyp import app, config, bcrypt
-from uyp.forms import LoginForm, CreateAccountForm, AccountForm
+from uyp.forms import LoginForm, CreateAccountForm, ProfileForm
 from uyp.models import User
 from mysql import connector
 from flask_login import login_user, current_user, logout_user, login_required
@@ -14,9 +14,13 @@ def home():
 
 
 @app.route('/create_account', methods=['GET', 'POST'])
+@login_required
 def create_account():
+    if current_user.category == 'Student':
+        flash('You do not have access to that page!', 'danger')
+        return redirect(url_for('home'))
+
     form = CreateAccountForm()
-    print("it got here")
     if form.validate_on_submit():
         id_chars = "0123456789"
         p_chars = "abcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyz01234567890-_?!#$^"
@@ -28,8 +32,6 @@ def create_account():
         password = ''
         for x in range(random.randint(8,12)):
             password += random.choice(p_chars)
-
-        print('{0} {1}'.format(id, password))
 
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
         user = User(id, form.category.data, hashed_password)
@@ -103,10 +105,10 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route('/account', methods=['GET', 'POST'])
+@app.route('/profile', methods=['GET', 'POST'])
 @login_required
-def account():
-    form = AccountForm()
+def profile():
+    form = ProfileForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
 
@@ -126,4 +128,4 @@ def account():
 
         # Close the connection to the database
         conn.close()
-    return render_template('account.html', title='Account', form=form)
+    return render_template('profile.html', title='Profile', form=form)
