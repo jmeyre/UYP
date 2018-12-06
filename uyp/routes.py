@@ -13,6 +13,11 @@ def home():
     return render_template('home.html')
 
 
+@app.route('/class_search')
+def class_search():
+    return render_template('class_search.html')
+
+
 @app.route('/create_account', methods=['GET', 'POST'])
 @login_required
 def create_account():
