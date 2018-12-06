@@ -32,8 +32,8 @@ CREATE TABLE `class` (
   `timeSlotID` varchar(4) NOT NULL,
   `sessionID` varchar(4) NOT NULL,
   KEY `InstructorID` (`InstructorID`),
-  KEY `Session_ID` (`Session_ID`),
-  KEY `Time_Slot_ID` (`Time_Slot_ID`),
+  KEY `sessionID` (`sessionID`),
+  KEY `timeSlotID` (`timeSlotID`),
   CONSTRAINT `class_ibfk_1` FOREIGN KEY (`instructorID`) REFERENCES `instructors` (`id`),
   CONSTRAINT `class_ibfk_2` FOREIGN KEY (`sessionID`) REFERENCES `sessions` (`id`),
   CONSTRAINT `class_ibfk_3` FOREIGN KEY (`timeSlotID`) REFERENCES `timeslot` (`id`)
@@ -113,7 +113,7 @@ DROP TABLE IF EXISTS `healthcondition`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `healthcondition` (
-  `studentID` varchaar(6) NOT NULL,
+  `studentID` varchar(6) NOT NULL,
   `cond` varchar(255) NOT NULL,
   `descript` varchar(255) NOT NULL,
   KEY `studentID` (`studentID`),
@@ -143,7 +143,7 @@ CREATE TABLE `instructors` (
   `mName` varchar(255) DEFAULT NULL,
   `lName` varchar(255) NOT NULL,
   `suffix` varchar(255) DEFAULT NULL,
-  KEY `ID` (`ID`),
+  KEY `id` (`id`),
   CONSTRAINT `instructors_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -196,7 +196,7 @@ CREATE TABLE `sessions` (
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
   `year` year(4) NOT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -261,7 +261,7 @@ CREATE TABLE `timeslot` (
   `id` varchar(4) NOT NULL,
   `startTime` time NOT NULL,
   `endTime` time NOT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -285,7 +285,7 @@ CREATE TABLE `users` (
   `id` varchar(6) NOT NULL,
   `category` varchar(255) NOT NULL,
   `pword` varchar(255) NOT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
