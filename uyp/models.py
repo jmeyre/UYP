@@ -12,7 +12,7 @@ def load_user(user_id):
     cursor = conn.cursor()
 
     cursor.execute(
-        "SELECT * FROM users WHERE ID = {0}".format(user_id))
+        "SELECT * FROM users WHERE id = '{0}'".format(user_id))
 
     result = cursor.fetchone()
     user = User(result[0], result[1], result[2])

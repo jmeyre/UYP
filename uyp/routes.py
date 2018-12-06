@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from uyp import app, config, bcrypt
-from uyp.forms import LoginForm, CreateAccountForm, ProfileForm, StudentSearchForm
+from uyp.forms import LoginForm, CreateAccountForm, ProfileForm
 from uyp.models import User
 from mysql import connector
 from flask_login import login_user, current_user, logout_user, login_required
@@ -47,7 +47,7 @@ def create_account():
         # Create the cursor for the connection
         cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO users (ID, category, pword) VALUES({0}, '{1}', '{2}')".format(user.id, user.category, user.pword))
+        cursor.execute("INSERT INTO users (id, category, pword) VALUES('{0}', '{1}', '{2}')".format(user.id, user.category, user.pword))
 
         # Commit the data to the database
         conn.commit()
@@ -78,7 +78,7 @@ def login():
         cursor = conn.cursor()
 
         cursor.execute(
-            "SELECT * FROM users WHERE ID = {0}".format(form.user_id.data))
+            "SELECT * FROM users WHERE id = '{0}'".format(form.user_id.data))
 
         result = cursor.fetchone()
 
@@ -127,7 +127,7 @@ def profile(user_id):
         # Create the cursor for the connection
         cursor = conn.cursor()
 
-        cursor.execute("UPDATE users SET pword = '{0}' WHERE ID = {1}".format(hashed_password, user_id))
+        cursor.execute("UPDATE users SET pword = '{0}' WHERE id = '{1}'".format(hashed_password, user_id))
 
         # Commit the data to the database
         conn.commit()

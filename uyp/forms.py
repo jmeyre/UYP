@@ -15,7 +15,7 @@ class CreateAccountForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    user_id = IntegerField('User ID', validators=[DataRequired()])
+    user_id = StringField('User ID', validators=[DataRequired(), Length(min=6, max=6, message='User IDs are 6 characters')])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
