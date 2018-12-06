@@ -53,7 +53,7 @@ class StudentInfo(FlaskForm):
     healthConds = RadioField('Health Conditions?', choices=[('Yes', 'yes'), ('No', 'no')])
     ESL = RadioField('English Second Language', choices=[('Yes', 'yes'), ('No', 'no')])
     GT = RadioField('GT?', choices=[('Yes', 'yes'), ('No', 'no')])
-    submit = SubmitField('Save Changes')
+    submit = SubmitField('Submit Info')
 
 
 class DisabilityForm(FlaskForm):

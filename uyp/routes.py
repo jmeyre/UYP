@@ -9,7 +9,20 @@ import random
 
 @app.route('/')
 @app.route('/home')
+@login_required
 def home():
+    if current_user.category == 'Student':
+        # Create the connection to the database
+        conn = connector.connect(**config)
+
+        # Create the cursor for the connection
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT id FROM students WHERE students.id = '{0}'".format(current_user.id))
+
+        if cursor:
+            return redirect(url_for('student_activate'))
+
     return render_template('home.html')
 
 
@@ -138,3 +151,11 @@ def profile(user_id):
         # Close the connection to the database
         conn.close()
     return render_template('profile.html', title='Profile', form=form, user_id=user_id)
+
+
+@app.route('/student_activate', methods=['GET', 'POST'])
+@login_required
+def student_activate():
+    # form = StudentInfo()
+
+    return render_template('student_activate.html')
