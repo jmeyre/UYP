@@ -4,22 +4,26 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateF
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 
-class ApplyForm(FlaskForm):
-    user_id = IntegerField('User ID', validators=[DataRequired()])
-    category = RadioField('Account Category', choices=[('Student', 'Student'), ('Staff', 'Staff')])
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Sign Up')
+class CreateAccountForm(FlaskForm):
+    # user_id = IntegerField('User ID', validators=[DataRequired()])
+    category = RadioField('Account Category', choices=[('Student', 'Student'), ('Staff', 'Staff')], validators=[DataRequired()])
+    # password = PasswordField('Password', validators=[DataRequired()])
+    # confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    # fname = StringField('First Name', validators=[DataRequired()])
+    # lname = StringField('Last Name', validators=[DataRequired()])
+    submit = SubmitField('Create Account')
 
 
 class LoginForm(FlaskForm):
-    user_id = IntegerField('Username', validators=[DataRequired()])
+    user_id = IntegerField('User ID', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
 
 class AccountForm(FlaskForm):
+    new_password = PasswordField('New Password')
+    confirm_new_password = PasswordField('Retype New Password', validators=[EqualTo('new_password')])
     submit = SubmitField('Save Changes')
 
 

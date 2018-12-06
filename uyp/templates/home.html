@@ -16,19 +16,21 @@
         <h3 class="col-md-12 text-center">Welcome to University for Young People!</h3>
     </div>
 
-    <div class="row">
-        <div class="col-md-4 card p-2">
-            <h3 class="card-header bg-baylor-green-std text-white text-center">Profile Info</h3>
-            <div class="card-body">
-                <h6 class="text-center">First Last</h6>
-                <p>ID:</p>
-                <p>Status:</p>
-                <p>Yadayada:</p>
+    {% if current_user.is_authenticated %}
+        <div class="row">
+            <div class="col-md-4 card p-2">
+                <h3 class="card-header bg-baylor-green-std text-white text-center">Profile Info</h3>
+                <div class="card-body">
+                    <h6 class="text-center">First Last</h6>
+                    <p>ID:</p>
+                    <p>Status:</p>
+                    <p>Yadayada:</p>
+                </div>
+            </div>
+            <div class="col-md-8 card p-2">
+                <h3 class="card-header bg-baylor-green-std text-white text-center">Dashboard</h3>
             </div>
         </div>
-        <div class="col-md-8 card p-2">
-            <h3 class="card-header bg-baylor-green-std text-white text-center">Dashboard</h3>
-        </div>
-    </div>
+    {% endif %}
 
 {% endblock content %}
