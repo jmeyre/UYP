@@ -113,7 +113,11 @@ def logout():
 @app.route('/profile/<user_id>', methods=['GET', 'POST'])
 @login_required
 def profile(user_id):
-    form = ProfileForm(user_id=user_id)
+    # Prevent students from accessing other students' profiles
+    if current_user.category == 'Student' and str(current_user.id) != str(user_id):
+        return redirect( url_for('profile', user_id=current_user.id))
+
+    form = ProfileForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
 
@@ -133,4 +137,4 @@ def profile(user_id):
 
         # Close the connection to the database
         conn.close()
-    return render_template('profile.html', title='Profile', form=form)
+    return render_template('profile.html', title='Profile', form=form, user_id=user_id)
