@@ -26,7 +26,6 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
@@ -34,6 +33,7 @@
                     {% if current_user.category == 'Staff' %}
                         <a class="nav-item nav-link" href="{{ url_for('create_account') }}">Create Account</a>
                     {% endif %}
+                    <a class="nav-item nav-link" href="{{ url_for('class_search') }}">Class Search</a>
                     <a class="nav-item nav-link" href="{{ url_for('profile', user_id=current_user.id) }}">Profile</a>
                     <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
                 {% else %}
