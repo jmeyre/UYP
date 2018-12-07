@@ -51,3 +51,22 @@ class User:
     def get_id(self):
         return self.id
 
+
+class Class:
+    def __init__(self, id, title, lvl, maxCapacity, curSize, instructorID, room, timeslotID, sessionID):
+        self.id = id
+        self.title = title
+        self.lvl = lvl
+        self.maxCapacity = maxCapacity
+        self.curSize = curSize
+        self.instructorID = instructorID
+        self.room = room
+        self.timeslotID = timeslotID
+        self.sessionID = sessionID
+
+    def __repr__(self):
+        return "Class( ID={0}, Title=\"{1}\", Level={2}, MaxCapacity={3}, " \
+               "CurrentSize={4}, InstructorID={5}, Room={6}, TimeSlotID={7}, SessionID={8} )".format(
+                self.id, self.title, self.lvl, self.maxCapacity, self.curSize, self.instructorID, self.room,
+                self.timeslotID, self.sessionID)
+

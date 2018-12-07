@@ -27,6 +27,10 @@ class ProfileForm(FlaskForm):
     submit = SubmitField('Save Changes')
 
 
+class AddClassForm(FlaskForm):
+    submit = SubmitField('Add Class')
+
+
 class StudentInfo(FlaskForm):
     fName = StringField('First Name', validators=[DataRequired(), Length(min=2, max=20)])
     mName = StringField('Middle Name', validators=[Length(min=2, max=20)])

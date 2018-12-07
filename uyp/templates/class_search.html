@@ -16,88 +16,24 @@
 
     {% if current_user.category == 'Staff' %}
         <div class="row">
-            <button type="button" class="ml-2 mt-2 mb-2 btn text-white bg-baylor-green-std">Add a new class</button>
+            <a href={{ url_for('home') }}><button type="button" class="ml-2 mt-2 mb-2 btn text-white bg-baylor-green-std">Add a new class</button></a>
         </div>
     {% endif %}
 
     <div class="card-columns">
-        <div class="card">
-            <div class="card-title">
-                <h5 class="card-header text-center text-white bg-baylor-green-std">Title</h5>
-                <h6 class="card-text ml-2 mt-2">Session:</h6>
-                <h6 class="card-text ml-2">Time:</h6>
-                <h6 class="card-text ml-2">Instructor:</h6>
-                <h6 class="card-text ml-2">Room:</h6>
-                <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">More</button>
-                <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Register</button>
+        {% for class in classes %}
+            <div class="card">
+                <div class="card-title">
+                    <h5 class="card-header text-center text-white bg-baylor-green-std">Title</h5>
+                    <h6 class="card-text ml-2 mt-2">Session:</h6>
+                    <h6 class="card-text ml-2">Time:</h6>
+                    <h6 class="card-text ml-2">Instructor:</h6>
+                    <h6 class="card-text ml-2">Room:</h6>
+                    <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">More</button>
+                    <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Register</button>
+                </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="card-title">
-                <h5 class="card-header text-center text-white bg-baylor-green-std">Title</h5>
-                <h6 class="card-text ml-2 mt-2">Session:</h6>
-                <h6 class="card-text ml-2">Time:</h6>
-                <h6 class="card-text ml-2">Instructor:</h6>
-                <h6 class="card-text ml-2">Room:</h6>
-                <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">More</button>
-                <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Register</button>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title">
-                <h5 class="card-header text-center text-white bg-baylor-green-std">Title</h5>
-                <h6 class="card-text ml-2 mt-2">Session:</h6>
-                <h6 class="card-text ml-2">Time:</h6>
-                <h6 class="card-text ml-2">Instructor:</h6>
-                <h6 class="card-text ml-2">Room:</h6>
-                <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">More</button>
-                <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Register</button>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title">
-                <h5 class="card-header text-center text-white bg-baylor-green-std">Title</h5>
-                <h6 class="card-text ml-2 mt-2">Session:</h6>
-                <h6 class="card-text ml-2">Time:</h6>
-                <h6 class="card-text ml-2">Instructor:</h6>
-                <h6 class="card-text ml-2">Room:</h6>
-                <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">More</button>
-                <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Register</button>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title">
-                <h5 class="card-header text-center text-white bg-baylor-green-std">Title</h5>
-                <h6 class="card-text ml-2 mt-2">Session:</h6>
-                <h6 class="card-text ml-2">Time:</h6>
-                <h6 class="card-text ml-2">Instructor:</h6>
-                <h6 class="card-text ml-2">Room:</h6>
-                <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">More</button>
-                <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Register</button>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title">
-                <h5 class="card-header text-center text-white bg-baylor-green-std">Title</h5>
-                <h6 class="card-text ml-2 mt-2">Session:</h6>
-                <h6 class="card-text ml-2">Time:</h6>
-                <h6 class="card-text ml-2">Instructor:</h6>
-                <h6 class="card-text ml-2">Room:</h6>
-                <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">More</button>
-                <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Register</button>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title">
-                <h5 class="card-header text-center text-white bg-baylor-green-std">Title</h5>
-                <h6 class="card-text ml-2 mt-2">Session:</h6>
-                <h6 class="card-text ml-2">Time:</h6>
-                <h6 class="card-text ml-2">Instructor:</h6>
-                <h6 class="card-text ml-2">Room:</h6>
-                <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">More</button>
-                <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Register</button>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 
 

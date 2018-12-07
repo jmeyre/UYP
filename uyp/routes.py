@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from uyp import app, config, bcrypt
-from uyp.forms import LoginForm, CreateAccountForm, ProfileForm
+from uyp.forms import LoginForm, CreateAccountForm, ProfileForm, AddClassForm
 from uyp.models import User
 from mysql import connector
 from flask_login import login_user, current_user, logout_user, login_required
@@ -23,12 +23,41 @@ def home():
         if cursor:
             return redirect(url_for('student_activate'))
 
+        # Commit the data to the database
+        conn.commit()
+
+        # Close the cursor
+        cursor.close()
+
+        # Close the connection to the database
+        conn.close()
+
     return render_template('home.html')
 
 
 @app.route('/class_search')
+@login_required
 def class_search():
-    return render_template('class_search.html', title='Class Search')
+    # Create the connection to the database
+    conn = connector.connect(**config)
+
+    # Create the cursor for the connection
+    cursor = conn.cursor()
+
+    # For now... (otherwise, make a query that applies filters)
+    cursor.execute("SELECT * FROM class")
+
+    classes = cursor.fetchall()
+
+    # Commit the data to the database
+    conn.commit()
+
+    # Close the cursor
+    cursor.close()
+
+    # Close the connection to the database
+    conn.close()
+    return render_template('class_search.html', title='Class Search', classes=classes)
 
 
 @app.route('/create_account', methods=['GET', 'POST'])
@@ -158,4 +187,15 @@ def profile(user_id):
 def student_activate():
     # form = StudentInfo()
 
-    return render_template('student_activate.html')
+    return render_template('student_activate.html', title='Activate Account')
+
+
+@app.route('/add_class', methods=['GET', 'POST'])
+@login_required
+def add_class():
+    if current_user.category == 'Student':
+        flash('You do not have access to that page!', 'danger')
+        return redirect(url_for('home'))
+
+    form = AddClassForm()
+    return render_template('add_class.html', title='Add Class', form=form)
