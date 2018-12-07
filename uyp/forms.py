@@ -6,7 +6,8 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 class CreateAccountForm(FlaskForm):
     # user_id = IntegerField('User ID', validators=[DataRequired()])
-    category = RadioField('Account Category', choices=[('Student', 'Student'), ('Staff', 'Staff')], validators=[DataRequired()])
+    category = RadioField('Account Category', choices=[('Student', 'Student'), ('Staff', 'Staff')],
+                          validators=[DataRequired()])
     # password = PasswordField('Password', validators=[DataRequired()])
     # confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     # fname = StringField('First Name', validators=[DataRequired()])
@@ -28,6 +29,16 @@ class ProfileForm(FlaskForm):
 
 
 class AddClassForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired(), Length(min=2, max=255,
+                                                                    message='Titles are at least 2 characters long')])
+    lvl = RadioField('Course Level', choices=[('4th - 5th', 'ONE'), ('6th - 8th', 'TWO'), ('9th - 12th', 'THREE')],
+                     validators=[DataRequired()])
+    maxCap = IntegerField('Maximum Capacity', validators=[DataRequired()])
+    instructorID = IntegerField('Instructor ID', validators=[DataRequired()])
+    room = StringField('Room', validators=[DataRequired(), Length(min=2, max=255)])
+    tsID = RadioField('Time Slot', choices=[('9:45 - 11:15', 'ONE'), ('Lunch and Recreation', 'TWO'),
+                                            ('1:15 - 2:45', 'THREE')], validators=[(DataRequired())])
+    sessionID = RadioField('Session', choices=[('1', 'ONE'), ('2', 'TWO'), ('3', 'THREE')], validators=[DataRequired()])
     submit = SubmitField('Add Class')
 
 
@@ -91,4 +102,3 @@ class SchoolForm(FlaskForm):
 
 class StudentSearchForm(FlaskForm):
     search = StringField('Find Student...')
-
