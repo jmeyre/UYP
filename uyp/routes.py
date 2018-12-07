@@ -198,4 +198,24 @@ def add_class():
         return redirect(url_for('home'))
 
     form = AddClassForm()
+
+    if form.validate_on_submit():
+
+        # Create the connection to the database
+        conn = connector.connect(**config)
+
+        # Create the cursor for the connection
+        cursor = conn.cursor()
+
+        cursor.execute("INSERT INTO class".format())
+
+        # Commit the data to the database
+        conn.commit()
+
+        # Close the cursor
+        cursor.close()
+
+        # Close the connection to the database
+        conn.close()
+
     return render_template('add_class.html', title='Add Class', form=form)
