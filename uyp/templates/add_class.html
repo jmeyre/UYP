@@ -1,11 +1,74 @@
 {% extends 'layout.html' %}
 {% block content %}
     <div class="content-section">
-        <h1>Add Class</h1>
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-
+                <legend class="border-bottom mb-4">Add Class</legend>
+                <div class="form-group">
+                    {{ form.title.label(class="form-control-label") }}
+                    {% if form.title.errors %}
+                        {{ form.title(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.title.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.title(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.lvl.label(class="form-control-label") }}
+                    {{ form.lvl(class="radio") }}
+                </div>
+                <div class="form-group">
+                    {{ form.maxCap.label(class="form-control-label") }}
+                    {% if form.maxCap.errors %}
+                        {{ form.maxCap(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.maxCap.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.maxCap(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.instructorID.label(class="form-control-label") }}
+                    {% if form.instructorID.errors %}
+                        {{ form.instructorID(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.instructorID.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.instructorID(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.room.label(class="form-control-label") }}
+                    {% if form.room.errors %}
+                        {{ form.room(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.room.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.room(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.timeslotID.label(class="form-control-label") }}
+                    {{ form.timeslotID(class="radio") }}
+                </div>
+                <div class="form-group">
+                    {{ form.sessionID.label(class="form-control-label") }}
+                    {{ form.sessionID(class="radio") }}
+                </div>
             </fieldset>
             <div class="form-group">
                 {{ form.submit(class="btn btn-outline-success") }}

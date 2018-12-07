@@ -31,14 +31,14 @@ class ProfileForm(FlaskForm):
 class AddClassForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(min=2, max=255,
                                                                     message='Titles are at least 2 characters long')])
-    lvl = RadioField('Course Level', choices=[('4th - 5th', 'ONE'), ('6th - 8th', 'TWO'), ('9th - 12th', 'THREE')],
+    lvl = RadioField('Course Level', choices=[('one', '4th - 5th'), ('two', '6th - 8th'), ('three', '9th - 12th')],
                      validators=[DataRequired()])
     maxCap = IntegerField('Maximum Capacity', validators=[DataRequired()])
-    instructorID = IntegerField('Instructor ID', validators=[DataRequired()])
+    instructorID = StringField('Instructor ID', validators=[DataRequired(), Length(min=6, max=6, message='User IDs are 6 characters')])
     room = StringField('Room', validators=[DataRequired(), Length(min=2, max=255)])
-    tsID = RadioField('Time Slot', choices=[('9:45 - 11:15', 'ONE'), ('Lunch and Recreation', 'TWO'),
-                                            ('1:15 - 2:45', 'THREE')], validators=[(DataRequired())])
-    sessionID = RadioField('Session', choices=[('1', 'ONE'), ('2', 'TWO'), ('3', 'THREE')], validators=[DataRequired()])
+    timeslotID = RadioField('Time Slot', choices=[('one', '9:45 - 11:15'), ('two', 'Lunch and Recreation'),
+                                            ('three', '1:15 - 2:45')], validators=[(DataRequired())])
+    sessionID = RadioField('Session', choices=[('one', 'Week 1'), ('two', 'Week 2'), ('three', 'Week 3')], validators=[DataRequired()])
     submit = SubmitField('Add Class')
 
 
