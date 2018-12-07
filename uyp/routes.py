@@ -207,7 +207,10 @@ def add_class():
         # Create the cursor for the connection
         cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO class".format())
+        cursor.execute("INSERT INTO class (title, lvl, maxCap, curSize, instructorID, room, timeSlotID, sessionID) "
+                       "VALUES ('{0}', '{1}', {2}, {3}, '{4}', '{5}', '{6}', '{7}')".format(
+                        form.title.data, form.lvl.data, form.maxCap.data, 0, form.instructorID.data,
+                        form.room.data, form.timeslotID.data, form.sessionID.data))
 
         # Commit the data to the database
         conn.commit()
