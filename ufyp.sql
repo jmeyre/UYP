@@ -31,12 +31,15 @@ CREATE TABLE `class` (
   `room` varchar(255) NOT NULL,
   `timeSlotID` varchar(4) NOT NULL,
   `sessionID` varchar(4) NOT NULL,
-  KEY `InstructorID` (`InstructorID`),
+  `classID` varchar(255) NOT NULL,
+  `price` int(11) NOT NULL,
+  PRIMARY KEY (`classID`),
+  KEY `InstructorID` (`instructorID`),
   KEY `sessionID` (`sessionID`),
   KEY `timeSlotID` (`timeSlotID`),
-  CONSTRAINT `class_ibfk_1` FOREIGN KEY (`instructorID`) REFERENCES `instructors` (`id`),
   CONSTRAINT `class_ibfk_2` FOREIGN KEY (`sessionID`) REFERENCES `sessions` (`id`),
-  CONSTRAINT `class_ibfk_3` FOREIGN KEY (`timeSlotID`) REFERENCES `timeslot` (`id`)
+  CONSTRAINT `class_ibfk_3` FOREIGN KEY (`timeSlotID`) REFERENCES `timeslot` (`id`),
+  CONSTRAINT `class_ibfk_4` FOREIGN KEY (`instructorID`) REFERENCES `staff` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -59,6 +62,7 @@ DROP TABLE IF EXISTS `disability`;
 CREATE TABLE `disability` (
   `studentID` varchar(6) NOT NULL,
   `disability` varchar(255) NOT NULL,
+  UNIQUE KEY `studentID_2` (`studentID`,`disability`),
   KEY `studentID` (`studentID`),
   CONSTRAINT `disability_ibfk_1` FOREIGN KEY (`studentID`) REFERENCES `students` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -71,6 +75,32 @@ CREATE TABLE `disability` (
 LOCK TABLES `disability` WRITE;
 /*!40000 ALTER TABLE `disability` DISABLE KEYS */;
 /*!40000 ALTER TABLE `disability` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `gt`
+--
+
+DROP TABLE IF EXISTS `gt`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `gt` (
+  `studentID` varchar(255) NOT NULL,
+  `schoolID` varchar(255) NOT NULL,
+  UNIQUE KEY `schoolID` (`schoolID`,`studentID`),
+  KEY `studentID` (`studentID`),
+  CONSTRAINT `gt_ibfk_1` FOREIGN KEY (`schoolID`) REFERENCES `school` (`schoolid`),
+  CONSTRAINT `gt_ibfk_2` FOREIGN KEY (`studentID`) REFERENCES `students` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `gt`
+--
+
+LOCK TABLES `gt` WRITE;
+/*!40000 ALTER TABLE `gt` DISABLE KEYS */;
+/*!40000 ALTER TABLE `gt` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -116,6 +146,7 @@ CREATE TABLE `healthcondition` (
   `studentID` varchar(6) NOT NULL,
   `cond` varchar(255) NOT NULL,
   `descript` varchar(255) NOT NULL,
+  UNIQUE KEY `studentID_2` (`studentID`,`cond`),
   KEY `studentID` (`studentID`),
   CONSTRAINT `healthcondition_ibfk_1` FOREIGN KEY (`studentID`) REFERENCES `students` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -131,30 +162,31 @@ LOCK TABLES `healthcondition` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `instructors`
+-- Table structure for table `mentor`
 --
 
-DROP TABLE IF EXISTS `instructors`;
+DROP TABLE IF EXISTS `mentor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `instructors` (
-  `id` varchar(6) NOT NULL,
-  `fName` varchar(255) NOT NULL,
-  `mName` varchar(255) DEFAULT NULL,
-  `lName` varchar(255) NOT NULL,
-  `suffix` varchar(255) DEFAULT NULL,
-  KEY `id` (`id`),
-  CONSTRAINT `instructors_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
+CREATE TABLE `mentor` (
+  `studentID` varchar(255) NOT NULL,
+  `instructorID` varchar(255) NOT NULL,
+  `YR` year(4) NOT NULL,
+  UNIQUE KEY `studentID` (`studentID`,`instructorID`,`YR`),
+  UNIQUE KEY `studentID_2` (`studentID`,`instructorID`,`YR`),
+  KEY `instructorID` (`instructorID`),
+  CONSTRAINT `mentor_ibfk_1` FOREIGN KEY (`studentID`) REFERENCES `students` (`id`),
+  CONSTRAINT `mentor_ibfk_2` FOREIGN KEY (`instructorID`) REFERENCES `staff` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `instructors`
+-- Dumping data for table `mentor`
 --
 
-LOCK TABLES `instructors` WRITE;
-/*!40000 ALTER TABLE `instructors` DISABLE KEYS */;
-/*!40000 ALTER TABLE `instructors` ENABLE KEYS */;
+LOCK TABLES `mentor` WRITE;
+/*!40000 ALTER TABLE `mentor` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mentor` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -169,6 +201,9 @@ CREATE TABLE `school` (
   `name` varchar(255) NOT NULL,
   `type` varchar(255) NOT NULL,
   `district` varchar(255) NOT NULL,
+  `schoolID` varchar(255) NOT NULL,
+  PRIMARY KEY (`schoolID`),
+  UNIQUE KEY `studentID_2` (`studentID`,`name`),
   KEY `studentID` (`studentID`),
   CONSTRAINT `school_ibfk_1` FOREIGN KEY (`studentID`) REFERENCES `students` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -210,6 +245,65 @@ LOCK TABLES `sessions` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `siblings`
+--
+
+DROP TABLE IF EXISTS `siblings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `siblings` (
+  `studentID` varchar(255) NOT NULL,
+  `siblingID` varchar(255) NOT NULL,
+  UNIQUE KEY `studentID` (`studentID`,`siblingID`),
+  KEY `siblingID` (`siblingID`),
+  CONSTRAINT `siblings_ibfk_1` FOREIGN KEY (`studentID`) REFERENCES `students` (`id`),
+  CONSTRAINT `siblings_ibfk_2` FOREIGN KEY (`siblingID`) REFERENCES `students` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `siblings`
+--
+
+LOCK TABLES `siblings` WRITE;
+/*!40000 ALTER TABLE `siblings` DISABLE KEYS */;
+/*!40000 ALTER TABLE `siblings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `staff`
+--
+
+DROP TABLE IF EXISTS `staff`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `staff` (
+  `id` varchar(6) NOT NULL,
+  `fName` varchar(255) NOT NULL,
+  `mName` varchar(255) DEFAULT NULL,
+  `lName` varchar(255) NOT NULL,
+  `suffix` varchar(255) DEFAULT NULL,
+  `phone` varchar(10) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `street` varchar(255) NOT NULL,
+  `city` varchar(255) NOT NULL,
+  `state` varchar(255) NOT NULL,
+  `zip` varchar(255) NOT NULL,
+  KEY `id` (`id`),
+  CONSTRAINT `staff_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `staff`
+--
+
+LOCK TABLES `staff` WRITE;
+/*!40000 ALTER TABLE `staff` DISABLE KEYS */;
+/*!40000 ALTER TABLE `staff` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `students`
 --
 
@@ -225,7 +319,7 @@ CREATE TABLE `students` (
   `preferred` varchar(255) NOT NULL,
   `birthday` date NOT NULL,
   `gender` varchar(6) NOT NULL,
-  `race` varchar(255) NOT NULL,
+  `race` varchar(255) DEFAULT NULL,
   `gradeLevel` varchar(255) NOT NULL,
   `expGradYear` year(4) NOT NULL,
   `street` varchar(255) NOT NULL,
@@ -236,8 +330,16 @@ CREATE TABLE `students` (
   `phone` varchar(10) DEFAULT NULL,
   `esl` tinyint(1) NOT NULL,
   `gt` tinyint(1) NOT NULL,
+  `accepted` year(4) NOT NULL,
+  `acceptedBy` varchar(6) NOT NULL,
+  `bill` int(11) NOT NULL,
+  `NCHI` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `grantFunded` varchar(255) NOT NULL,
   KEY `id` (`id`),
-  CONSTRAINT `students_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
+  KEY `acceptedBy` (`acceptedBy`),
+  CONSTRAINT `students_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users` (`id`),
+  CONSTRAINT `students_ibfk_2` FOREIGN KEY (`acceptedBy`) REFERENCES `staff` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -248,6 +350,32 @@ CREATE TABLE `students` (
 LOCK TABLES `students` WRITE;
 /*!40000 ALTER TABLE `students` DISABLE KEYS */;
 /*!40000 ALTER TABLE `students` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `takes`
+--
+
+DROP TABLE IF EXISTS `takes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `takes` (
+  `studentID` varchar(255) NOT NULL,
+  `classID` varchar(255) NOT NULL,
+  UNIQUE KEY `studentID` (`studentID`,`classID`),
+  KEY `classID` (`classID`),
+  CONSTRAINT `takes_ibfk_1` FOREIGN KEY (`studentID`) REFERENCES `students` (`id`),
+  CONSTRAINT `takes_ibfk_2` FOREIGN KEY (`classID`) REFERENCES `class` (`classid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `takes`
+--
+
+LOCK TABLES `takes` WRITE;
+/*!40000 ALTER TABLE `takes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `takes` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -295,6 +423,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES ('000001','Staff','$2b$12$syivdenDKojWCsPxTU/q2ON2zI6BUBi6XnWXF50rclVTWklreAOci');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -307,4 +436,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-04 13:41:37
+-- Dump completed on 2018-12-07 17:29:54
