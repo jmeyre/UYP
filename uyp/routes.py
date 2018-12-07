@@ -28,7 +28,7 @@ def home():
 
 @app.route('/class_search')
 def class_search():
-    return render_template('class_search.html')
+    return render_template('class_search.html', title='Class Search')
 
 
 @app.route('/create_account', methods=['GET', 'POST'])
