@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from uyp import app, config, bcrypt
-from uyp.forms import LoginForm, CreateAccountForm, ProfileForm, AddClassForm
+from uyp.forms import LoginForm, CreateAccountForm, ProfileForm, AddClassForm, CreateSessionForm
 from uyp.models import User
 from mysql import connector
 from flask_login import login_user, current_user, logout_user, login_required
@@ -77,7 +77,7 @@ def create_account():
             id += random.choice(id_chars)
 
         password = ''
-        for x in range(random.randint(8,12)):
+        for x in range(random.randint(8, 12)):
             password += random.choice(p_chars)
 
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
@@ -89,7 +89,9 @@ def create_account():
         # Create the cursor for the connection
         cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO users (id, category, pword) VALUES('{0}', '{1}', '{2}')".format(user.id, user.category, user.pword))
+        cursor.execute(
+            "INSERT INTO users (id, category, pword) VALUES('{0}', '{1}', '{2}')".format(user.id, user.category,
+                                                                                         user.pword))
 
         # Commit the data to the database
         conn.commit()
@@ -100,7 +102,8 @@ def create_account():
         # Close the connection to the database
         conn.close()
 
-        flash('{0} account created with User ID: {1} and Password: {2}'.format(user.category, user.id, password), 'success')
+        flash('{0} account created with User ID: {1} and Password: {2}'.format(user.category, user.id, password),
+              'success')
         return redirect(url_for('home'))
     return render_template('create_account.html', title='Create Account', form=form)
 
@@ -112,7 +115,6 @@ def login():
 
     form = LoginForm()
     if form.validate_on_submit():
-
         # Create the connection to the database
         conn = connector.connect(**config)
 
@@ -157,7 +159,7 @@ def logout():
 def profile(user_id):
     # Prevent students from accessing other students' profiles
     if current_user.category == 'Student' and str(current_user.id) != str(user_id):
-        return redirect( url_for('profile', user_id=current_user.id))
+        return redirect(url_for('profile', user_id=current_user.id))
 
     form = ProfileForm()
     if form.validate_on_submit():
@@ -200,17 +202,26 @@ def add_class():
     form = AddClassForm()
 
     if form.validate_on_submit():
+        id_chars = "0123456789"
+
+        id = ''
+        for x in range(6):
+            id += random.choice(id_chars)
 
         # Create the connection to the database
         conn = connector.connect(**config)
 
         # Create the cursor for the connection
         cursor = conn.cursor()
-
-        cursor.execute("INSERT INTO class (title, lvl, maxCap, curSize, instructorID, room, timeSlotID, sessionID) "
-                       "VALUES ('{0}', '{1}', {2}, {3}, '{4}', '{5}', '{6}', '{7}')".format(
-                        form.title.data, form.lvl.data, form.maxCap.data, 0, form.instructorID.data,
-                        form.room.data, form.timeslotID.data, form.sessionID.data))
+        try:
+            cursor.execute("INSERT INTO class (title, lvl, maxCap, curSize, instructorID, room, timeSlotID, sessionID, "
+                           "classID, price) "
+                           "VALUES ('{0}', '{1}', {2}, {3}, '{4}', '{5}', '{6}', '{7}', '{8}', '{9}')".format(
+                form.title.data, form.lvl.data, form.maxCap.data, 0, form.instructorID.data,
+                form.room.data, form.timeslotID.data, form.sessionID.data, id, form.price.data))
+        except connector.errors.IntegrityError:
+            # Class Already Exists
+            print("Class Already Exists")
 
         # Commit the data to the database
         conn.commit()
@@ -222,3 +233,45 @@ def add_class():
         conn.close()
 
     return render_template('add_class.html', title='Add Class', form=form)
+
+
+@app.route('/create_session', methods=['GET', 'POST'])
+@login_required
+def create_session():
+    if current_user.category == 'Student':
+        flash('You do not have access to that page!', 'danger')
+        return redirect(url_for('home'))
+
+    form = CreateSessionForm()
+
+    if form.validate_on_submit():
+        id_chars = "0123456789"
+
+        id = ''
+        for x in range(6):
+            id += random.choice(id_chars)
+
+        # Create the connection to the database
+        conn = connector.connect(**config)
+
+        # Create the cursor for the connection
+        cursor = conn.cursor()
+        try:
+            cursor.execute("INSERT INTO sessions(id, startDate, endDate, year)"
+                           "VALUES ('{0}', '{1}', '{2}', '{3}')".format(id,
+                                                                        form.startDate.data, form.endDate.data,
+                                                                        form.startDate.data.year))
+        except connector.errors.IntegrityError:
+            # Session Already Exists
+            print("Session Already Exists")
+
+        # Commit the data to the database
+        conn.commit()
+
+        # Close the cursor
+        cursor.close()
+
+        # Close the connection to the database
+        conn.close()
+
+    return render_template('create_session.html', title='Create Session', form=form)
