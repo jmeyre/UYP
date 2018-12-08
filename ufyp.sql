@@ -27,19 +27,19 @@ CREATE TABLE `class` (
   `lvl` varchar(255) NOT NULL,
   `maxCap` int(11) NOT NULL,
   `curSize` int(11) NOT NULL,
-  `instructorID` varchar(6) NOT NULL,
+  `instructorID` varchar(255) NOT NULL,
   `room` varchar(255) NOT NULL,
-  `timeSlotID` varchar(4) NOT NULL,
-  `sessionID` varchar(4) NOT NULL,
+  `timeSlotID` varchar(255) NOT NULL,
+  `sessionID` varchar(255) NOT NULL,
   `classID` varchar(255) NOT NULL,
   `price` int(11) NOT NULL,
   PRIMARY KEY (`classID`),
   KEY `InstructorID` (`instructorID`),
   KEY `sessionID` (`sessionID`),
   KEY `timeSlotID` (`timeSlotID`),
-  CONSTRAINT `class_ibfk_2` FOREIGN KEY (`sessionID`) REFERENCES `sessions` (`id`),
-  CONSTRAINT `class_ibfk_3` FOREIGN KEY (`timeSlotID`) REFERENCES `timeslot` (`id`),
-  CONSTRAINT `class_ibfk_4` FOREIGN KEY (`instructorID`) REFERENCES `staff` (`id`)
+  CONSTRAINT `class_ibfk_4` FOREIGN KEY (`instructorID`) REFERENCES `users` (`id`),
+  CONSTRAINT `class_ibfk_5` FOREIGN KEY (`timeSlotID`) REFERENCES `timeslot` (`id`),
+  CONSTRAINT `class_ibfk_6` FOREIGN KEY (`sessionID`) REFERENCES `sessions` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -60,7 +60,7 @@ DROP TABLE IF EXISTS `disability`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `disability` (
-  `studentID` varchar(6) NOT NULL,
+  `studentID` varchar(255) DEFAULT NULL,
   `disability` varchar(255) NOT NULL,
   UNIQUE KEY `studentID_2` (`studentID`,`disability`),
   KEY `studentID` (`studentID`),
@@ -111,16 +111,16 @@ DROP TABLE IF EXISTS `guardian`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `guardian` (
-  `studentID` varchar(6) NOT NULL,
+  `studentID` varchar(255) NOT NULL,
   `fName` varchar(255) NOT NULL,
   `mName` varchar(255) DEFAULT NULL,
   `lName` varchar(255) NOT NULL,
-  `phone` varchar(10) NOT NULL,
+  `phone` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `street` varchar(255) NOT NULL,
   `city` varchar(255) NOT NULL,
   `state` varchar(255) NOT NULL,
-  `zip` varchar(5) NOT NULL,
+  `zip` varchar(255) NOT NULL,
   KEY `studentID` (`studentID`),
   CONSTRAINT `guardian_ibfk_1` FOREIGN KEY (`studentID`) REFERENCES `students` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -143,7 +143,7 @@ DROP TABLE IF EXISTS `healthcondition`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `healthcondition` (
-  `studentID` varchar(6) NOT NULL,
+  `studentID` varchar(255) DEFAULT NULL,
   `cond` varchar(255) NOT NULL,
   `descript` varchar(255) NOT NULL,
   UNIQUE KEY `studentID_2` (`studentID`,`cond`),
@@ -197,7 +197,7 @@ DROP TABLE IF EXISTS `school`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `school` (
-  `studentID` varchar(6) NOT NULL,
+  `studentID` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `type` varchar(255) NOT NULL,
   `district` varchar(255) NOT NULL,
@@ -227,10 +227,10 @@ DROP TABLE IF EXISTS `sessions`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `sessions` (
   `id` varchar(4) NOT NULL,
-  `num` varchar(1) NOT NULL,
-  `startDate` date NOT NULL,
-  `endDate` date NOT NULL,
+  `num` varchar(255) NOT NULL,
   `year` year(4) NOT NULL,
+  `endDate` date NOT NULL,
+  `startDate` date NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -241,6 +241,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
+INSERT INTO `sessions` VALUES ('1','1',2018,'0000-00-00','0000-00-00');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,7 +284,7 @@ CREATE TABLE `staff` (
   `mName` varchar(255) DEFAULT NULL,
   `lName` varchar(255) NOT NULL,
   `suffix` varchar(255) DEFAULT NULL,
-  `phone` varchar(10) NOT NULL,
+  `phone` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `street` varchar(255) NOT NULL,
   `city` varchar(255) NOT NULL,
@@ -300,6 +301,7 @@ CREATE TABLE `staff` (
 
 LOCK TABLES `staff` WRITE;
 /*!40000 ALTER TABLE `staff` DISABLE KEYS */;
+INSERT INTO `staff` VALUES ('000001','Bobby',NULL,'Baylor',NULL,'2547103871','Bobby_Baylor@baylor.edu','One Bear Place #97356','Waco','TX','76798');
 /*!40000 ALTER TABLE `staff` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -318,16 +320,16 @@ CREATE TABLE `students` (
   `suffix` varchar(255) DEFAULT NULL,
   `preferred` varchar(255) NOT NULL,
   `birthday` date NOT NULL,
-  `gender` varchar(6) NOT NULL,
+  `gender` varchar(255) NOT NULL,
   `race` varchar(255) DEFAULT NULL,
   `gradeLevel` varchar(255) NOT NULL,
   `expGradYear` year(4) NOT NULL,
   `street` varchar(255) NOT NULL,
   `city` varchar(255) NOT NULL,
   `state` varchar(255) DEFAULT NULL,
-  `zip` varchar(5) NOT NULL,
+  `zip` varchar(255) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
-  `phone` varchar(10) DEFAULT NULL,
+  `phone` varchar(255) NOT NULL,
   `esl` tinyint(1) NOT NULL,
   `gt` tinyint(1) NOT NULL,
   `accepted` year(4) NOT NULL,
@@ -436,4 +438,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-07 17:29:54
+-- Dump completed on 2018-12-07 22:54:39
