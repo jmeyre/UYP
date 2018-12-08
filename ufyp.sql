@@ -226,7 +226,7 @@ DROP TABLE IF EXISTS `sessions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `sessions` (
-  `id` varchar(4) NOT NULL,
+  `id` varchar(255) NOT NULL,
   `year` year(4) NOT NULL,
   `endDate` date NOT NULL,
   `startDate` date NOT NULL,
@@ -243,7 +243,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('1',2018,'0000-00-00','0000-00-00');
+INSERT INTO `sessions` VALUES ('1',2018,'0000-00-00','0000-00-00'),('627066',2019,'2019-08-16','2019-08-12');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -427,7 +427,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('000001','Staff','$2b$12$syivdenDKojWCsPxTU/q2ON2zI6BUBi6XnWXF50rclVTWklreAOci');
+INSERT INTO `users` VALUES ('000001','Staff','$2b$12$syivdenDKojWCsPxTU/q2ON2zI6BUBi6XnWXF50rclVTWklreAOci'),('132052','Student','$2b$12$hJoQR/A9Ygq0H3IV125XmuJ1wOr62AVHEM.tnad4GNJq/LYPyJKJG');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -440,4 +440,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-08 11:23:14
+-- Dump completed on 2018-12-08 14:13:35
