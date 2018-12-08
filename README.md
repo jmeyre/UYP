@@ -23,3 +23,4 @@ This program is a Python web application using the Flask framework.
 * flask-bcrypt
 * flask-login
 * Flask-Datepicker
+* self
