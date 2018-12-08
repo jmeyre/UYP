@@ -227,11 +227,13 @@ DROP TABLE IF EXISTS `sessions`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `sessions` (
   `id` varchar(4) NOT NULL,
-  `num` varchar(255) NOT NULL,
   `year` year(4) NOT NULL,
   `endDate` date NOT NULL,
   `startDate` date NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `endDate` (`endDate`,`startDate`,`year`),
+  UNIQUE KEY `startDate` (`startDate`),
+  UNIQUE KEY `endDate_2` (`endDate`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -241,7 +243,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('1','1',2018,'0000-00-00','0000-00-00');
+INSERT INTO `sessions` VALUES ('1',2018,'0000-00-00','0000-00-00');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -438,4 +440,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-07 22:54:39
+-- Dump completed on 2018-12-08 11:23:14
