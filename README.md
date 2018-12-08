@@ -22,3 +22,4 @@ This program is a Python web application using the Flask framework.
 * MySQL-connector-python
 * flask-bcrypt
 * flask-login
+* Flask-Datepicker
