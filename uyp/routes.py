@@ -62,25 +62,77 @@ def home():
 @app.route('/class_search')
 @login_required
 def class_search():
-    # Create the connection to the database
-    conn = connector.connect(**config)
 
-    # Create the cursor for the connection
-    cursor = conn.cursor()
+    if current_user.category == 'Student':
 
-    # For now... (otherwise, make a query that applies filters)
-    cursor.execute("SELECT * FROM class")
+        # Create the connection to the database
+        conn = connector.connect(**config)
 
-    classes = cursor.fetchall()
+        # Create the cursor for the connection
+        cursor = conn.cursor()
 
-    # Commit the data to the database
-    conn.commit()
+        cursor.execute("SELECT * FROM students WHERE id = '{0}'".format(current_user.id))
 
-    # Close the cursor
-    cursor.close()
+        result = cursor.fetchone()
 
-    # Close the connection to the database
-    conn.close()
+        if not result:
+            flash('You need to activate your account first!', 'danger')
+            return redirect(url_for('student_activate'))
+
+        # Commit the data to the database
+        conn.commit()
+
+        # Close the cursor
+        cursor.close()
+
+        # Close the connection to the database
+        conn.close()
+
+        # Create the connection to the database
+        conn = connector.connect(**config)
+
+        # Create the cursor for the connection
+        cursor = conn.cursor()
+
+        # For now... (otherwise, make a query that applies filters)
+        cursor.execute("SELECT c1.* FROM class c1, sessions s1 WHERE c1.sessionID = s1.id AND s1.startDate  > '{0}' "
+                       "AND c1.curSize < c1.maxCap AND c1.classID NOT IN "
+                       "(SELECT c.classID FROM class c, takes t, sessions s WHERE t.classID = c.classID "
+                       "AND c.sessionID = s.id "
+                       "AND s.startDate > '{0}' AND c.curSize < c.maxCap)".format(date.today()))
+
+        classes = cursor.fetchall()
+
+        # Commit the data to the database
+        conn.commit()
+
+        # Close the cursor
+        cursor.close()
+
+        # Close the connection to the database
+        conn.close()
+
+    else:
+
+        # Create the connection to the database
+        conn = connector.connect(**config)
+
+        # Create the cursor for the connection
+        cursor = conn.cursor()
+
+        # For now... (otherwise, make a query that applies filters)
+        cursor.execute("SELECT * FROM class")
+
+        classes = cursor.fetchall()
+
+        # Commit the data to the database
+        conn.commit()
+
+        # Close the cursor
+        cursor.close()
+
+        # Close the connection to the database
+        conn.close()
     return render_template('class_search.html', title='Class Search', classes=classes)
 
 
@@ -383,6 +435,7 @@ def create_session():
 @app.route('/sessions_search')
 @login_required
 def sessions_search():
+
     # Create the connection to the database
     conn = connector.connect(**config)
 
