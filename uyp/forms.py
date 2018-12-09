@@ -34,9 +34,8 @@ class ProfileForm(FlaskForm):
 
 
 class AddClassForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired(), Length(min=2, max=255,
-                                                                    message='Titles are at least 2 characters long')])
-    lvl = RadioField('Course Level', choices=[('one', '4th - 5th'), ('two', '6th - 8th'), ('three', '9th - 12th')],
+    title = StringField('Title', validators=[DataRequired()])
+    lvl = RadioField('Course Level', choices=[('1', '4th - 5th'), ('2', '6th - 8th'), ('3', '9th - 12th')],
                      validators=[DataRequired()])
     maxCap = IntegerField('Maximum Capacity', validators=[DataRequired()])
     instructorID = StringField('Instructor ID',
@@ -44,8 +43,7 @@ class AddClassForm(FlaskForm):
     room = StringField('Room', validators=[DataRequired(), Length(min=2, max=255)])
     timeslotID = RadioField('Time Slot', choices=[('1', '9:45 - 11:15'), ('2', 'Lunch and Recreation'),
                                                   ('3', '1:15 - 2:45')], validators=[(DataRequired())])
-    sessionID = RadioField('Session', choices=[('one', 'Week 1'), ('two', 'Week 2'), ('three', 'Week 3')],
-                           validators=[DataRequired()])
+    sessionID = StringField('Session', validators=[DataRequired()])
     price = IntegerField('Price', validators=[DataRequired()])
     submit = SubmitField('Add Class')
 

@@ -6,6 +6,8 @@
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Add Class</legend>
+
+                <!-- title field -->
                 <div class="form-group">
                     {{ form.title.label(class="form-control-label") }}
                     {% if form.title.errors %}
@@ -19,10 +21,14 @@
                         {{ form.title(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
+
+                <!-- lvl field -->
                 <div class="form-group">
                     {{ form.lvl.label(class="form-control-label") }}
                     {{ form.lvl(class="radio") }}
                 </div>
+
+                <!-- maxCap field -->
                 <div class="form-group">
                     {{ form.maxCap.label(class="form-control-label") }}
                     {% if form.maxCap.errors %}
@@ -36,6 +42,8 @@
                         {{ form.maxCap(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
+
+                <!-- instructorID field -->
                 <div class="form-group">
                     {{ form.instructorID.label(class="form-control-label") }}
                     {% if form.instructorID.errors %}
@@ -49,6 +57,8 @@
                         {{ form.instructorID(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
+
+                <!-- room field -->
                 <div class="form-group">
                     {{ form.room.label(class="form-control-label") }}
                     {% if form.room.errors %}
@@ -62,14 +72,24 @@
                         {{ form.room(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
+
+                <!-- timeslotID field -->
                 <div class="form-group">
                     {{ form.timeslotID.label(class="form-control-label") }}
                     {{ form.timeslotID(class="radio") }}
                 </div>
+
+                <!-- sessionID field -->
                 <div class="form-group">
                     {{ form.sessionID.label(class="form-control-label") }}
-                    {{ form.sessionID(class="radio") }}
+                    <select class="form-control" id="sessionID" name="sessionID">
+                        {% for (sId, year, endDate, startDate) in sessions %}
+                            <option value="{{ sId }}">{{ startDate }} to {{ endDate }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
+
+                <!-- price field -->
                 <div class="form-group">
                     {{ form.price.label(class="form-control-label") }}
                     {% if form.price.errors %}

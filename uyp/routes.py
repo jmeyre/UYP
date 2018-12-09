@@ -258,6 +258,13 @@ def add_class():
         flash('You do not have access to that page!', 'danger')
         return redirect(url_for('home'))
 
+    conn = connector.connect(**config)
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM sessions")
+    result = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
     form = AddClassForm()
 
     if form.validate_on_submit():
@@ -272,15 +279,8 @@ def add_class():
 
         # Create the cursor for the connection
         cursor = conn.cursor()
-        try:
-            cursor.execute("INSERT INTO class (title, lvl, maxCap, curSize, instructorID, room, timeSlotID, sessionID, "
-                           "classID, price) "
-                           "VALUES ('{0}', '{1}', {2}, {3}, '{4}', '{5}', '{6}', '{7}', '{8}', '{9}')".format(
-                form.title.data, form.lvl.data, form.maxCap.data, 0, form.instructorID.data,
-                form.room.data, form.timeslotID.data, form.sessionID.data, id, form.price.data))
-        except connector.errors.IntegrityError:
-            # Class Already Exists
-            print("Class Already Exists")
+
+        cursor.execute("INSERT INTO class (title, lvl, maxCap, curSize, instructorID, room, timeSlotID, sessionID, classID, price) VALUES ('{0}', '{1}', {2}, {3}, '{4}', '{5}', '{6}', '{7}', '{8}', '{9}')".format(form.title.data, form.lvl.data, form.maxCap.data, 0, form.instructorID.data, form.room.data, "1234", form.sessionID.data, id, form.price.data))
 
         # Commit the data to the database
         conn.commit()
@@ -291,7 +291,7 @@ def add_class():
         # Close the connection to the database
         conn.close()
 
-    return render_template('add_class.html', title='Add Class', form=form)
+    return render_template('add_class.html', title='Add Class', form=form, sessions=result)
 
 
 @app.route('/create_session', methods=['GET', 'POST'])
