@@ -321,27 +321,26 @@ def create_session():
                                "VALUES ('{0}', '{1}', '{2}', '{3}')".format(id, form.startDate.data.year,
                                                                             form.endDate.data,
                                                                             form.startDate.data))
-
-                # Commit the data to the database
-                conn.commit()
-
-                # Close the cursor
-                cursor.close()
-
-                # Close the connection to the database
-                conn.close()
-
-                flash('Session from {0}/{1}/{2} to {3}/{4}/{5} created!'.format(form.startDate.data.month,
-                                                                                form.startDate.data.day,
-                                                                                form.startDate.data.year,
-                                                                                form.endDate.data.month,
-                                                                                form.endDate.data.day,
-                                                                                form.endDate.data.year), 'success')
-                return redirect(url_for('sessions_search'))
-
             except connector.errors.IntegrityError:
                 # Session Already Exists
-                flash('A session with the selected dates already exists!', 'danger')
+                flash('Session already exists with start/end dates. You might want to edit that session', 'danger')
+
+            # Commit the data to the database
+            conn.commit()
+
+            # Close the cursor
+            cursor.close()
+
+            # Close the connection to the database
+            conn.close()
+
+            flash('Session from {0}/{1}/{2} to {3}/{4}/{5} created!'.format(form.startDate.data.month,
+                                                                            form.startDate.data.day,
+                                                                            form.startDate.data.year,
+                                                                            form.endDate.data.month,
+                                                                            form.endDate.data.day,
+                                                                            form.endDate.data.year), 'success')
+            return redirect(url_for('sessions_search'))
 
     except ValidationError:
         flash('Start Date cannot be before End Date', 'danger')
