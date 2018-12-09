@@ -267,7 +267,8 @@ def student_activate():
         # Close the connection to the database
         conn.close()
 
-        redirect(url_for('home'))
+        flash('Successfully activated your account!', 'success')
+        return redirect(url_for('home'))
 
     return render_template('student_activate.html', title='Activate Account', form=form)
 
