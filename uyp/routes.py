@@ -422,7 +422,35 @@ def edit_session(session_id):
 
             # Close the connection to the database
             conn.close()
+
+            flash('Session successfully updated!', 'success')
+            return redirect('sessions_search')
+
     except ValidationError:
         flash('Start Date cannot be before End Date', 'danger')
+
     return render_template('edit_session.html', title='Edit Session', form=form, session_id=session_id,
                            startDate=startDate, endDate=endDate)
+
+
+# Not a route, just a query
+def delete_session(session_id):
+    # Create the connection to the database
+    conn = connector.connect(**config)
+
+    # Create the cursor for the connection
+    cursor = conn.cursor()
+
+    # For now... (otherwise, make a query that applies filters)
+    cursor.execute("DELETE FROM sessions WHERE id = '{0}'".format(session_id))
+
+    # Commit the data to the database
+    conn.commit()
+
+    # Close the cursor
+    cursor.close()
+
+    # Close the connection to the database
+    conn.close()
+
+    flash('Successfully deleted session', 'success')

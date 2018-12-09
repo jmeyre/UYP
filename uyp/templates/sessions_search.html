@@ -29,13 +29,16 @@
         {% for (id, year, endDate, startDate) in sessions %}
             <div class="card">
                 <div class="card-title">
-                    <h5 class="card-header text-center text-white bg-baylor-green-std">Session: {{ id }}</h5>
+                    <h5 class="card-header text-center text-white bg-baylor-green-std">Session: NAME{# id #}</h5>
                     <h6 class="card-text ml-2 mt-2">Year: {{ year }}</h6>
                     <h6 class="card-text ml-2">Start Date: {{ startDate }}</h6>
                     <h6 class="card-text ml-2">End Date: {{ endDate }}</h6>
-                    <button type="button" href="{{ url_for('edit_session', session_id=session_id) }}"
-                            class="ml-2 mt-2 btn text-white bg-baylor-green-std">Edit</button>
-                    <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Delete</button>
+                    <a href="{{ url_for('edit_session', session_id=id) }}">
+                        <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Edit</button>
+                    </a>
+                    <a href="{{ url_for('delete_session', session_id=id) }}">
+                        <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Delete</button>
+                    </a>
                     <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Classes</button>
                 </div>
             </div>
