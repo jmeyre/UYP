@@ -20,7 +20,7 @@ def home():
         # Create the cursor for the connection
         cursor = conn.cursor()
 
-        cursor.execute("SELECT id FROM students WHERE students.id = '{0}'".format(current_user.id))
+        cursor.execute("SELECT * FROM students WHERE id = '{0}'".format(current_user.id))
 
         result = cursor.fetchone()
 
@@ -36,7 +36,27 @@ def home():
         # Close the connection to the database
         conn.close()
 
-    return render_template('home.html')
+    elif current_user.category == 'Staff':
+        # Create the connection to the database
+        conn = connector.connect(**config)
+
+        # Create the cursor for the connection
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT * FROM staff WHERE id = '{0}'".format(current_user.id))
+
+        result = cursor.fetchone()
+
+        # Commit the data to the database
+        conn.commit()
+
+        # Close the cursor
+        cursor.close()
+
+        # Close the connection to the database
+        conn.close()
+
+    return render_template('home.html', user=result)
 
 
 @app.route('/class_search')
@@ -298,6 +318,9 @@ def add_class():
 
         # Close the connection to the database
         conn.close()
+
+        flash('Class Added!', 'success')
+        return redirect(url_for('class_search'))
 
     return render_template('add_class.html', title='Add Class', form=form, sessions=resultSessions, timeslots=resultTimeslots, staff=resultStaff)
 
