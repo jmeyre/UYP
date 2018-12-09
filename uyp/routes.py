@@ -218,7 +218,6 @@ def student_activate():
     form = StudentInfo()
 
     if form.validate_on_submit():
-
         # Create the connection to the database
         conn = connector.connect(**config)
 
@@ -227,8 +226,10 @@ def student_activate():
 
         cursor.execute(
             "INSERT INTO students (id, fName, mName, lName, suffix, preferred, birthday, gender, race, gradeLevel, expGradYear, street, city, state, zip, email, phone, esl, gt) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}', '{16}', '{17}', '{18}')".format(
-                current_user.id, form.fName.data, form.mName.data, form.lName.data, form.suffix.data, form.preferred.data, form.bDay.data,
-                form.gender.data, form.race.data, form.gradeLevel.data, form.expGradYear.data.year, form.street.data, form.city.data, form.state.data,
+                current_user.id, form.fName.data, form.mName.data, form.lName.data, form.suffix.data,
+                form.preferred.data, form.bDay.data,
+                form.gender.data, form.race.data, form.gradeLevel.data, form.expGradYear.data.year, form.street.data,
+                form.city.data, form.state.data,
                 form.zip.data, form.email.data, form.phone.data, form.ESL.data, form.GT.data))
 
         # Sibling query
@@ -261,7 +262,11 @@ def add_class():
     conn = connector.connect(**config)
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM sessions")
-    result = cursor.fetchall()
+    resultSessions = cursor.fetchall()
+    cursor.execute("SELECT * FROM timeslot")
+    resultTimeslots = cursor.fetchall()
+    cursor.execute("SELECT * FROM staff")
+    resultStaff = cursor.fetchall()
     cursor.close()
     conn.close()
 
@@ -280,7 +285,10 @@ def add_class():
         # Create the cursor for the connection
         cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO class (title, lvl, maxCap, curSize, instructorID, room, timeSlotID, sessionID, classID, price) VALUES ('{0}', '{1}', {2}, {3}, '{4}', '{5}', '{6}', '{7}', '{8}', '{9}')".format(form.title.data, form.lvl.data, form.maxCap.data, 0, form.instructorID.data, form.room.data, "1234", form.sessionID.data, id, form.price.data))
+        cursor.execute(
+            "INSERT INTO class (title, lvl, maxCap, curSize, instructorID, room, timeSlotID, sessionID, classID, price) VALUES ('{0}', '{1}', {2}, {3}, '{4}', '{5}', '{6}', '{7}', '{8}', '{9}')".format(
+                form.title.data, form.lvl.data, form.maxCap.data, 0, form.instructorID.data, form.room.data,
+                form.timeslotID.data, form.sessionID.data, id, form.price.data))
 
         # Commit the data to the database
         conn.commit()
@@ -291,7 +299,7 @@ def add_class():
         # Close the connection to the database
         conn.close()
 
-    return render_template('add_class.html', title='Add Class', form=form, sessions=result)
+    return render_template('add_class.html', title='Add Class', form=form, sessions=resultSessions, timeslots=resultTimeslots, staff=resultStaff)
 
 
 @app.route('/create_session', methods=['GET', 'POST'])
@@ -411,7 +419,7 @@ def edit_session(session_id):
 
             # For now... (otherwise, make a query that applies filters)
             cursor.execute("UPDATE sessions SET startDate = '{0}', endDate= '{1}' WHERE id = '{2}'".format(
-                            form.startDate.data, form.endDate.data, session_id))
+                form.startDate.data, form.endDate.data, session_id))
 
             # Commit the data to the database
             conn.commit()

@@ -46,16 +46,11 @@
                 <!-- instructorID field -->
                 <div class="form-group">
                     {{ form.instructorID.label(class="form-control-label") }}
-                    {% if form.instructorID.errors %}
-                        {{ form.instructorID(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.instructorID.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.instructorID(class="form-control form-control-lg") }}
-                    {% endif %}
+                    <select class="form-control" id="instructorID" name="instructorID">
+                        {% for (staffId, staffFName, staffMName, staffLName, staffSuffix, staffPhone, staffEmail, staffStreet, staffCity, staffState, staffZip) in staff %}
+                            <option value="{{ staffId }}">{{ staffFName }} {{ staffMName }} {{ staffLName }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
 
                 <!-- room field -->
@@ -76,15 +71,19 @@
                 <!-- timeslotID field -->
                 <div class="form-group">
                     {{ form.timeslotID.label(class="form-control-label") }}
-                    {{ form.timeslotID(class="radio") }}
+                    <select class="form-control" id="timeslotID" name="timeslotID">
+                        {% for (tId, tStartTime, tEndTime) in timeslots %}
+                            <option value="{{ tId }}">{{ tStartTime }} to {{ tEndTime }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
 
                 <!-- sessionID field -->
                 <div class="form-group">
                     {{ form.sessionID.label(class="form-control-label") }}
                     <select class="form-control" id="sessionID" name="sessionID">
-                        {% for (sId, year, endDate, startDate) in sessions %}
-                            <option value="{{ sId }}">{{ startDate }} to {{ endDate }}</option>
+                        {% for (sId, sYear, sEndDate, sStartDate) in sessions %}
+                            <option value="{{ sId }}">{{ sStartDate }} to {{ sEndDate }}</option>
                         {% endfor %}
                     </select>
                 </div>
