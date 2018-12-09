@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateField, RadioField, SelectMultipleField, \
     IntegerField
-from wtforms.validators import DataRequired, Length, Email, EqualTo
+from wtforms.validators import DataRequired, Length, Email, EqualTo, Optional
 
 
 class CreateAccountForm(FlaskForm):
@@ -16,8 +16,7 @@ class CreateAccountForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    user_id = StringField('User ID',
-                          validators=[DataRequired(), Length(min=6, max=6, message='User IDs are 6 characters')])
+    user_id = StringField('User ID', validators=[DataRequired(), Length(min=6, max=6, message='User IDs are 6 characters')])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
@@ -51,30 +50,30 @@ class AddClassForm(FlaskForm):
 
 class StudentInfo(FlaskForm):
     fName = StringField('First Name', validators=[DataRequired(), Length(min=2, max=20)])
-    mName = StringField('Middle Name', validators=[Length(min=2, max=20)])
+    mName = StringField('Middle Name', validators=[Optional(), Length(min=1, max=20)])
     lName = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=20)])
-    suffix = StringField('Suffix', validators=[Length(min=1, max=3)])
-    """Might not need the length validator for DateField"""
-    bDay = DateField('Birthday', format='%d/%m/%Y', validators=[(DataRequired(), Length(min=8, max=10))])
-    gender = RadioField('Gender', choices=[('Male', 'Male'), ('Male', 'Male')], validators=[DataRequired()])
-    race = SelectMultipleField('Race',
-                               choices=[('Caucasian', 'White'), ('African American', 'Black'),
-                                        ('Native American', 'Native')
-                                   , ('Pacific Islander', 'Islander'), ('Asian', 'Asian'), ('Indian', 'Indian')])
-    expGradDate = DateField('Expected Graduation Date', format='%m/%Y',
-                            validators=[DataRequired(), Length(min=6, max=7)])
-    expHighSchool = StringField('Expected High School')
+    suffix = StringField('Suffix', validators=[Optional(), Length(min=1, max=3)])
+    preferred = StringField('Preferred Name', validators=[Optional()])
+    bDay = DateField('Birthday', validators=[Optional()], format='%Y-%m-%d')
+    gender = RadioField('Gender', choices=[('Male', 'Male'), ('Female', 'Female')], validators=[DataRequired()])
+    race = RadioField('Race',
+                      choices=[('White', 'Caucasian'), ('Black', 'African American'), ('Native', 'Native American'),
+                               ('Islander', 'Pacific Islander'),
+                               ('Asian', 'Asian'), ('Indian', 'Indian')], validators=[Optional()])
+    gradeLevel = StringField('Grade Level', validators=[Optional()])
+    expGradYear = DateField('Expected Graduation Year', validators=[Optional()], format='%Y-%m-%d')
+    expHighSchool = StringField('Expected High School', validators=[Optional()])
     street = StringField('Street', validators=[DataRequired(), Length(min=2, max=20)])
     city = StringField('City', validators=[DataRequired(), Length(min=2, max=20)])
     state = StringField('State', validators=[DataRequired(), Length(min=2, max=20)])
-    zip = IntegerField('Zip', validators=[DataRequired(), Length(min=5, max=9)])
-    email = StringField('Email')
-    phone = StringField('Phone Number')
-    siblings = StringField('Sibling IDs', validators=[Length(min=1, max=50)])
-    disability = RadioField('Disabilities?', choices=[('Yes', 'yes'), ('No', 'no')])
-    healthConds = RadioField('Health Conditions?', choices=[('Yes', 'yes'), ('No', 'no')])
-    ESL = RadioField('English Second Language', choices=[('Yes', 'yes'), ('No', 'no')])
-    GT = RadioField('GT?', choices=[('Yes', 'yes'), ('No', 'no')])
+    zip = StringField('Zip', validators=[DataRequired(), Length(min=5, max=9)])
+    email = StringField('Email', validators=[Optional()])
+    phone = StringField('Phone Number', validators=[Optional(), Length(min=10, max=10)])
+    siblings = StringField('Sibling IDs', validators=[Optional(), Length(min=0, max=50)])
+    disability = RadioField('Disabilities?', choices=[(1, 'yes'), (0, 'no')], validators=[Optional()])
+    healthConds = RadioField('Health Conditions?', choices=[(1, 'yes'), (0, 'no')], validators=[Optional()])
+    ESL = RadioField('English Second Language?', choices=[(1, 'yes'), (0, 'no')], validators=[Optional()])
+    GT = RadioField('GT?', choices=[(1, 'yes'), (0, 'no')], validators=[Optional()])
     submit = SubmitField('Submit Info')
 
 

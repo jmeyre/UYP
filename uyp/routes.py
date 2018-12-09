@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from uyp import app, config, bcrypt
-from uyp.forms import LoginForm, CreateAccountForm, ProfileForm, AddClassForm, CreateSessionForm
+from uyp.forms import LoginForm, CreateAccountForm, ProfileForm, AddClassForm, StudentInfo, CreateSessionForm
 from uyp.models import User
 from mysql import connector
 from flask_login import login_user, current_user, logout_user, login_required
@@ -115,6 +115,7 @@ def login():
 
     form = LoginForm()
     if form.validate_on_submit():
+
         # Create the connection to the database
         conn = connector.connect(**config)
 
@@ -187,9 +188,36 @@ def profile(user_id):
 @app.route('/student_activate', methods=['GET', 'POST'])
 @login_required
 def student_activate():
-    # form = StudentInfo()
+    form = StudentInfo()
 
-    return render_template('student_activate.html', title='Activate Account')
+    if form.validate_on_submit():
+
+        print("oh shit")
+
+        # Create the connection to the database
+        conn = connector.connect(**config)
+
+        # Create the cursor for the connection
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "INSERT INTO students (id, fName, mName, lName, suffix, preferred, birthday, gender, race, gradeLevel, expGradYear, street, city, state, zip, email, phone, esl, gt) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}', '{16}', '{17}', '{18}')".format(
+                current_user.id, form.fName.data, form.mName.data, form.lName.data, form.suffix.data, form.preferred.data, form.bDay.data,
+                form.gender.data, form.race.data, form.gradeLevel.data, form.expGradYear.data.year, form.street.data, form.city.data, form.state.data,
+                form.zip.data, form.email.data, form.phone.data, form.ESL.data, form.GT.data))
+
+        # Commit the data to the database
+        conn.commit()
+
+        # Close the cursor
+        cursor.close()
+
+        # Close the connection to the database
+        conn.close()
+
+        redirect(url_for('home'))
+
+    return render_template('student_activate.html', title='Activate Account', form=form)
 
 
 @app.route('/add_class', methods=['GET', 'POST'])

@@ -8,8 +8,8 @@ app.config['SECRET_KEY'] = '2d7596cbe025473acb2bb5d8f268f5a5'
 
 # The parameters for connecting to the database
 config = {
-    'user': 'admin',
-    'password': 'admin',
+    'user': 'root',
+    'password': 'PW3335',
     'host': 'localhost',
     'database': 'ufyp',
     'raise_on_warnings': True
