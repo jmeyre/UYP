@@ -310,34 +310,38 @@ def create_session():
             for x in range(6):
                 id += random.choice(id_chars)
 
-            # Create the connection to the database
-            conn = connector.connect(**config)
-
-            # Create the cursor for the connection
-            cursor = conn.cursor()
             try:
+                # Create the connection to the database
+                conn = connector.connect(**config)
+
+                # Create the cursor for the connection
+                cursor = conn.cursor()
+
                 cursor.execute("INSERT INTO sessions(id, year, endDate, startDate)"
                                "VALUES ('{0}', '{1}', '{2}', '{3}')".format(id, form.startDate.data.year,
                                                                             form.endDate.data,
                                                                             form.startDate.data))
+
+                # Commit the data to the database
+                conn.commit()
+
+                # Close the cursor
+                cursor.close()
+
+                # Close the connection to the database
+                conn.close()
+
+                flash('Session from {0}/{1}/{2} to {3}/{4}/{5} created!'.format(form.startDate.data.month,
+                                                                                form.startDate.data.day,
+                                                                                form.startDate.data.year,
+                                                                                form.endDate.data.month,
+                                                                                form.endDate.data.day,
+                                                                                form.endDate.data.year), 'success')
+                return redirect(url_for('sessions_search'))
+
             except connector.errors.IntegrityError:
                 # Session Already Exists
-                print("Session Already Exists")
-
-            # Commit the data to the database
-            conn.commit()
-
-            # Close the cursor
-            cursor.close()
-
-            # Close the connection to the database
-            conn.close()
-            flash('Session from {0}/{1}/{2} to {3}/{4}/{5} created!'.format(form.startDate.data.month,
-                                                                            form.startDate.data.day,
-                                                                            form.startDate.data.year,
-                                                                            form.endDate.data.month,
-                                                                            form.endDate.data.day,
-                                                                            form.endDate.data.year), 'success')
+                flash('A session with the selected dates already exists!', 'danger')
 
     except ValidationError:
         flash('Start Date cannot be before End Date', 'danger')
@@ -347,7 +351,7 @@ def create_session():
 
 @app.route('/sessions_search')
 @login_required
-def session_search():
+def sessions_search():
     # Create the connection to the database
     conn = connector.connect(**config)
 
@@ -407,7 +411,8 @@ def edit_session(session_id):
             cursor = conn.cursor()
 
             # For now... (otherwise, make a query that applies filters)
-            cursor.execute("UPDATE sessions SET startDate = '{0}', endDate= '{1}' WHERE id = '{2}'".format(form.startDate.data, form.endDate.data, session_id))
+            cursor.execute("UPDATE sessions SET startDate = '{0}', endDate= '{1}' WHERE id = '{2}'".format(
+                            form.startDate.data, form.endDate.data, session_id))
 
             # Commit the data to the database
             conn.commit()
