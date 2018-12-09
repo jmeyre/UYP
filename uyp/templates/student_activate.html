@@ -299,16 +299,66 @@
             </div>#}
 
             <div class="content-section p-4">
-                <!-- disability field -->
-                <div class="form-group">
+
+                <div>
+                    <!-- disability field -->
                     {{ form.disability.label(class="form-control-label") }}
-                    {{ form.disability(class="radio") }}
+                    <input class="conditional_form_part_activator form-group" type="checkbox" id="disability" name="disability">
+                    <div class="form-group conditional_form_part">
+
+                        <!-- disabilityDesc field -->
+                        <div class="form-group">
+                            {{ form.disabilityDesc.label(class="form-control-label") }}
+                            {% if form.disabilityDesc.errors %}
+                                {{ form.disabilityDesc(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.disabilityDesc.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.disabilityDesc(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
 
-                <!-- healthConds field -->
-                <div class="form-group">
+                <div>
+                    <!-- healthConds field -->
                     {{ form.healthConds.label(class="form-control-label") }}
-                    {{ form.healthConds(class="radio") }}
+                    <input class="conditional_form_part_activator form-group" type="checkbox" id="healthConds" name="healthConds">
+                    <div class="form-group conditional_form_part">
+
+                        <!-- healthCondsCond field -->
+                        <div class="form-group">
+                            {{ form.healthCondsCond.label(class="form-control-label") }}
+                            {% if form.healthCondsCond.errors %}
+                                {{ form.healthCondsCond(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.healthCondsCond.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.healthCondsCond(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+
+                        <!-- healthCondsDesc field -->
+                        <div class="form-group">
+                            {{ form.healthCondsDesc.label(class="form-control-label") }}
+                            {% if form.healthCondsDesc.errors %}
+                                {{ form.healthCondsDesc(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.healthCondsDesc.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.healthCondsDesc(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
 
                 <!-- ESL field -->

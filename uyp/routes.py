@@ -307,8 +307,15 @@ def student_activate():
         # Sibling query
 
         # Disability query
+        print(form.disabilityDesc.data)
+        if form.disability.data == 'on':
+            cursor.execute("INSERT INTO disability (studentID, disability) VALUES ('{0}', '{1}')".format(current_user.id, form.disabilityDesc.data))
 
         # Health condition query
+        print(form.healthCondsCond.data)
+        print(form.healthCondsDesc.data)
+        if form.healthConds.data == 'on':
+            cursor.execute("INSERT INTO healthcondition (studentID, cond, descript) VALUES ('{0}', '{1}', '{2}')".format(current_user.id, form.healthCondsCond.data, form.healthCondsDesc.data))
 
         # Commit the data to the database
         conn.commit()
