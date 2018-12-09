@@ -190,6 +190,7 @@ def profile(user_id):
 def student_activate():
     form = StudentInfo()
 
+    print("it got here")
     if form.validate_on_submit():
 
         print("oh shit")
@@ -205,6 +206,12 @@ def student_activate():
                 current_user.id, form.fName.data, form.mName.data, form.lName.data, form.suffix.data, form.preferred.data, form.bDay.data,
                 form.gender.data, form.race.data, form.gradeLevel.data, form.expGradYear.data.year, form.street.data, form.city.data, form.state.data,
                 form.zip.data, form.email.data, form.phone.data, form.ESL.data, form.GT.data))
+
+        # Sibling query
+
+        # Disability query
+
+        # Health condition query
 
         # Commit the data to the database
         conn.commit()

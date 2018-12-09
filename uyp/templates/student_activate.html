@@ -130,19 +130,19 @@
                 </div>
 
                 <!-- expHighSchool field -->
-                <div class="form-group">
-                    {{ form.expHighSchool.label(class="form-control-label") }}
-                    {% if form.expHighSchool.errors %}
-                        {{ form.expHighSchool(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.expHighSchool.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.expHighSchool(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
+{#                <div class="form-group">#}
+{#                    {{ form.expHighSchool.label(class="form-control-label") }}#}
+{#                    {% if form.expHighSchool.errors %}#}
+{#                        {{ form.expHighSchool(class="form-control form-control-lg is-invalid") }}#}
+{#                        <div class="invalid-feedback">#}
+{#                            {% for error in form.expHighSchool.errors %}#}
+{#                                <span>{{ error }}</span>#}
+{#                            {% endfor %}#}
+{#                        </div>#}
+{#                    {% else %}#}
+{#                        {{ form.expHighSchool(class="form-control form-control-lg") }}#}
+{#                    {% endif %}#}
+{#                </div>#}
             </div>
 
             <div class="content-section p-4">
@@ -281,7 +281,7 @@
                 </div>
             </div>
 
-            <div class="content-section p-4">
+            {#<div class="content-section p-4">
                 <!-- siblings field -->
                 <div class="form-group">
                     {{ form.siblings.label(class="form-control-label") }}
@@ -296,7 +296,7 @@
                         {{ form.siblings(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
-            </div>
+            </div>#}
 
             <div class="content-section p-4">
                 <!-- disability field -->
