@@ -307,4 +307,11 @@ def create_session():
         # Close the connection to the database
         conn.close()
 
+        flash('Session from {0}/{1}/{2} to {3}/{4}/{5} created!'.format(form.startDate.data.month,
+                                                                        form.startDate.data.day,
+                                                                        form.startDate.data.year,
+                                                                        form.endDate.data.month,
+                                                                        form.endDate.data.day,
+                                                                        form.endDate.data.year), 'success')
+
     return render_template('create_session.html', title='Create Session', form=form)
