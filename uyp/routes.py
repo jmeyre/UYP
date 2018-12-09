@@ -5,6 +5,8 @@ from uyp.models import User
 from mysql import connector
 from flask_login import login_user, current_user, logout_user, login_required
 import random
+from datetime import date
+from wtforms.validators import ValidationError
 
 
 @app.route('/')
@@ -300,40 +302,122 @@ def create_session():
         return redirect(url_for('home'))
 
     form = CreateSessionForm()
+    try:
+        if form.validate_on_submit() and form.validate_date():
+            id_chars = "0123456789"
 
-    if form.validate_on_submit():
-        id_chars = "0123456789"
+            id = ''
+            for x in range(6):
+                id += random.choice(id_chars)
 
-        id = ''
-        for x in range(6):
-            id += random.choice(id_chars)
+            # Create the connection to the database
+            conn = connector.connect(**config)
 
-        # Create the connection to the database
-        conn = connector.connect(**config)
+            # Create the cursor for the connection
+            cursor = conn.cursor()
+            try:
+                cursor.execute("INSERT INTO sessions(id, year, endDate, startDate)"
+                               "VALUES ('{0}', '{1}', '{2}', '{3}')".format(id, form.startDate.data.year,
+                                                                            form.endDate.data,
+                                                                            form.startDate.data))
+            except connector.errors.IntegrityError:
+                # Session Already Exists
+                print("Session Already Exists")
 
-        # Create the cursor for the connection
-        cursor = conn.cursor()
-        try:
-            cursor.execute("INSERT INTO sessions(id, year, endDate, startDate)"
-                           "VALUES ('{0}', '{1}', '{2}', '{3}')".format(id, form.startDate.data.year, form.endDate.data, form.startDate.data))
-        except connector.errors.IntegrityError:
-            # Session Already Exists
-            print("Session Already Exists")
+            # Commit the data to the database
+            conn.commit()
 
-        # Commit the data to the database
-        conn.commit()
+            # Close the cursor
+            cursor.close()
 
-        # Close the cursor
-        cursor.close()
+            # Close the connection to the database
+            conn.close()
+            flash('Session from {0}/{1}/{2} to {3}/{4}/{5} created!'.format(form.startDate.data.month,
+                                                                            form.startDate.data.day,
+                                                                            form.startDate.data.year,
+                                                                            form.endDate.data.month,
+                                                                            form.endDate.data.day,
+                                                                            form.endDate.data.year), 'success')
 
-        # Close the connection to the database
-        conn.close()
-
-        flash('Session from {0}/{1}/{2} to {3}/{4}/{5} created!'.format(form.startDate.data.month,
-                                                                        form.startDate.data.day,
-                                                                        form.startDate.data.year,
-                                                                        form.endDate.data.month,
-                                                                        form.endDate.data.day,
-                                                                        form.endDate.data.year), 'success')
+    except ValidationError:
+        flash('Start Date cannot be before End Date', 'danger')
 
     return render_template('create_session.html', title='Create Session', form=form)
+
+
+@app.route('/sessions_search')
+@login_required
+def session_search():
+    # Create the connection to the database
+    conn = connector.connect(**config)
+
+    # Create the cursor for the connection
+    cursor = conn.cursor()
+
+    # For now... (otherwise, make a query that applies filters)
+    cursor.execute("SELECT * FROM sessions WHERE endDate > '{0}'".format(date.today()))
+
+    sessions = cursor.fetchall()
+
+    # Commit the data to the database
+    conn.commit()
+
+    # Close the cursor
+    cursor.close()
+
+    # Close the connection to the database
+    conn.close()
+    return render_template('sessions_search.html', title='Sessions', sessions=sessions)
+
+
+@app.route('/edit_session/<session_id>', methods=['GET', 'POST'])
+@login_required
+def edit_session(session_id):
+
+    if current_user.category == 'Student':
+        flash('You do not have access to that page!', 'danger')
+        return redirect(url_for('home'))
+
+    # Create the connection to the database
+    conn = connector.connect(**config)
+
+    # Create the cursor for the connection
+    cursor = conn.cursor()
+
+    # For now... (otherwise, make a query that applies filters)
+    cursor.execute("SELECT * FROM sessions WHERE id = '{0}'".format(session_id))
+
+    session = cursor.fetchone()
+
+    # Commit the data to the database
+    conn.commit()
+
+    # Close the cursor
+    cursor.close()
+
+    # Close the connection to the database
+    conn.close()
+
+    form = CreateSessionForm(session[2], session[3])
+    try:
+        if form.validate_on_submit() and form.validate_date():
+            # Create the connection to the database
+            conn = connector.connect(**config)
+
+            # Create the cursor for the connection
+            cursor = conn.cursor()
+
+            # For now... (otherwise, make a query that applies filters)
+            cursor.execute("UPDATE sessions SET startDate = '{0}', endDate= '{1}' WHERE id = '{2}'".format(form.startDate.data, form.endDate.data, session_id))
+
+            # Commit the data to the database
+            conn.commit()
+
+            # Close the cursor
+            cursor.close()
+
+            # Close the connection to the database
+            conn.close()
+    except ValidationError:
+        flash('Start Date cannot be before End Date', 'danger')
+    return render_template('edit_session.html', title='Edit Session', form=form)

@@ -10,7 +10,7 @@
 
 
     <div class="row">
-        <h1 class="col-md-12 text-center">Class Search</h1>
+        <h1 class="col-md-12 text-center">Classes</h1>
     </div>
 
 
@@ -21,14 +21,23 @@
     {% endif %}
 
     <div class="card-columns">
-        {% for class in classes %}
+
+        {% if classes|length == 0 %}
+            <h3>No Classes</h3>
+        {% endif %}
+
+        {% for (id,lvl,maxCap,curSize, instructorID, room, timeSlotID, sessionID, classID, price)  in classes %}
             <div class="card">
                 <div class="card-title">
-                    <h5 class="card-header text-center text-white bg-baylor-green-std">{{ class[0] }}</h5>
-                    <h6 class="card-text ml-2 mt-2">Session: {{ class[1] }}</h6>
-                    <h6 class="card-text ml-2">Time:</h6>
-                    <h6 class="card-text ml-2">Instructor: {{ class[4] }}</h6>
-                    <h6 class="card-text ml-2">Room: {{ class[5] }}</h6>
+                    <h5 class="card-header text-center text-white bg-baylor-green-std">{{ id }}</h5>
+                    <h6 class="card-text ml-2 mt-2">Session: {{ sessionID }}</h6>
+                    <h6 class="card-text ml-2">Time: {{ timeSlotID }}</h6>
+                    <h6 class="card-text ml-2">Instructor: {{ instructorID }}</h6>
+                    <h6 class="card-text ml-2">Level: {{ lvl }}</h6>
+                    <h6 class="card-text ml-2">Max Capacity: {{ maxCap }}</h6>
+                    <h6 class="card-text ml-2">Registered: {{ curSize }}</h6>
+                    <h6 class="card-text ml-2">Price: {{ price }}</h6>
+                    <h6 class="card-text ml-2">Room: {{ room }}</h6>
                     <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">More</button>
                     <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Register</button>
                 </div>

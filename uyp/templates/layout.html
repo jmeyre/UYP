@@ -32,9 +32,9 @@
                 {% if current_user.is_authenticated %}
                     {% if current_user.category == 'Staff' %}
                         <a class="nav-item nav-link" href="{{ url_for('create_account') }}">Create Account</a>
-                        <a class="nav-item nav-link" href="{{ url_for('create_session') }}">Create Session</a>
+                        <a class="nav-item nav-link" href="{{ url_for('session_search') }}">Sessions</a>
                     {% endif %}
-                    <a class="nav-item nav-link" href="{{ url_for('class_search') }}">Class Search</a>
+                    <a class="nav-item nav-link" href="{{ url_for('class_search') }}">Classes</a>
                     <a class="nav-item nav-link" href="{{ url_for('profile', user_id=current_user.id) }}">Profile</a>
                     <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
                 {% else %}

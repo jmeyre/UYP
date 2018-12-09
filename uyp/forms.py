@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateField, RadioField, SelectMultipleField, \
     IntegerField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, Optional
+from wtforms.validators import DataRequired, Length, Email, EqualTo, Optional, ValidationError
+from datetime import date
 
 
 class CreateAccountForm(FlaskForm):
@@ -16,7 +17,8 @@ class CreateAccountForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    user_id = StringField('User ID', validators=[DataRequired(), Length(min=6, max=6, message='User IDs are 6 characters')])
+    user_id = StringField('User ID',
+                          validators=[DataRequired(), Length(min=6, max=6, message='User IDs are 6 characters')])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
@@ -111,7 +113,16 @@ class StudentSearchForm(FlaskForm):
 
 
 class CreateSessionForm(FlaskForm):
-    """Html 5 fores the format %Y-%m-%d"""
-    startDate = DateField('Start Date', format='%Y-%m-%d', validators=[DataRequired()])
-    endDate = DateField('End Date', format='%Y-%m-%d', validators=[DataRequired()])
-    submit = SubmitField('Create Session')
+    def __init__(self, start=date.today(), end=date.today()):
+        self.start = start
+        self.end = end
+        """Html 5 fores the format %Y-%m-%d"""
+        self.startDate = DateField('Start Date', format='%Y-%m-%d', default=start, validators=[DataRequired()])
+        self.endDate = DateField('End Date', format='%Y-%m-%d', default=end, validators=[DataRequired()])
+        self.submit = SubmitField('Create Session')
+
+    def validate_date(self):
+        a = self.startDate.data
+        b = self.endDate.data
+        if a > b:
+            raise ValidationError('Start Date is before End Date')

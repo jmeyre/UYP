@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Sessions</li>
+        </ol>
+    </nav>
+
+
+    <div class="row">
+        <h1 class="col-md-12 text-center">Sessions</h1>
+    </div>
+
+
+    {% if current_user.category == 'Staff' %}
+        <div class="row">
+            <a href={{ url_for('create_session') }}><button type="button" class="ml-2 mt-2 mb-2 btn text-white bg-baylor-green-std">Add a new session</button></a>
+        </div>
+    {% endif %}
+
+    <div class="card-columns">
+
+        {% if sessions|length == 0 %}
+            <h3>No Sessions</h3>
+        {% endif %}
+
+        {% for (id, year, endDate, startDate) in sessions %}
+            <div class="card">
+                <div class="card-title">
+                    <h5 class="card-header text-center text-white bg-baylor-green-std">Session: {{ id }}</h5>
+                    <h6 class="card-text ml-2 mt-2">Year: {{ year }}</h6>
+                    <h6 class="card-text ml-2">Start Date: {{ startDate }}</h6>
+                    <h6 class="card-text ml-2">End Date: {{ endDate }}</h6>
+                    <button type="button" href={{ url_for('edit_session', session_id=id) }}class="ml-2 mt-2 btn text-white bg-baylor-green-std">Edit</button>
+                    <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Delete</button>
+                    <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Classes</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock content %}
