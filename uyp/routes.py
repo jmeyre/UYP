@@ -20,7 +20,9 @@ def home():
 
         cursor.execute("SELECT id FROM students WHERE students.id = '{0}'".format(current_user.id))
 
-        if cursor:
+        result = cursor.fetchone()
+
+        if not result:
             return redirect(url_for('student_activate'))
 
         # Commit the data to the database
@@ -188,12 +190,32 @@ def profile(user_id):
 @app.route('/student_activate', methods=['GET', 'POST'])
 @login_required
 def student_activate():
+    if current_user.category == 'Student':
+        # Create the connection to the database
+        conn = connector.connect(**config)
+
+        # Create the cursor for the connection
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT id FROM students WHERE students.id = '{0}'".format(current_user.id))
+
+        result = cursor.fetchone()
+
+        if result:
+            return redirect(url_for('home'))
+
+        # Commit the data to the database
+        conn.commit()
+
+        # Close the cursor
+        cursor.close()
+
+        # Close the connection to the database
+        conn.close()
+
     form = StudentInfo()
 
-    print("it got here")
     if form.validate_on_submit():
-
-        print("oh shit")
 
         # Create the connection to the database
         conn = connector.connect(**config)
