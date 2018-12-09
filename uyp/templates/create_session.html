@@ -13,72 +13,19 @@
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Create Session</legend>
-                {#<div class="form-group">
-                    {{ form.user_id.label(class="form-control-label") }}
 
-                    {% if form.user_id.errors %}
-                        {{ form.user_id(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.user_id.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.user_id(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>#}
+                <!-- startDate field -->
                 <div class="form-group">
                     {{ form.startDate.label(class="form-control-label") }}
-                    {% if form.startDate.errors %}
-                        {{ form.startDate(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.startDate.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.startDate(class="form-control form-control-lg") }}
-                    {% endif %}
+                    {{ form.startDate(class="col-md-4 form-control", type="date") }}
                 </div>
+
+                <!-- endDate field -->
                 <div class="form-group">
                     {{ form.endDate.label(class="form-control-label") }}
-                    {% if form.endDate.errors %}
-                        {{ form.endDate(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.endDate.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.endDate(class="form-control form-control-lg") }}
-                    {% endif %}
+                    {{ form.endDate(class="col-md-4 form-control", type="date") }}
                 </div>
-                {#<div class="form-group">
-                    {{ form.password.label(class="form-control-label") }}
-                    {% if form.password.errors %}
-                        {{ form.password(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.password.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.password(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.confirm_password.label(class="form-control-label") }}
-                    {% if form.confirm_password.errors %}
-                        {{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.confirm_password.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.confirm_password(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>#}
+
             </fieldset>
             <div class="form-group">
                 {{ form.submit(class="btn btn-outline-success") }}

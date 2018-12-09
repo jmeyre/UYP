@@ -285,10 +285,8 @@ def create_session():
         # Create the cursor for the connection
         cursor = conn.cursor()
         try:
-            cursor.execute("INSERT INTO sessions(id, startDate, endDate, year)"
-                           "VALUES ('{0}', '{1}', '{2}', '{3}')".format(id,
-                                                                        form.startDate.data, form.endDate.data,
-                                                                        form.startDate.data.year))
+            cursor.execute("INSERT INTO sessions(id, year, endDate, startDate)"
+                           "VALUES ('{0}', '{1}', '{2}', '{3}')".format(id, form.startDate.data.year, form.endDate.data, form.startDate.data))
         except connector.errors.IntegrityError:
             # Session Already Exists
             print("Session Already Exists")
