@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateField, RadioField, SelectMultipleField, \
     IntegerField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, Optional, ValidationError
-from datetime import date
+from datetime import datetime
 
 
 class CreateAccountForm(FlaskForm):
@@ -113,13 +113,10 @@ class StudentSearchForm(FlaskForm):
 
 
 class CreateSessionForm(FlaskForm):
-    def __init__(self, start=date.today(), end=date.today()):
-        self.start = start
-        self.end = end
-        """Html 5 fores the format %Y-%m-%d"""
-        self.startDate = DateField('Start Date', format='%Y-%m-%d', default=start, validators=[DataRequired()])
-        self.endDate = DateField('End Date', format='%Y-%m-%d', default=end, validators=[DataRequired()])
-        self.submit = SubmitField('Create Session')
+    """Html 5 fores the format %Y-%m-%d"""
+    startDate = DateField('Start Date', format='%Y-%m-%d', validators=[DataRequired()])
+    endDate = DateField('End Date', format='%Y-%m-%d', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
     def validate_date(self):
         a = self.startDate.data

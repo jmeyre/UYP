@@ -373,7 +373,6 @@ def session_search():
 @app.route('/edit_session/<session_id>', methods=['GET', 'POST'])
 @login_required
 def edit_session(session_id):
-
     if current_user.category == 'Student':
         flash('You do not have access to that page!', 'danger')
         return redirect(url_for('home'))
@@ -387,7 +386,7 @@ def edit_session(session_id):
     # For now... (otherwise, make a query that applies filters)
     cursor.execute("SELECT * FROM sessions WHERE id = '{0}'".format(session_id))
 
-    session = cursor.fetchone()
+    (id, year, endDate, startDate) = cursor.fetchone()
 
     # Commit the data to the database
     conn.commit()
@@ -398,7 +397,7 @@ def edit_session(session_id):
     # Close the connection to the database
     conn.close()
 
-    form = CreateSessionForm(session[2], session[3])
+    form = CreateSessionForm()
     try:
         if form.validate_on_submit() and form.validate_date():
             # Create the connection to the database
@@ -420,4 +419,5 @@ def edit_session(session_id):
             conn.close()
     except ValidationError:
         flash('Start Date cannot be before End Date', 'danger')
-    return render_template('edit_session.html', title='Edit Session', form=form)
+    return render_template('edit_session.html', title='Edit Session', form=form, session_id=session_id,
+                           startDate=startDate, endDate=endDate)
