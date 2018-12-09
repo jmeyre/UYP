@@ -26,7 +26,7 @@
             <h3>No Classes</h3>
         {% endif %}
 
-        {% for (title,lvl,maxCap,curSize, instructorID, room, timeSlotID, sessionID, classID, price) in classes %}
+        {% for (title, lvl, maxCap, curSize, instructorID, room, timeSlotID, sessionID, classID, price) in classes %}
             <div class="card">
                 <div class="card-title">
                     <h5 class="card-header text-center text-white bg-baylor-green-std">{{ title }}</h5>
@@ -34,15 +34,17 @@
                     <p class="card-text ml-2"><b>Time: </b>{{ timeSlotID }}</p>
                     <p class="card-text ml-2"><b>Instructor: </b>{{ instructorID }}</p>
                     <p class="card-text ml-2"><b>Level: </b>{{ lvl }}</p>
-                    <p class="card-text ml-2"><b>Max Capacity: </b>{{ maxCap }}</p>
-                    <p class="card-text ml-2"><b>Registered: </b>{{ curSize }}</p>
-                    <p class="card-text ml-2"><b>Price: </b>{{ price }}</p>
+                    <p class="card-text ml-2"><b>Price: </b>${{ price }}</p>
                     <p class="card-text ml-2"><b>Room: </b>{{ room }}</p>
-                    <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">More</button>
-                    <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Register</button>
-                    <a href="{{ url_for('delete_class', class_id=classID) }}">
-                        <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Delete</button>
-                    </a>
+                    {% if current_user.category == 'Student' %}
+                        <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">More</button>
+                        <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Register</button>
+                    {% endif %}
+                    {% if current_user.category == 'Staff' %}
+                        <a href="{{ url_for('delete_class', class_id=classID) }}">
+                            <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Delete</button>
+                        </a>
+                    {% endif %}
 
                 </div>
             </div>

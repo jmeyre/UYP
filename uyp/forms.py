@@ -41,7 +41,7 @@ class AddClassForm(FlaskForm):
     room = StringField('Room', validators=[DataRequired()])
     timeslotID = StringField('Choose a Time Slot', validators=[(DataRequired())])
     sessionID = StringField('Choose a Session', validators=[DataRequired()])
-    price = IntegerField('Price', validators=[DataRequired()])
+    price = IntegerField('Price (in dollars)', validators=[DataRequired()])
     submit = SubmitField('Add Class')
 
 

@@ -48,7 +48,7 @@
                     {{ form.instructorID.label(class="form-control-label") }}
                     <select class="form-control" id="instructorID" name="instructorID">
                         {% for (staffId, staffFName, staffMName, staffLName, staffSuffix, staffPhone, staffEmail, staffStreet, staffCity, staffState, staffZip) in staff %}
-                            <option value="{{ staffId }}">{{ staffFName }} {{ staffMName }} {{ staffLName }}</option>
+                            <option value="{{ staffId }}">{{ staffFName }} {{ staffLName }}</option>
                         {% endfor %}
                     </select>
                 </div>
