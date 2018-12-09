@@ -491,3 +491,33 @@ def delete_session(session_id):
 
     flash('Successfully deleted session', 'success')
     return redirect(url_for('sessions_search'))
+
+
+@app.route('/delete_class/<class_id>', methods=['GET', 'POST'])
+@login_required
+def delete_class(class_id):
+    if current_user.category == 'Student':
+        #  Don't even indicate to students that this route exists
+        #  flash('You do not have access to that page!', 'danger')
+        return redirect(url_for('home'))
+
+    # Create the connection to the database
+    conn = connector.connect(**config)
+
+    # Create the cursor for the connection
+    cursor = conn.cursor()
+
+    # For now... (otherwise, make a query that applies filters)
+    cursor.execute("DELETE FROM class WHERE classID = '{0}'".format(class_id))
+
+    # Commit the data to the database
+    conn.commit()
+
+    # Close the cursor
+    cursor.close()
+
+    # Close the connection to the database
+    conn.close()
+
+    flash('Successfully deleted class!', 'success')
+    return redirect(url_for('class_search'))
