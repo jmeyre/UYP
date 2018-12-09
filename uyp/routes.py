@@ -433,8 +433,14 @@ def edit_session(session_id):
                            startDate=startDate, endDate=endDate)
 
 
-# Not a route, just a query
+@app.route('/delete_session/<session_id>', methods=['GET', 'POST'])
+@login_required
 def delete_session(session_id):
+    if current_user.category == 'Student':
+        #  Don't even indicate to students that this route exists
+        #  flash('You do not have access to that page!', 'danger')
+        return redirect(url_for('home'))
+
     # Create the connection to the database
     conn = connector.connect(**config)
 
@@ -454,3 +460,4 @@ def delete_session(session_id):
     conn.close()
 
     flash('Successfully deleted session', 'success')
+    return redirect(url_for('sessions_search'))
