@@ -129,12 +129,11 @@ class Staff:
 
 
 class Guardian:
-    def __init__(self, studentID, fName, mName, lName, suffix, phone, email, street, city, state, zip):
+    def __init__(self, studentID, fName, mName, lName, phone, email, street, city, state, zip):
         self.studentID = studentID
         self.fName = fName
         self.mName = mName
         self.lName = lName
-        self.suffix = suffix
         self.street = street
         self.city = city
         self.state = state

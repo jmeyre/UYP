@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect, request
 from uyp import app, config, bcrypt
 from uyp.forms import LoginForm, CreateAccountForm, ProfileForm, AddClassForm, StudentInfo, CreateSessionForm, \
     StaffForm, SiblingForm
-from uyp.models import User, Student, Class, Staff
+from uyp.models import User, Student, Class, Staff, Disability, HealthCondition, Guardian
 from mysql import connector
 from flask_login import login_user, current_user, logout_user, login_required
 import random
@@ -210,6 +210,10 @@ def logout():
 @login_required
 def profile(user_id):
     student = None
+    disability = None
+    healthCondition = None
+    guardian1 = None
+    guardian2 = None
     staff = None
     # Prevent students from accessing other students' profiles
     if current_user.category == 'Student' and str(current_user.id) != str(user_id):
@@ -251,36 +255,65 @@ def profile(user_id):
     if category == 'Student':
         cursor.execute("SELECT * FROM students WHERE id = '{0}'".format(user_id))
         stu = cursor.fetchone()
-        student = Student(stu[0], stu[1], stu[2], stu[3], stu[4], stu[5], stu[6], stu[7], stu[8], stu[9], stu[10],
-                          stu[11], stu[12], stu[13], stu[14], stu[15], stu[16], stu[17], stu[18], stu[19], stu[20],
-                          stu[21], stu[22], stu[23], stu[24])
 
+        if stu:
+            student = Student(stu[0], stu[1], stu[2], stu[3], stu[4], stu[5], stu[6], stu[7], stu[8], stu[9], stu[10],
+                              stu[11], stu[12], stu[13], stu[14], stu[15], stu[16], stu[17], stu[18], stu[19], stu[20],
+                              stu[21], stu[22], stu[23], stu[24])
+
+        cursor.execute("SELECT * FROM disability WHERE studentID = '{0}'".format(user_id))
+        # Only one disability for now...
+        dis = cursor.fetchone()
+
+        if dis:
+            disability = Disability(dis[0], dis[1])
+
+        cursor.execute("SELECT * FROM healthcondition WHERE studentID = '{0}'".format(user_id))
+        # Only one disability for now...
+        hea = cursor.fetchone()
+
+        if hea:
+            healthCondition = HealthCondition(hea[0], hea[1], hea[2])
+
+        cursor.execute("SELECT * FROM guardian WHERE studentID = '{0}'".format(user_id))
+        # Only one disability for now...
+        guardians = cursor.fetchall()
+
+        if guardians[0]:
+            guardian1 = Guardian(guardians[0][0], guardians[0][1], guardians[0][2], guardians[0][3], guardians[0][4],
+                                 guardians[0][5], guardians[0][6], guardians[0][7], guardians[0][8], guardians[0][9])
+
+        if guardians[1]:
+            guardian2 = Guardian(guardians[1][0], guardians[1][1], guardians[1][2], guardians[1][3], guardians[1][4],
+                                 guardians[1][5], guardians[1][6], guardians[1][7], guardians[1][8], guardians[1][9])
 
     elif category == 'Staff':
         cursor.execute("SELECT * FROM staff WHERE id = '{0}'".format(user_id))
         sta = cursor.fetchone()
-        staff = Staff(sta[0], sta[1], sta[2], sta[3], sta[4], sta[5], sta[6], sta[7], sta[8], sta[9], sta[10])
+
+        if sta:
+            staff = Staff(sta[0], sta[1], sta[2], sta[3], sta[4], sta[5], sta[6], sta[7], sta[8], sta[9], sta[10])
 
     form = ProfileForm()
     sform = StudentInfo()
     staffForm = StaffForm()
 
     if request.method == 'POST':
-        if form.validate:
-            hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
+        # if form.validate_on_submit():
+        #     hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
+        #
+        #     conn = connector.connect(**config)
+        #     cursor = conn.cursor()
+        #
+        #     cursor.execute("UPDATE users SET pword = '{0}' WHERE id = '{1}'".format(hashed_password, user_id))
+        #
+        #     conn.commit()
+        #     cursor.close()
+        #     conn.close()
+        #
+        #     flash('Password changed successfully!', 'success')
 
-            conn = connector.connect(**config)
-            cursor = conn.cursor()
-
-            cursor.execute("UPDATE users SET pword = '{0}' WHERE id = '{1}'".format(hashed_password, user_id))
-
-            conn.commit()
-            cursor.close()
-            conn.close()
-
-            flash('Password changed successfully!', 'success')
-
-        elif sform.validate:
+        if sform.validate_on_submit():
 
             # Create the connection to the database
             conn = connector.connect(**config)
@@ -288,28 +321,33 @@ def profile(user_id):
             # Create the cursor for the connection
             cursor = conn.cursor()
 
+            esl_data = sform.ESL.data
+            if not esl_data:
+                esl_data = 0
+
+            gt_data = sform.GT.data
+            if not gt_data:
+                gt_data = 0
+
             # needs to be update query
             cursor.execute("UPDATE students SET fName = '{1}', mName = '{2}', lName = '{3}', suffix = '{4}', "
                            "preferred = '{5}', birthday = '{6}', gender = '{7}', race = '{8}', gradeLevel = '{9}', "
                            "expGradYear = '{10}', street = '{11}', city = '{12}', state='{13}', zip='{14}', email = '{15}',"
                            " phone = '{16}', esl='{17}', gt = '{18}' WHERE id = '{0}'".format(user_id, sform.fName.data,
-                                                                                              sform.mName.data,
-                                                                                              sform.lName.data,
-                                                                                              sform.suffix.data,
-                                                                                              sform.preferred.data,
-                                                                                              sform.bDay.data,
-                                                                                              sform.gender.data,
-                                                                                              sform.race.data,
-                                                                                              sform.gradeLevel.data,
-                                                                                              sform.expGradYear.data.year,
-                                                                                              sform.street.data,
-                                                                                              sform.city.data,
-                                                                                              sform.state.data,
-                                                                                              sform.zip.data,
-                                                                                              sform.email.data,
-                                                                                              sform.phone.data,
-                                                                                              sform.ESL.data,
-                                                                                              sform.GT.data))
+                            sform.mName.data, sform.lName.data, sform.suffix.data, sform.preferred.data, sform.bDay.data,
+                            sform.gender.data, sform.race.data, sform.gradeLevel.data, sform.expGradYear.data.year,
+                            sform.street.data, sform.city.data, sform.state.data, sform.zip.data, sform.email.data,
+                            sform.phone.data, esl_data, gt_data))
+
+            cursor.execute("SELECT * FROM disability WHERE studentID = '{0}'".format(user_id))
+
+            stuDis = cursor.fetchone()
+
+            if stuDis:
+                cursor.execute("UPDATE disability SET studentID = '{0}', disability = '{1}'".format(user_id, sform.disabilityDesc.data))
+            else:
+                cursor.execute("INSERT INTO disability (studentID, disability) VALUES('{0}', '{1}')".format(user_id, sform.disabilityDesc.data))
+
             # Commit the data to the database
             conn.commit()
 
@@ -320,7 +358,7 @@ def profile(user_id):
             conn.close()
             flash('Info updated successfully!', 'success')
 
-        elif staffForm.validate:
+        elif staffForm.validate_on_submit():
             # Create the connection to the database
             conn = connector.connect(**config)
 
@@ -330,9 +368,9 @@ def profile(user_id):
             # needs to  be update query
             cursor.execute("UPDATE staff SET fName='{1}', mName='{2}', lName='{3}', suffix='{4}', street='{5}', "
                            "city='{6}', state='{7}', zip='{8}', email='{9}', phone='{10}' WHERE id='{0}'".format(
-                user_id, staffForm.fName.data, staffForm.mName.data, staffForm.lName.data, staffForm.suffix.data,
-                staffForm.street.data, staffForm.city.data, staffForm.state.data, staffForm.zip.data,
-                staffForm.email.data, staffForm.phone.data))
+                            user_id, staffForm.fName.data, staffForm.mName.data, staffForm.lName.data, staffForm.suffix.data,
+                            staffForm.street.data, staffForm.city.data, staffForm.state.data, staffForm.zip.data,
+                            staffForm.email.data, staffForm.phone.data))
 
             # Commit the data to the database
             conn.commit()
@@ -345,7 +383,8 @@ def profile(user_id):
             flash('Info updated successfully!', 'success')
 
     return render_template('profile.html', title='Profile', form=form, sform=sform, staffForm=staffForm,
-                           user_id=user_id, category=category, student=student, staff=staff)
+                           user_id=user_id, category=category, student=student, disability=disability,
+                           healthCondition=healthCondition, guardian1=guardian1, guardian2=guardian2, staff=staff)
 
 
 @app.route('/student_activate', methods=['GET', 'POST'])

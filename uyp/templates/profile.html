@@ -597,22 +597,35 @@
                         <div>
                             <!-- disability field -->
                             {{ sform.disability.label(class="form-control-label") }}
-                            <input class="conditional_form_part_activator form-group" type="checkbox" id="disability"
-                                   name="disability">
+                            {% if disability %}
+                                <input class="conditional_form_part_activator form-group" type="checkbox" id="disability"
+                                       name="disability" checked="on">
+                            {% else %}
+                                <input class="conditional_form_part_activator form-group" type="checkbox" id="disability"
+                                       name="disability">
+                            {% endif %}
                             <div class="form-group conditional_form_part">
 
                                 <!-- disabilityDesc field -->
                                 <div class="form-group">
                                     {{ sform.disabilityDesc.label(class="form-control-label") }}
                                     {% if sform.disabilityDesc.errors %}
-                                        {{ sform.disabilityDesc(class="form-control form-control-lg is-invalid") }}
+                                        {% if disability %}
+                                            {{ sform.disabilityDesc(class="form-control form-control-lg is-invalid", value=disability.disability) }}
+                                        {% else %}
+                                            {{ sform.disabilityDesc(class="form-control form-control-lg is-invalid", value=disability.disability) }}
+                                        {% endif %}
                                         <div class="invalid-feedback">
                                             {% for error in sform.disabilityDesc.errors %}
                                                 <span>{{ error }}</span>
                                             {% endfor %}
                                         </div>
                                     {% else %}
-                                        {{ sform.disabilityDesc(class="form-control form-control-lg") }}
+                                        {% if disability %}
+                                            {{ sform.disabilityDesc(class="form-control form-control-lg", value=disability.disability) }}
+                                        {% else %}
+                                            {{ sform.disabilityDesc(class="form-control form-control-lg", value=disability.disability) }}
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             </div>
@@ -620,22 +633,27 @@
 
                         <!-- healthConds field -->
                         {{ sform.healthConds.label(class="form-control-label") }}
-                        <input class="conditional_form_part_activator form-group" type="checkbox" id="healthConds"
-                               name="healthConds">
+                        {% if healthCondition %}
+                            <input class="conditional_form_part_activator form-group" type="checkbox" id="healthConds"
+                                   name="healthConds" checked="on">
+                        {% else %}
+                            <input class="conditional_form_part_activator form-group" type="checkbox" id="healthConds"
+                                   name="healthConds">
+                        {% endif %}
                         <div class="form-group conditional_form_part">
 
                             <!-- healthCondsCond field -->
                             <div class="form-group">
                                 {{ sform.healthCondsCond.label(class="form-control-label") }}
                                 {% if sform.healthCondsCond.errors %}
-                                    {{ sform.healthCondsCond(class="form-control form-control-lg is-invalid") }}
+                                    {{ sform.healthCondsCond(class="form-control form-control-lg is-invalid", value=healthCondition.healthCondsCond) }}
                                     <div class="invalid-feedback">
                                         {% for error in sform.healthCondsCond.errors %}
                                             <span>{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    {{ sform.healthCondsCond(class="form-control form-control-lg") }}
+                                    {{ sform.healthCondsCond(class="form-control form-control-lg", value=healthCondition.healthCondsCond) }}
                                 {% endif %}
                             </div>
 
@@ -643,14 +661,14 @@
                             <div class="form-group">
                                 {{ sform.healthCondsDesc.label(class="form-control-label") }}
                                 {% if sform.healthCondsDesc.errors %}
-                                    {{ sform.healthCondsDesc(class="form-control form-control-lg is-invalid") }}
+                                    {{ sform.healthCondsDesc(class="form-control form-control-lg is-invalid", value=healthCondition.healthCondsDesc) }}
                                     <div class="invalid-feedback">
                                         {% for error in sform.healthCondsDesc.errors %}
                                             <span>{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    {{ sform.healthCondsDesc(class="form-control form-control-lg") }}
+                                    {{ sform.healthCondsDesc(class="form-control form-control-lg", value=healthCondition.healthCondsDesc) }}
                                 {% endif %}
                             </div>
                         </div>
@@ -658,13 +676,21 @@
                         <!-- ESL field -->
                         <div class="form-group">
                             {{ sform.ESL.label(class="form-control-label") }}
-                            <input class="form-group" type="checkbox" id="ESL" name="ESL">
+                            {% if student.esl == '1' %} {# Might not be 1 #}
+                                <input class="form-group" type="checkbox" id="ESL" name="ESL" checked="on">
+                            {% else %}
+                                <input class="form-group" type="checkbox" id="ESL" name="ESL">
+                            {% endif %}
                         </div>
 
                         <!-- GT field -->
                         <div class="form-group">
                             {{ sform.GT.label(class="form-control-label") }}
-                            <input class="form-group" type="checkbox" id="GT" name="GT">
+                            {% if student.gt == '1' %} {# Might not be 1 #}
+                                <input class="form-group" type="checkbox" id="GT" name="GT" checked="on">
+                            {% else %}
+                                <input class="form-group" type="checkbox" id="GT" name="GT">
+                            {% endif %}
                         </div>
                     </div>
 
@@ -676,14 +702,14 @@
                         <div class="form-group">
                             {{ sform.guardian1_fName.label(class="form-control-label") }}
                             {% if sform.guardian1_fName.errors %}
-                                {{ sform.guardian1_fName(class="form-control form-control-lg is-invalid") }}
+                                {{ sform.guardian1_fName(class="form-control form-control-lg is-invalid", value=guardian1.fName) }}
                                 <div class="invalid-feedback">
                                     {% for error in sform.guardian1_fName.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ sform.guardian1_fName(class="form-control form-control-lg") }}
+                                {{ sform.guardian1_fName(class="form-control form-control-lg", value=guardian1.fName) }}
                             {% endif %}
                         </div>
 
@@ -691,14 +717,14 @@
                         <div class="form-group">
                             {{ sform.guardian1_mName.label(class="form-control-label") }}
                             {% if sform.guardian1_mName.errors %}
-                                {{ sform.guardian1_mName(class="form-control form-control-lg is-invalid") }}
+                                {{ sform.guardian1_mName(class="form-control form-control-lg is-invalid", value=guardian1.mName) }}
                                 <div class="invalid-feedback">
                                     {% for error in sform.guardian1_mName.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ sform.guardian1_mName(class="form-control form-control-lg") }}
+                                {{ sform.guardian1_mName(class="form-control form-control-lg", value=guardian1.mName) }}
                             {% endif %}
                         </div>
 
@@ -706,14 +732,14 @@
                         <div class="form-group">
                             {{ sform.guardian1_lName.label(class="form-control-label") }}
                             {% if sform.guardian1_lName.errors %}
-                                {{ sform.guardian1_lName(class="form-control form-control-lg is-invalid") }}
+                                {{ sform.guardian1_lName(class="form-control form-control-lg is-invalid", value=guardian1.lName) }}
                                 <div class="invalid-feedback">
                                     {% for error in sform.guardian1_lName.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ sform.guardian1_lName(class="form-control form-control-lg") }}
+                                {{ sform.guardian1_lName(class="form-control form-control-lg", value=guardian1.lName) }}
                             {% endif %}
                         </div>
 
@@ -721,14 +747,14 @@
                         <div class="form-group">
                             {{ sform.guardian1_phone.label(class="form-control-label") }}
                             {% if sform.guardian1_phone.errors %}
-                                {{ sform.guardian1_phone(class="form-control form-control-lg is-invalid") }}
+                                {{ sform.guardian1_phone(class="form-control form-control-lg is-invalid", value=guardian1.phone) }}
                                 <div class="invalid-feedback">
                                     {% for error in sform.guardian1_phone.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ sform.guardian1_phone(class="form-control form-control-lg") }}
+                                {{ sform.guardian1_phone(class="form-control form-control-lg", value=guardian1.phone) }}
                             {% endif %}
                         </div>
 
@@ -736,14 +762,14 @@
                         <div class="form-group">
                             {{ sform.guardian1_email.label(class="form-control-label") }}
                             {% if sform.guardian1_email.errors %}
-                                {{ sform.guardian1_email(class="form-control form-control-lg is-invalid") }}
+                                {{ sform.guardian1_email(class="form-control form-control-lg is-invalid", value=guardian1.email) }}
                                 <div class="invalid-feedback">
                                     {% for error in sform.guardian1_email.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ sform.guardian1_email(class="form-control form-control-lg") }}
+                                {{ sform.guardian1_email(class="form-control form-control-lg", value=guardian1.email) }}
                             {% endif %}
                         </div>
 
@@ -753,14 +779,14 @@
                         <div class="form-group">
                             {{ sform.guardian1_street.label(class="form-control-label") }}
                             {% if sform.guardian1_street.errors %}
-                                {{ sform.guardian1_street(class="form-control form-control-lg is-invalid") }}
+                                {{ sform.guardian1_street(class="form-control form-control-lg is-invalid", value=guardian1.street) }}
                                 <div class="invalid-feedback">
                                     {% for error in sform.guardian1_street.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ sform.guardian1_street(class="form-control form-control-lg") }}
+                                {{ sform.guardian1_street(class="form-control form-control-lg", value=guardian1.street) }}
                             {% endif %}
                         </div>
 
@@ -768,14 +794,14 @@
                         <div class="form-group">
                             {{ sform.guardian1_city.label(class="form-control-label") }}
                             {% if sform.guardian1_city.errors %}
-                                {{ sform.guardian1_city(class="form-control form-control-lg is-invalid") }}
+                                {{ sform.guardian1_city(class="form-control form-control-lg is-invalid", value=guardian1.city) }}
                                 <div class="invalid-feedback">
                                     {% for error in sform.guardian1_city.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ sform.guardian1_city(class="form-control form-control-lg") }}
+                                {{ sform.guardian1_city(class="form-control form-control-lg", value=guardian1.city) }}
                             {% endif %}
                         </div>
 
@@ -1040,35 +1066,40 @@
                         <div class="form-group">
                             {{ sform.guardian1_zip.label(class="form-control-label") }}
                             {% if sform.guardian1_zip.errors %}
-                                {{ sform.guardian1_zip(class="form-control form-control-lg is-invalid") }}
+                                {{ sform.guardian1_zip(class="form-control form-control-lg is-invalid", value=guardian1.zip) }}
                                 <div class="invalid-feedback">
                                     {% for error in sform.guardian1_zip.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ sform.guardian1_zip(class="form-control form-control-lg") }}
+                                {{ sform.guardian1_zip(class="form-control form-control-lg", value=guardian1.zip) }}
                             {% endif %}
                         </div>
                     </div>
                     <div class="content-section p-4">
 
                         {{ sform.guardian2_prompt.label(class="form-control-label") }}
-                        <input class="conditional_form_part_activator form-group" type="checkbox" id="guardian2_prompt"
+                        {% if guardian2 %}
+                            <input class="conditional_form_part_activator form-group" type="checkbox" id="guardian2_prompt"
+                               name="guardian2_prompt" checked="on">
+                        {% else %}
+                            <input class="conditional_form_part_activator form-group" type="checkbox" id="guardian2_prompt"
                                name="guardian2_prompt">
+                        {% endif %}
                         <div class="form-group conditional_form_part">
                             <!-- guardian2_fName field -->
                             <div class="form-group">
                                 {{ sform.guardian2_fName.label(class="form-control-label") }}
                                 {% if sform.guardian2_fName.errors %}
-                                    {{ sform.guardian2_fName(class="form-control form-control-lg is-invalid") }}
+                                    {{ sform.guardian2_fName(class="form-control form-control-lg is-invalid", value=guardian2.fName) }}
                                     <div class="invalid-feedback">
                                         {% for error in sform.guardian2_fName.errors %}
                                             <span>{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    {{ sform.guardian2_fName(class="form-control form-control-lg") }}
+                                    {{ sform.guardian2_fName(class="form-control form-control-lg", value=guardian2.fName) }}
                                 {% endif %}
                             </div>
 
@@ -1076,14 +1107,14 @@
                             <div class="form-group">
                                 {{ sform.guardian2_mName.label(class="form-control-label") }}
                                 {% if sform.guardian2_mName.errors %}
-                                    {{ sform.guardian2_mName(class="form-control form-control-lg is-invalid") }}
+                                    {{ sform.guardian2_mName(class="form-control form-control-lg is-invalid", value=guardian2.mName) }}
                                     <div class="invalid-feedback">
                                         {% for error in sform.guardian2_mName.errors %}
                                             <span>{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    {{ sform.guardian2_mName(class="form-control form-control-lg") }}
+                                    {{ sform.guardian2_mName(class="form-control form-control-lg", value=guardian2.mName) }}
                                 {% endif %}
                             </div>
 
@@ -1091,14 +1122,14 @@
                             <div class="form-group">
                                 {{ sform.guardian2_lName.label(class="form-control-label") }}
                                 {% if sform.guardian2_lName.errors %}
-                                    {{ sform.guardian2_lName(class="form-control form-control-lg is-invalid") }}
+                                    {{ sform.guardian2_lName(class="form-control form-control-lg is-invalid", value=guardian2.lName) }}
                                     <div class="invalid-feedback">
                                         {% for error in sform.guardian2_lName.errors %}
                                             <span>{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    {{ sform.guardian2_lName(class="form-control form-control-lg") }}
+                                    {{ sform.guardian2_lName(class="form-control form-control-lg", value=guardian2.lName) }}
                                 {% endif %}
                             </div>
 
@@ -1106,14 +1137,14 @@
                             <div class="form-group">
                                 {{ sform.guardian2_phone.label(class="form-control-label") }}
                                 {% if sform.guardian2_phone.errors %}
-                                    {{ sform.guardian2_phone(class="form-control form-control-lg is-invalid") }}
+                                    {{ sform.guardian2_phone(class="form-control form-control-lg is-invalid", value=guardian2.phone) }}
                                     <div class="invalid-feedback">
                                         {% for error in sform.guardian2_phone.errors %}
                                             <span>{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    {{ sform.guardian2_phone(class="form-control form-control-lg") }}
+                                    {{ sform.guardian2_phone(class="form-control form-control-lg", value=guardian2.phone) }}
                                 {% endif %}
                             </div>
 
@@ -1121,14 +1152,14 @@
                             <div class="form-group">
                                 {{ sform.guardian2_email.label(class="form-control-label") }}
                                 {% if sform.guardian2_email.errors %}
-                                    {{ sform.guardian2_email(class="form-control form-control-lg is-invalid") }}
+                                    {{ sform.guardian2_email(class="form-control form-control-lg is-invalid", value=guardian2.email) }}
                                     <div class="invalid-feedback">
                                         {% for error in sform.guardian2_email.errors %}
                                             <span>{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    {{ sform.guardian2_email(class="form-control form-control-lg") }}
+                                    {{ sform.guardian2_email(class="form-control form-control-lg", value=guardian2.email) }}
                                 {% endif %}
                             </div>
 
@@ -1138,14 +1169,14 @@
                             <div class="form-group">
                                 {{ sform.guardian2_street.label(class="form-control-label") }}
                                 {% if sform.guardian2_street.errors %}
-                                    {{ sform.guardian2_street(class="form-control form-control-lg is-invalid") }}
+                                    {{ sform.guardian2_street(class="form-control form-control-lg is-invalid", value=guardian2.street) }}
                                     <div class="invalid-feedback">
                                         {% for error in sform.guardian2_street.errors %}
                                             <span>{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    {{ sform.guardian2_street(class="form-control form-control-lg") }}
+                                    {{ sform.guardian2_street(class="form-control form-control-lg", value=guardian2.street) }}
                                 {% endif %}
                             </div>
 
@@ -1153,14 +1184,14 @@
                             <div class="form-group">
                                 {{ sform.guardian2_city.label(class="form-control-label") }}
                                 {% if sform.guardian2_city.errors %}
-                                    {{ sform.guardian2_city(class="form-control form-control-lg is-invalid") }}
+                                    {{ sform.guardian2_city(class="form-control form-control-lg is-invalid", value=guardian2.city) }}
                                     <div class="invalid-feedback">
                                         {% for error in sform.guardian2_city.errors %}
                                             <span>{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    {{ sform.guardian2_city(class="form-control form-control-lg") }}
+                                    {{ sform.guardian2_city(class="form-control form-control-lg", value=guardian2.city) }}
                                 {% endif %}
                             </div>
 
@@ -1425,14 +1456,14 @@
                             <div class="form-group">
                                 {{ sform.guardian2_zip.label(class="form-control-label") }}
                                 {% if sform.guardian2_zip.errors %}
-                                    {{ sform.guardian2_zip(class="form-control form-control-lg is-invalid") }}
+                                    {{ sform.guardian2_zip(class="form-control form-control-lg is-invalid", value=guardian2.zip) }}
                                     <div class="invalid-feedback">
                                         {% for error in sform.guardian2_zip.errors %}
                                             <span>{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    {{ sform.guardian2_zip(class="form-control form-control-lg") }}
+                                    {{ sform.guardian2_zip(class="form-control form-control-lg", value=guardian2.zip) }}
                                 {% endif %}
                             </div>
                         </div>
