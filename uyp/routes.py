@@ -322,11 +322,15 @@ def profile(user_id):
             cursor = conn.cursor()
 
             esl_data = sform.ESL.data
-            if not esl_data:
+            if esl_data == 'on':
+                esl_data = 1
+            else:
                 esl_data = 0
 
             gt_data = sform.GT.data
-            if not gt_data:
+            if gt_data == 'on':
+                gt_data = 1
+            else:
                 gt_data = 0
 
             # needs to be update query
@@ -339,14 +343,32 @@ def profile(user_id):
                             sform.street.data, sform.city.data, sform.state.data, sform.zip.data, sform.email.data,
                             sform.phone.data, esl_data, gt_data))
 
+            # disability
             cursor.execute("SELECT * FROM disability WHERE studentID = '{0}'".format(user_id))
 
             stuDis = cursor.fetchone()
 
             if stuDis:
-                cursor.execute("UPDATE disability SET studentID = '{0}', disability = '{1}'".format(user_id, sform.disabilityDesc.data))
+                if stuDis[1] == '':
+                    cursor.execute("DELETE FROM disability WHERE studentID = '{0}'".format(user_id))
+                else:
+                    cursor.execute("UPDATE disability SET studentID = '{0}', disability = '{1}'".format(user_id, sform.disabilityDesc.data))
             else:
                 cursor.execute("INSERT INTO disability (studentID, disability) VALUES('{0}', '{1}')".format(user_id, sform.disabilityDesc.data))
+
+            # health condition
+            cursor.execute("SELECT * FROM healthcondition WHERE studentID = '{0}'".format(user_id))
+
+            stuHea = cursor.fetchone()
+
+            if stuHea:
+                if stuHea[1] == '' and stuHea[2] == '':
+                    cursor.execute("DELETE FROM healthcondition WHERE studentID = '{0}'".format(user_id))
+                else:
+                    cursor.execute("UPDATE healthcondition "
+                                   "SET studentID = '{0}', cond = '{1}', descript = '{2}'".format(user_id, sform.healthCondsCond.data, sform.healthCondsDesc.data))
+            else:
+                cursor.execute("INSERT INTO healthcondition (studentID, cond, descript) VALUES('{0}', '{1}', '{2}')".format(user_id, sform.healthCondsCond.data, sform.healthCondsDesc.data))
 
             # Commit the data to the database
             conn.commit()
