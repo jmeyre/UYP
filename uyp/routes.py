@@ -676,3 +676,33 @@ def delete_class(class_id):
 
     flash('Successfully deleted class!', 'success')
     return redirect(url_for('class_search'))
+
+
+@app.route('/register_class/<class_id>')
+@login_required
+def register_class(class_id):
+    if current_user.category == 'Student':
+        # Create the connection to the database
+        conn = connector.connect(**config)
+
+        # Create the cursor for the connection
+        cursor = conn.cursor()
+
+        cursor.execute("INSERT INTO takes(studentID, classID) VALUES ('{0}', '{1}')".format(current_user.id, class_id))
+
+        cursor.execute("SELECT title FROM class WHERE classID = '{0}'".format(class_id))
+        title = cursor.fetchone()
+
+        # Commit the data to the database
+        conn.commit()
+
+        # Close the cursor
+        cursor.close()
+
+        # Close the connection to the database
+        conn.close()
+
+        flash('Successfully registered for {0}!'.format(title[0]), 'success')
+        return redirect(url_for('home'))
+    else:
+        return redirect(url_for('class_search'))
