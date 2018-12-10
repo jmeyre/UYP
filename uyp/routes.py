@@ -353,10 +353,10 @@ def student_activate():
             year = form.expGradYear.data.year
 
         cursor.execute(
-            "INSERT INTO students (id, fName, mName, lName, suffix, preferred, birthday, gender, race, gradeLevel, expGradYear, street, city, state, zip, email, phone) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', {10}, '{11}', '{12}', '{13}', '{14}', '{15}', '{16}')".format(
+            "INSERT INTO students (id, fName, mName, lName, suffix, preferred, birthday, gender, race, gradeLevel, expGradYear, street, city, state, zip, email, phone, bill) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', {10}, '{11}', '{12}', '{13}', '{14}', '{15}', '{16}', '{17}')".format(
                 current_user.id, form.fName.data, form.mName.data, form.lName.data, form.suffix.data,
                 form.preferred.data, form.bDay.data, form.gender.data, form.race.data, form.gradeLevel.data, year,
-                form.street.data, form.city.data, form.state.data, form.zip.data, form.email.data, form.phone.data))
+                form.street.data, form.city.data, form.state.data, form.zip.data, form.email.data, form.phone.data, 20))
 
         # # Disability query
         # if form.disability.data == 'on':
@@ -601,12 +601,18 @@ def register_class(class_id):
         cursor = conn.cursor()
 
         cursor.execute("INSERT INTO takes(studentID, classID) VALUES ('{0}', '{1}')".format(current_user.id, class_id))
-        cursor.execute("SELECT curSize FROM class WHERE classID = '{0}'".format(class_id))
 
-        class_size = cursor.fetchone()
+        cursor.execute("SELECT curSize, price FROM class WHERE classID = '{0}'".format(class_id))
+        class_info = cursor.fetchone()
+
+        cursor.execute("SELECT bill FROM students WHERE id = '{0}'".format(current_user.id))
+        bill = cursor.fetchone()
 
         # Increment the class' curSize
-        cursor.execute("UPDATE class SET curSize = {0} WHERE classID = '{1}'".format(class_size[0] + 1, class_id))
+        cursor.execute("UPDATE class SET curSize = {0} WHERE classID = '{1}'".format(class_info[0] + 1, class_id))
+
+        # Increment the student's bill
+        cursor.execute("UPDATE students SET bill = {0} WHERE id = '{1}'".format(bill[0] + class_info[1], current_user.id))
 
         cursor.execute("SELECT title FROM class WHERE classID = '{0}'".format(class_id))
         title = cursor.fetchone()
