@@ -5,20 +5,20 @@
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Add Class</legend>
+                <legend class="border-bottom mb-4">Edit Class</legend>
 
                 <!-- title field -->
                 <div class="form-group">
                     {{ form.title.label(class="form-control-label") }}
                     {% if form.title.errors %}
-                        {{ form.title(class="form-control form-control-lg is-invalid") }}
+                        {{ form.title(class="form-control form-control-lg is-invalid", value=resultClass.title) }}
                         <div class="invalid-feedback">
                             {% for error in form.title.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.title(class="form-control form-control-lg") }}
+                        {{ form.title(class="form-control form-control-lg", value=resultClass.title) }}
                     {% endif %}
                 </div>
 
@@ -26,9 +26,19 @@
                 <div class="form-group">
                     {{ form.lvl.label(class="form-control-label") }}
                     <select class="form-control" id="lvl" name="lvl">
-                                <option value="4th - 5th">4th - 5th</option>
+                            {% if resultClass == '4th - 5th' %}
+                                <option selected value="4th - 5th">4th - 5th</option>
                                 <option value="6th - 8th">6th - 8th</option>
                                 <option value="9th - 12th">9th - 12th</option>
+                            {% elif resultClass == '6th - 8th' %}
+                                <option value="4th - 5th">4th - 5th</option>
+                                <option selected value="6th - 8th">6th - 8th</option>
+                                <option value="9th - 12th">9th - 12th</option>
+                            {%  else %}
+                                <option value="4th - 5th">4th - 5th</option>
+                                <option value="6th - 8th">6th - 8th</option>
+                                <option selected value="9th - 12th">9th - 12th</option>
+                            {% endif %}
                     </select>
                 </div>
 
@@ -36,14 +46,14 @@
                 <div class="form-group">
                     {{ form.maxCap.label(class="form-control-label") }}
                     {% if form.maxCap.errors %}
-                        {{ form.maxCap(class="form-control form-control-lg is-invalid") }}
+                        {{ form.maxCap(class="form-control form-control-lg is-invalid", value=resultClass.maxCapacity) }}
                         <div class="invalid-feedback">
                             {% for error in form.maxCap.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.maxCap(class="form-control form-control-lg") }}
+                        {{ form.maxCap(class="form-control form-control-lg", value=resultClass.maxCapacity) }}
                     {% endif %}
                 </div>
 
@@ -61,14 +71,14 @@
                 <div class="form-group">
                     {{ form.room.label(class="form-control-label") }}
                     {% if form.room.errors %}
-                        {{ form.room(class="form-control form-control-lg is-invalid") }}
+                        {{ form.room(class="form-control form-control-lg is-invalid", value=resultClass.room) }}
                         <div class="invalid-feedback">
                             {% for error in form.room.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.room(class="form-control form-control-lg") }}
+                        {{ form.room(class="form-control form-control-lg", value=resultClass.room) }}
                     {% endif %}
                 </div>
 
@@ -87,7 +97,11 @@
                     {{ form.sessionID.label(class="form-control-label") }}
                     <select class="form-control" id="sessionID" name="sessionID">
                         {% for (sId, sYear, sEndDate, sStartDate) in sessions %}
-                            <option value="{{ sId }}">{{ sStartDate }} to {{ sEndDate }}</option>
+                            {% if sId == resultClass.sessionID %}
+                                <option selected value="{{ sId }}">{{ sStartDate }} to {{ sEndDate }}</option>
+                            {% else %}
+                                <option value="{{ sId }}">{{ sStartDate }} to {{ sEndDate }}</option>
+                            {% endif %}
                         {% endfor %}
                     </select>
                 </div>
@@ -96,14 +110,14 @@
                 <div class="form-group">
                     {{ form.price.label(class="form-control-label") }}
                     {% if form.price.errors %}
-                        {{ form.price(class="form-control form-control-lg is-invalid") }}
+                        {{ form.price(class="form-control form-control-lg is-invalid", value=resultClass.price) }}
                         <div class="invalid-feedback">
                             {% for error in form.price.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.price(class="form-control form-control-lg") }}
+                        {{ form.price(class="form-control form-control-lg", value=resultClass.price) }}
                     {% endif %}
                 </div>
             </fieldset>

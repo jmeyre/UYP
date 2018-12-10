@@ -53,8 +53,7 @@ class User:
 
 
 class Class:
-    def __init__(self, id, title, lvl, maxCapacity, curSize, instructorID, room, timeslotID, sessionID):
-        self.id = id
+    def __init__(self, title, lvl, maxCapacity, curSize, instructorID, room, timeslotID, sessionID, classID, price):
         self.title = title
         self.lvl = lvl
         self.maxCapacity = maxCapacity
@@ -63,6 +62,8 @@ class Class:
         self.room = room
         self.timeslotID = timeslotID
         self.sessionID = sessionID
+        self.classID = classID
+        self.price = price
 
     def __repr__(self):
         return "Class( ID={0}, Title=\"{1}\", Level={2}, MaxCapacity={3}, " \
@@ -109,3 +110,4 @@ class Staff:
         self.zip = zip
         self.email = email
         self.phone = phone
+

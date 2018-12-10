@@ -32,14 +32,14 @@ class ProfileForm(FlaskForm):
 
 class AddClassForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
-    lvl = RadioField('Course Level', choices=[('4th - 5th', '4th - 5th'), ('6th - 8th', '6th - 8th'), ('9th - 12th', '9th - 12th')], validators=[DataRequired()])
+    lvl = StringField('Course Level', validators=[DataRequired()])
     maxCap = IntegerField('Maximum Capacity', validators=[DataRequired()])
     instructorID = StringField('Instructor ID', validators=[DataRequired()])
     room = StringField('Room', validators=[DataRequired()])
     timeslotID = StringField('Choose a Time Slot', validators=[(DataRequired())])
     sessionID = StringField('Choose a Session', validators=[DataRequired()])
     price = IntegerField('Price (in dollars)', validators=[DataRequired()])
-    submit = SubmitField('Add Class')
+    submit = SubmitField('Submit')
 
 
 class StudentInfo(FlaskForm):

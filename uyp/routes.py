@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request
 from uyp import app, config, bcrypt
 from uyp.forms import LoginForm, CreateAccountForm, ProfileForm, AddClassForm, StudentInfo, CreateSessionForm
-from uyp.models import User, Student
+from uyp.models import User, Student, Class
 from mysql import connector
 from flask_login import login_user, current_user, logout_user, login_required
 import random
@@ -422,13 +422,17 @@ def student_activate():
         # Disability query
         print(form.disabilityDesc.data)
         if form.disability.data == 'on':
-            cursor.execute("INSERT INTO disability (studentID, disability) VALUES ('{0}', '{1}')".format(current_user.id, form.disabilityDesc.data))
+            cursor.execute(
+                "INSERT INTO disability (studentID, disability) VALUES ('{0}', '{1}')".format(current_user.id,
+                                                                                              form.disabilityDesc.data))
 
         # Health condition query
         print(form.healthCondsCond.data)
         print(form.healthCondsDesc.data)
         if form.healthConds.data == 'on':
-            cursor.execute("INSERT INTO healthcondition (studentID, cond, descript) VALUES ('{0}', '{1}', '{2}')".format(current_user.id, form.healthCondsCond.data, form.healthCondsDesc.data))
+            cursor.execute(
+                "INSERT INTO healthcondition (studentID, cond, descript) VALUES ('{0}', '{1}', '{2}')".format(
+                    current_user.id, form.healthCondsCond.data, form.healthCondsDesc.data))
 
         # Commit the data to the database
         conn.commit()
@@ -725,3 +729,58 @@ def register_class(class_id):
         return redirect(url_for('home'))
     else:
         return redirect(url_for('class_search'))
+
+
+@app.route('/edit_class/<class_id>', methods=['GET', 'POST'])
+@login_required
+def edit_class(class_id):
+    if current_user.category == 'Student':
+        flash('You do not have access to that page!', 'danger')
+        return redirect(url_for('home'))
+
+    conn = connector.connect(**config)
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM sessions")
+    resultSessions = cursor.fetchall()
+    cursor.execute("SELECT * FROM timeslot")
+    resultTimeslots = cursor.fetchall()
+    cursor.execute("SELECT * FROM staff")
+    resultStaff = cursor.fetchall()
+    cursor.execute("SELECT * FROM class WHERE classID = '{0}'".format(class_id))
+    resultClass = cursor.fetchone()
+    resultClass = Class(resultClass[0], resultClass[1], resultClass[2], resultClass[3], resultClass[4], resultClass[5],
+                        resultClass[6], resultClass[7], resultClass[8], resultClass[9])
+
+    cursor.close()
+    conn.close()
+
+    form = AddClassForm()
+
+    # after submitting
+    if form.validate_on_submit():
+        # Create the connection to the database
+        conn = connector.connect(**config)
+
+        # Create the cursor for the connection
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "UPDATE class SET title='{0}', lvl='{1}', maxCap='{2}', instructorID='{3}', room='{4}', "
+            "timeSlotID='{5}', sessionID='{6}', price='{7}'".format(
+                form.title.data, form.lvl.data, form.maxCap.data, form.instructorID.data, form.room.data,
+                form.timeslotID.data, form.sessionID.data, form.price.data))
+
+        # Commit the data to the database
+        conn.commit()
+
+        # Close the cursor
+        cursor.close()
+
+        # Close the connection to the database
+        conn.close()
+
+        flash('Class Edited!', 'success')
+        return redirect(url_for('class_search'))
+
+    return render_template('edit_class.html', title='Edit Class', form=form, sessions=resultSessions,
+                           timeslots=resultTimeslots, staff=resultStaff, resultClass=resultClass)
