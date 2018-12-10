@@ -332,10 +332,10 @@ def profile(user_id):
             # needs to be update query
             cursor.execute("UPDATE students SET fName = '{1}', mName = '{2}', lName = '{3}', suffix = '{4}', "
                            "preferred = '{5}', birthday = '{6}', gender = '{7}', race = '{8}', gradeLevel = '{9}', "
-                           "expGradYear = '{10}', street = '{11}', city = '{12}', state='{13}', zip='{14}', email = '{15}',"
+                           "expGradDate = '{10}', street = '{11}', city = '{12}', state='{13}', zip='{14}', email = '{15}',"
                            " phone = '{16}', esl='{17}', gt = '{18}' WHERE id = '{0}'".format(user_id, sform.fName.data,
                             sform.mName.data, sform.lName.data, sform.suffix.data, sform.preferred.data, sform.bDay.data,
-                            sform.gender.data, sform.race.data, sform.gradeLevel.data, sform.expGradYear.data.year,
+                            sform.gender.data, sform.race.data, sform.gradeLevel.data, sform.expGradDate.data,
                             sform.street.data, sform.city.data, sform.state.data, sform.zip.data, sform.email.data,
                             sform.phone.data, esl_data, gt_data))
 
@@ -412,15 +412,12 @@ def student_activate():
         conn = connector.connect(**config)
         cursor = conn.cursor()
 
-        year = 0
-        if form.expGradYear.data:
-            year = form.expGradYear.data.year
-
         cursor.execute(
-            "INSERT INTO students (id, fName, mName, lName, suffix, preferred, birthday, gender, race, gradeLevel, expGradYear, street, city, state, zip, email, phone, bill) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', {10}, '{11}', '{12}', '{13}', '{14}', '{15}', '{16}', '{17}')".format(
+            "INSERT INTO students (id, fName, mName, lName, suffix, preferred, birthday, gender, race, gradeLevel, expGradDate, street, city, state, zip, email, phone, bill) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', {10}, '{11}', '{12}', '{13}', '{14}', '{15}', '{16}', '{17}')".format(
                 current_user.id, form.fName.data, form.mName.data, form.lName.data, form.suffix.data,
-                form.preferred.data, form.bDay.data, form.gender.data, form.race.data, form.gradeLevel.data, year,
-                form.street.data, form.city.data, form.state.data, form.zip.data, form.email.data, form.phone.data, 20))
+                form.preferred.data, form.bDay.data, form.gender.data, form.race.data, form.gradeLevel.data,
+                form.expGradDate.data, form.street.data, form.city.data, form.state.data, form.zip.data,
+                form.email.data, form.phone.data, 20))
 
         # # Disability query
         # if form.disability.data == 'on':

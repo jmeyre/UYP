@@ -55,7 +55,7 @@ class StudentInfo(FlaskForm):
     race = StringField('Race', validators=[Optional()])
 
     gradeLevel = StringField('Grade Level', validators=[Optional()])
-    expGradYear = DateField('Expected Graduation Year', validators=[Optional()], format='%Y-%m-%d')
+    expGradDate = DateField('Expected Graduation Year', validators=[Optional()], format='%Y-%m-%d')
 
     street = StringField('Street*', validators=[DataRequired()])
     city = StringField('City*', validators=[DataRequired()])

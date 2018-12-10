@@ -72,7 +72,7 @@ class Class:
 
 
 class Student:
-    def __init__(self, id, fName, mName, lName, suffix, preferred, bDay, gender, race, gradeLevel, expGradYear,
+    def __init__(self, id, fName, mName, lName, suffix, preferred, bDay, gender, race, gradeLevel, expGradDate,
                  street, city, state, zip, email, phone, esl, gt, accepted, acceptedBy, bill, NCHI, status,
                  grantFunded):
         self.id = id
@@ -85,7 +85,7 @@ class Student:
         self.gender = gender
         self.race = race
         self.gradeLevel = gradeLevel
-        self.expGradYear = expGradYear
+        self.expGradDate = expGradDate
         self.street = street
         self.city = city
         self.state = state
@@ -102,9 +102,9 @@ class Student:
         self.grantFunded = grantFunded
 
     def __repr__(self):
-        return "Class( id={0}, fName={1}, mName={2}, lName={3}, suffix={4}, preferred={5}, bDay={6}, gender={7}, race={8}, gradeLevel={9}, expGradYear={10}, street={11}, city={12}, state={13}, zip={14}, email={15}, phone={16}, esl={17}, gt={18}, accepted={19}, acceptedBy={20}, bill={21}, NCHI={22}, status={23}, grantFunded={24} )".format(
+        return "Class( id={0}, fName={1}, mName={2}, lName={3}, suffix={4}, preferred={5}, bDay={6}, gender={7}, race={8}, gradeLevel={9}, expGradDate={10}, street={11}, city={12}, state={13}, zip={14}, email={15}, phone={16}, esl={17}, gt={18}, accepted={19}, acceptedBy={20}, bill={21}, NCHI={22}, status={23}, grantFunded={24} )".format(
             self.id, self.fName, self.mName, self.lName, self.suffix, self.preferred, self.bDay, self.gender, self.race,
-            self.gradeLevel, self.expGradYear, self.street, self.city, self.state, self.zip, self.email, self.phone,
+            self.gradeLevel, self.expGradDate, self.street, self.city, self.state, self.zip, self.email, self.phone,
             self.esl, self.gt, self.accepted, self.acceptedBy, self.bill, self.NCHI, self.status, self.grantFunded)
 
 
