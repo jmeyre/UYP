@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.12, for macos10.13 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.13, for Win64 (x86_64)
 --
 -- Host: localhost    Database: ufyp
 -- ------------------------------------------------------
--- Server version	8.0.12
+-- Server version	8.0.13
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -49,7 +49,6 @@ CREATE TABLE `class` (
 
 LOCK TABLES `class` WRITE;
 /*!40000 ALTER TABLE `class` DISABLE KEYS */;
-INSERT INTO `class` VALUES ('Algorithms','9th - 12th',30,1,'000001','C314','1234','532565','000282',75);
 /*!40000 ALTER TABLE `class` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,7 +132,6 @@ CREATE TABLE `guardian` (
 
 LOCK TABLES `guardian` WRITE;
 /*!40000 ALTER TABLE `guardian` DISABLE KEYS */;
-INSERT INTO `guardian` VALUES ('742353','Joey','Lee','Titzman','9365375411','jtitzman@att.net','12034 Rainy Oaks Dr','Magnolia','TX','77354'),('742353','Mindy','Elaine','Titzman','9365370098','mtitzman@att.net','12034 Rainy Oaks Dr','Magnolia','TX','77354');
 /*!40000 ALTER TABLE `guardian` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -245,7 +243,6 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('1',2018,'0000-00-00','0000-00-00'),('532565',2018,'2018-12-21','2018-12-17'),('823262',2019,'2019-01-11','2019-01-07');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -318,30 +315,31 @@ DROP TABLE IF EXISTS `students`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `students` (
   `id` varchar(6) NOT NULL,
-  `fName` varchar(255) NOT NULL,
+  `fName` varchar(255) DEFAULT NULL,
   `mName` varchar(255) DEFAULT NULL,
-  `lName` varchar(255) NOT NULL,
+  `lName` varchar(255) DEFAULT NULL,
   `suffix` varchar(255) DEFAULT NULL,
-  `preferred` varchar(255) NOT NULL,
-  `birthday` date NOT NULL,
-  `gender` varchar(255) NOT NULL,
+  `preferred` varchar(255) DEFAULT NULL,
+  `birthday` date DEFAULT NULL,
+  `gender` varchar(255) DEFAULT NULL,
   `race` varchar(255) DEFAULT NULL,
-  `gradeLevel` varchar(255) NOT NULL,
-  `expGradYear` year(4) NOT NULL,
-  `street` varchar(255) NOT NULL,
-  `city` varchar(255) NOT NULL,
-  `state` varchar(255) NOT NULL,
-  `zip` varchar(255) NOT NULL,
+  `gradeLevel` varchar(255) DEFAULT NULL,
+  `expGradDate` date DEFAULT NULL,
+  `street` varchar(255) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `state` varchar(255) DEFAULT NULL,
+  `zip` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `esl` tinyint(1) DEFAULT NULL,
   `gt` tinyint(1) DEFAULT NULL,
-  `accepted` year(4) DEFAULT NULL,
-  `acceptedBy` varchar(6) DEFAULT NULL,
+  `acceptedYear` year(4) NOT NULL,
+  `acceptedBy` varchar(6) NOT NULL,
   `bill` int(11) NOT NULL,
   `NCHI` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `grantFunded` varchar(255) DEFAULT NULL,
+  `otherInfo` varchar(8000) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`),
   KEY `acceptedBy` (`acceptedBy`),
@@ -356,7 +354,6 @@ CREATE TABLE `students` (
 
 LOCK TABLES `students` WRITE;
 /*!40000 ALTER TABLE `students` DISABLE KEYS */;
-INSERT INTO `students` VALUES ('742353','Jack','Ryan','Titzman','','','1999-07-06','Male','Caucasian','11th',2020,'12034 Rainy Oaks Dr','Magnolia','TX','77354','Jack_Titzman@baylor.edu','9368274690',NULL,NULL,NULL,NULL,75,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `students` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -383,7 +380,6 @@ CREATE TABLE `takes` (
 
 LOCK TABLES `takes` WRITE;
 /*!40000 ALTER TABLE `takes` DISABLE KEYS */;
-INSERT INTO `takes` VALUES ('742353','000282');
 /*!40000 ALTER TABLE `takes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -433,7 +429,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('000001','Staff','$2b$12$1nAXbRTBYTTqHHuFucQkf.NcF5xtYoKbB6oajWNX0EKvhQEpJE6oa'),('106380','Student','$2b$12$o43YjfSs2c21FlXbH5.nZOxKGaJyFt89d5oivc3WDcS6dbA/12A8q'),('106922','Student','$2b$12$13V7wKAUboSFxAwQl/aRDO3VnIw.edlPgCmn6jr6ElfAH05djQ8ee'),('108996','Student','$2b$12$7rN5D0eaDwy7gQn3mXD/Feu0ynT3q7b5zNW/mC9kehs26oqEafy2u'),('132052','Student','$2b$12$hJoQR/A9Ygq0H3IV125XmuJ1wOr62AVHEM.tnad4GNJq/LYPyJKJG'),('300116','Student','$2b$12$kT2bDDehoKN2P.yVmABBe.6rA79Cx6wy6Gzfiv0EmzcASbFDTeRuO'),('651749','Student','$2b$12$dR96iDI7H/uvZYANjcvwteXRVb1JN3KZkwEZ.Tbp.1hMomSDcAHW.'),('742353','Student','$2b$12$DQhjaOFLBZegyBCwvmnEL.BfJTPF7FQ2pjd09wSFDxwsQGwQ0sNrO'),('831471','Student','$2b$12$ZZrYpQLS56pqAeTnfeISJ.BbvGROG5Onr83RWa2V4ts2nDwFS9SRq'),('865386','Student','$2b$12$Kmi/lCvlvOp9Msw7FsweYexjM2BljJCoafLwDpIZDAkW199lu.qSC'),('916668','Student','$2b$12$7fwsRuQZ2sbEnOqazLKMuux6mwOgBCI8G06gPXxkSCnOT7yXd0xqK');
+INSERT INTO `users` VALUES ('000001','Staff','$2b$12$syivdenDKojWCsPxTU/q2ON2zI6BUBi6XnWXF50rclVTWklreAOci');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -446,4 +442,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-10  5:10:45
+-- Dump completed on 2018-12-10  8:15:53
