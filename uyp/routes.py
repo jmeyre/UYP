@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request
 from uyp import app, config, bcrypt
 from uyp.forms import LoginForm, CreateAccountForm, ProfileForm, AddClassForm, StudentInfo, CreateSessionForm
-from uyp.models import User
+from uyp.models import User, Student
 from mysql import connector
 from flask_login import login_user, current_user, logout_user, login_required
 import random
@@ -62,7 +62,6 @@ def home():
 @app.route('/class_search')
 @login_required
 def class_search():
-
     if current_user.category == 'Student':
 
         # Create the connection to the database
@@ -238,7 +237,52 @@ def profile(user_id):
     if current_user.category == 'Student' and str(current_user.id) != str(user_id):
         return redirect(url_for('profile', user_id=current_user.id))
 
+    if current_user.category == 'Student':
+        # Create the connection to the database
+        conn = connector.connect(**config)
+
+        # Create the cursor for the connection
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT * FROM students WHERE id = '{0}'".format(current_user.id))
+
+        result = cursor.fetchone()
+
+        if not result:
+            return redirect(url_for('student_activate'))
+
+        # Commit the data to the database
+        conn.commit()
+
+        # Close the cursor
+        cursor.close()
+
+        # Close the connection to the database
+        conn.close()
+
+    # only executes if student activation form has been filled out
+
+    # get the category of the profile we're viewing
+    conn = connector.connect(**config)
+    cursor = conn.cursor()
+    cursor.execute("SELECT category FROM users WHERE id = '{0}'".format(user_id))
+    category = cursor.fetchone()
+    category = category[0]
+
+    # Create student object
+    if category == 'Student':
+        cursor.execute("SELECT * FROM students WHERE id = '{0}'".format(user_id))
+        result = Student(result[0], result[1], result[2], result[3], result[4], result[5], result[6], result[7],
+                         result[8], result[9], result[10], result[11], result[12], result[13], result[14],
+                         result[15], result[16], result[17], result[18])
+
+    elif category == 'Staff':
+        cursor.execute("SELECT * FROM staff WHERE id = '{0}'".format(user_id))
+        # Create Staff Object
+
     form = ProfileForm()
+    sform = StudentInfo()
+
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
 
@@ -258,7 +302,57 @@ def profile(user_id):
 
         # Close the connection to the database
         conn.close()
-    return render_template('profile.html', title='Profile', form=form, user_id=user_id)
+
+    if sform.validate_on_submit():
+
+        # Create the connection to the database
+        conn = connector.connect(**config)
+
+        # Create the cursor for the connection
+        cursor = conn.cursor()
+
+        # if a student entered info
+        if category == 'Student':
+            # needs to be update query
+            cursor.execute("UPDATE students SET fName = '{1}', mName = '{2}', lName = '{3}', suffix = '{4}', "
+                           "preferred = '{5}', birthday = '{6}', gender = '{7}', race = '{8}', gradeLevel = '{9}', "
+                           "expGradYear = '{10}', street = '{11}', city = '{12}', state='{13}', zip='{14}', email = '{15}',"
+                           " phone = '{16}', esl='{17}', gt = '{18}' WHERE id = '{0}'".format(user_id, form.fName.data,
+                                                                                              form.mName.data,
+                                                                                              form.lName.data,
+                                                                                              form.suffix.data,
+                                                                                              form.preferred.data,
+                                                                                              form.bDay.data,
+                                                                                              form.gender.data,
+                                                                                              form.race.data,
+                                                                                              form.gradeLevel.data,
+                                                                                              form.expGradYear.data.year,
+                                                                                              form.street.data,
+                                                                                              form.city.data,
+                                                                                              form.state.data,
+                                                                                              form.zip.data,
+                                                                                              form.email.data,
+                                                                                              form.phone.data,
+                                                                                              form.ESL.data,
+                                                                                              form.GT.data))
+
+        # if staff info is entered
+        elif category == 'Staff':
+            # needs to  be update query
+            cursor.execute("UPDATE staff SET WHERE id = '{0}'".format(user_id))
+            result = cursor.fetchone()
+
+        # Commit the data to the database
+        conn.commit()
+
+        # Close the cursor
+        cursor.close()
+
+        # Close the connection to the database
+        conn.close()
+
+    return render_template('profile.html', title='Profile', form=form, sform=sform, user_id=user_id, result=result,
+                           category=category)
 
 
 @app.route('/student_activate', methods=['GET', 'POST'])
@@ -382,7 +476,8 @@ def add_class():
         flash('Class Added!', 'success')
         return redirect(url_for('class_search'))
 
-    return render_template('add_class.html', title='Add Class', form=form, sessions=resultSessions, timeslots=resultTimeslots, staff=resultStaff)
+    return render_template('add_class.html', title='Add Class', form=form, sessions=resultSessions,
+                           timeslots=resultTimeslots, staff=resultStaff)
 
 
 @app.route('/create_session', methods=['GET', 'POST'])
@@ -442,7 +537,6 @@ def create_session():
 @app.route('/sessions_search')
 @login_required
 def sessions_search():
-
     # Create the connection to the database
     conn = connector.connect(**config)
 

@@ -13,7 +13,7 @@
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Edit Profile</legend>
+                <legend class="border-bottom mb-4">Change Password</legend>
                     <div class="form-group">
                         {{ form.new_password.label(class="form-control-label") }}
                         {% if form.new_password.errors %}
@@ -45,5 +45,330 @@
                 {{ form.submit(class="btn btn-outline-success") }}
             </div>
         </form>
+        {% if category == 'Student' %}
+            <form method="POST" action="">
+            {{ sform.hidden_tag() }}
+            <fieldset class="form-group">
+
+                <div class="content-section p-4">
+                    <!-- fName field -->
+                    <div class="form-group">
+                        {{ sform.fName.label(class="form-control-label") }}
+                        {% if sform.fName.errors %}
+                            {{ sform.fName(class="form-control form-control-lg is-invalid", value=result.fName) }}
+                            <div class="invalid-feedback">
+                                {% for error in sform.fName.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ sform.fName(class="form-control form-control-lg", value=result.fName) }}
+                        {% endif %}
+                    </div>
+
+                    <!-- mName field -->
+                    <div class="form-group">
+                        {{ sform.mName.label(class="form-control-label") }}
+                        {% if sform.mName.errors %}
+                            {{ sform.mName(class="form-control form-control-lg is-invalid", value=result.mName) }}
+                            <div class="invalid-feedback">
+                                {% for error in sform.mName.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ sform.mName(class="form-control form-control-lg", value=result.mName) }}
+                        {% endif %}
+                    </div>
+
+                    <!-- lName field -->
+                    <div class="form-group">
+                        {{ sform.lName.label(class="form-control-label") }}
+                        {% if sform.lName.errors %}
+                            {{ sform.lName(class="form-control form-control-lg is-invalid", value=result.lName) }}
+                            <div class="invalid-feedback">
+                                {% for error in sform.lName.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ sform.lName(class="form-control form-control-lg", value=result.lName)}}
+                        {% endif %}
+                    </div>
+
+                    <!-- suffix field -->
+                    <div class="form-group">
+                        {{ sform.suffix.label(class="form-control-label") }}
+                        {% if sform.suffix.errors %}
+                            {{ sform.suffix(class="form-control form-control-lg is-invalid", value=result.suffix) }}
+                            <div class="invalid-feedback">
+                                {% for error in sform.suffix.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ sform.suffix(class="form-control form-control-lg", value=result.suffix) }}
+                        {% endif %}
+                    </div>
+
+                    <!-- preferred field -->
+                    <div class="form-group">
+                        {{ sform.preferred.label(class="form-control-label") }}
+                        {% if sform.preferred.errors %}
+                            {{ sform.preferred(class="form-control form-control-lg is-invalid", value=result.preferred) }}
+                            <div class="invalid-feedback">
+                                {% for error in sform.preferred.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ sform.preferred(class="form-control form-control-lg", value=result.preferred) }}
+                        {% endif %}
+                    </div>
+
+                    <!-- bDay field -->
+                    <div class="form-group">
+                        {{ sform.bDay.label(class="form-control-label") }}
+                        {{ sform.bDay(class="col-md-4 form-control", type="date", value=result.bDay) }}
+                    </div>
+
+                    <!-- gender field -->
+                    <div class="form-group">
+                        {{ sform.gender.label(class="form-control-label") }}
+                        {{ sform.gender(class="radio", value=result.gender) }}
+                    </div>
+
+                    <!-- race field -->
+                    <div class="form-group">
+                        {{ sform.race.label(class="form-control-label") }}
+                        {{ sform.race(class="radio", value=result.race) }}
+                    </div>
+                </div>
+
+                <div class="content-section p-4">
+                    <!-- gradeLevel field -->
+                    <div class="form-group">
+                        {{ sform.gradeLevel.label(class="form-control-label") }}
+                        {% if sform.gradeLevel.errors %}
+                            {{ sform.gradeLevel(class="form-control form-control-lg is-invalid", value=result.gradeLevel) }}
+                            <div class="invalid-feedback">
+                                {% for error in sform.gradeLevel.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ sform.gradeLevel(class="form-control form-control-lg", value=result.gradeLevel) }}
+                        {% endif %}
+                    </div>
+
+                    <!-- expGradYear field -->
+                    <div class="form-group">
+                        {{ sform.expGradYear.label(class="form-control-label") }}
+                        {{ sform.expGradYear(class="col-md-4 form-control", type="date", format="%Y", value=result.expGradYear) }}
+                    </div>
+
+                    <!-- expHighSchool field -->
+    {#                <div class="form-group">#}
+    {#                    {{ form.expHighSchool.label(class="form-control-label") }}#}
+    {#                    {% if form.expHighSchool.errors %}#}
+    {#                        {{ form.expHighSchool(class="form-control form-control-lg is-invalid") }}#}
+    {#                        <div class="invalid-feedback">#}
+    {#                            {% for error in form.expHighSchool.errors %}#}
+    {#                                <span>{{ error }}</span>#}
+    {#                            {% endfor %}#}
+    {#                        </div>#}
+    {#                    {% else %}#}
+    {#                        {{ form.expHighSchool(class="form-control form-control-lg") }}#}
+    {#                    {% endif %}#}
+    {#                </div>#}
+                </div>
+
+                <div class="content-section p-4">
+                    <!-- street field -->
+                    <div class="form-group">
+                        {{ sform.street.label(class="form-control-label") }}
+                        {% if sform.street.errors %}
+                            {{ sform.street(class="form-control form-control-lg is-invalid", value=result.street) }}
+                            <div class="invalid-feedback">
+                                {% for error in sform.street.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ sform.street(class="form-control form-control-lg", value=result.street) }}
+                        {% endif %}
+                    </div>
+
+                    <!-- city field -->
+                    <div class="form-group">
+                        {{ sform.city.label(class="form-control-label") }}
+                        {% if sform.city.errors %}
+                            {{ sform.city(class="form-control form-control-lg is-invalid", value=result.city) }}
+                            <div class="invalid-feedback">
+                                {% for error in sform.city.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ sform.city(class="form-control form-control-lg", value=result.city) }}
+                        {% endif %}
+                    </div>
+
+                    <!-- state field -->
+                    <div class="form-group">
+                        {{ sform.state.label(class="form-control-label") }}
+                        <select class="form-control" id="state" name="state">
+                            <option value="AL">Alabama</option>
+                            <option value="AK">Alaska</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DE">Delaware</option>
+                            <option value="FL">Florida</option>
+                            <option value="GA">Georgia</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IN">Indiana</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="ME">Maine</option>
+                            <option value="MD">Maryland</option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NV">Nevada</option>
+                            <option value="NH">New Hampshire</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NY">New York</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TN">Tennessee</option>
+                            <option value="TX">Texas</option>
+                            <option value="UT">Utah</option>
+                            <option value="VT">Vermont</option>
+                            <option value="VA">Virginia</option>
+                            <option value="WA">Washington</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WY">Wyoming</option>
+                        </select>
+                    </div>
+
+                    <!-- zip field -->
+                    <div class="form-group">
+                        {{ sform.zip.label(class="form-control-label") }}
+                        {% if sform.zip.errors %}
+                            {{ sform.zip(class="form-control form-control-lg is-invalid", value=result.zip) }}
+                            <div class="invalid-feedback">
+                                {% for error in sform.zip.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ sform.zip(class="form-control form-control-lg", value=result.zip) }}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="content-section p-4">
+                    <!-- email field -->
+                    <div class="form-group">
+                        {{ sform.email.label(class="form-control-label") }}
+                        {% if sform.email.errors %}
+                            {{ sform.email(class="form-control form-control-lg is-invalid", value=result.email) }}
+                            <div class="invalid-feedback">
+                                {% for error in sform.email.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ sform.email(class="form-control form-control-lg", value=result.email) }}
+                        {% endif %}
+                    </div>
+
+                    <!-- phone field -->
+                    <div class="form-group">
+                        {{ sform.phone.label(class="form-control-label") }}
+                        {% if sform.phone.errors %}
+                            {{ sform.phone(class="form-control form-control-lg is-invalid", value=result.phome) }}
+                            <div class="invalid-feedback">
+                                {% for error in sform.phone.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ sform.phone(class="form-control form-control-lg", value=result.phone) }}
+                        {% endif %}
+                    </div>
+                </div>
+
+                {#<div class="content-section p-4">
+                    <!-- siblings field -->
+                    <div class="form-group">
+                        {{ form.siblings.label(class="form-control-label") }}
+                        {% if form.siblings.errors %}
+                            {{ form.siblings(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.siblings.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.siblings(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                </div>#}
+
+                <div class="content-section p-4">
+                    <!-- disability field -->
+                    <div class="form-group">
+                        {{ sform.disability.label(class="form-control-label") }}
+                        {{ sform.disability(class="radio") }}
+                    </div>
+
+                    <!-- healthConds field -->
+                    <div class="form-group">
+                        {{ sform.healthConds.label(class="form-control-label") }}
+                        {{ sform.healthConds(class="radio") }}
+                    </div>
+
+                    <!-- ESL field -->
+                    <div class="form-group">
+                        {{ sform.ESL.label(class="form-control-label") }}
+                        {{ sform.ESL(class="radio", value=result.esl) }}
+                    </div>
+
+                    <!-- GT field -->
+                    <div class="form-group">
+                        {{ sform.GT.label(class="form-control-label") }}
+                        {{ sform.GT(class="radio", value=result.gt) }}
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ sform.submit(class="btn btn-success") }}
+            </div>
+            </form>
+
+        {% elif category == 'Staff' %}
+            {# Staff info form #}
+        {% endif %}
     </div>
 {% endblock content %}

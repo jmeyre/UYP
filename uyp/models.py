@@ -67,6 +67,45 @@ class Class:
     def __repr__(self):
         return "Class( ID={0}, Title=\"{1}\", Level={2}, MaxCapacity={3}, " \
                "CurrentSize={4}, InstructorID={5}, Room={6}, TimeSlotID={7}, SessionID={8} )".format(
-                self.id, self.title, self.lvl, self.maxCapacity, self.curSize, self.instructorID, self.room,
-                self.timeslotID, self.sessionID)
+            self.id, self.title, self.lvl, self.maxCapacity, self.curSize, self.instructorID, self.room,
+            self.timeslotID, self.sessionID)
 
+
+class Student:
+    def __init__(self, id, fName, mName, lName, suffix, preferred, bDay, gender, race, gradeLevel, expGradYear,
+                 street, city, state, zip, email, phone, esl, gt):
+        self.id = id
+        self.fName = fName
+        self.mName = mName
+        self.lName = lName
+        self.suffix = suffix
+        self.preferred = preferred
+        self.bDay = bDay
+        self.gender = gender
+        self.race = race
+        self.gradeLevel = gradeLevel
+        self.expGradYear = expGradYear
+        self.street = street
+        self.city = city
+        self.state = state
+        self.zip = zip
+        self.email = email
+        self.phone = phone
+        self.esl = esl
+        self.gt = gt
+
+
+class Staff:
+    def __init__(self, id, fName, mName, lName, suffix, phone, email, street, city, state, zip):
+
+        self.id = id
+        self.fName = fName
+        self.mName = mName
+        self.lName = lName
+        self.suffix = suffix
+        self.street = street
+        self.city = city
+        self.state = state
+        self.zip = zip
+        self.email = email
+        self.phone = phone
