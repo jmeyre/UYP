@@ -73,8 +73,8 @@ class Class:
 
 class Student:
     def __init__(self, id, fName, mName, lName, suffix, preferred, bDay, gender, race, gradeLevel, expGradDate,
-                 street, city, state, zip, email, phone, esl, gt, accepted, acceptedBy, bill, NCHI, status,
-                 grantFunded):
+                 street, city, state, zip, email, phone, esl, gt, acceptedYear, acceptedBy, bill, NCHI, status,
+                 grantFunded, otherInfo, expSchool):
         self.id = id
         self.fName = fName
         self.mName = mName
@@ -94,18 +94,21 @@ class Student:
         self.phone = phone
         self.esl = esl
         self.gt = gt
-        self.accepted = accepted
+        self.acceptedYear = acceptedYear
         self.acceptedBy = acceptedBy
         self.bill = bill
         self.NCHI = NCHI
         self.status = status
         self.grantFunded = grantFunded
+        self.otherInfo = otherInfo
+        self.expSchool = expSchool
 
     def __repr__(self):
-        return "Class( id={0}, fName={1}, mName={2}, lName={3}, suffix={4}, preferred={5}, bDay={6}, gender={7}, race={8}, gradeLevel={9}, expGradDate={10}, street={11}, city={12}, state={13}, zip={14}, email={15}, phone={16}, esl={17}, gt={18}, accepted={19}, acceptedBy={20}, bill={21}, NCHI={22}, status={23}, grantFunded={24} )".format(
+        return "Class( id={0}, fName={1}, mName={2}, lName={3}, suffix={4}, preferred={5}, bDay={6}, gender={7}, race={8}, gradeLevel={9}, expGradDate={10}, street={11}, city={12}, state={13}, zip={14}, email={15}, phone={16}, esl={17}, gt={18}, accepted={19}, acceptedBy={20}, bill={21}, NCHI={22}, status={23}, grantFunded={24}, otherInfo={25}, expSchool={26} )".format(
             self.id, self.fName, self.mName, self.lName, self.suffix, self.preferred, self.bDay, self.gender, self.race,
             self.gradeLevel, self.expGradDate, self.street, self.city, self.state, self.zip, self.email, self.phone,
-            self.esl, self.gt, self.accepted, self.acceptedBy, self.bill, self.NCHI, self.status, self.grantFunded)
+            self.esl, self.gt, self.accepted, self.acceptedBy, self.bill, self.NCHI, self.status, self.grantFunded,
+            self.otherInfo, self.expSchool)
 
 
 class Staff:
@@ -153,3 +156,17 @@ class Disability:
     def __init__(self, studentID, disability):
         self.studentID = studentID
         self.disability = disability
+
+
+class School:
+    def __init__(self, studentID, name, type, district, schoolID):
+        self.studentID = studentID
+        self.name = name
+        self.type = type
+        self.district = district
+        self.schoolID = schoolID
+#
+# class Gt:
+#     def __index__(self, studentID, schoolID):
+#         self.studentID = studentID
+#         self.schoolID = schoolID

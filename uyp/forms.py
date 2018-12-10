@@ -55,7 +55,10 @@ class StudentInfo(FlaskForm):
     race = StringField('Race', validators=[Optional()])
     otherInfo = StringField('Important Information about Student', validators=[Optional()])
 
-    gradeLevel = StringField('Grade Level', validators=[Optional()])
+    gradeLevel = StringField('Grade Level', validators=[DataRequired()])
+    expSchool = StringField('Expected High School*', validators=[DataRequired()])
+    expSchoolType = StringField('High School Type*', validators=[DataRequired()])
+    expSchoolDistrict = StringField('High School District*', validators=[DataRequired()])
     expGradDate = DateField('Expected Graduation Date', validators=[Optional()], format='%Y-%m-%d')
 
     street = StringField('Street*', validators=[DataRequired()])

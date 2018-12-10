@@ -219,6 +219,22 @@
                                 {% endif %}
                             </select>
                         </div>
+
+                        <!-- otherInfo field -->
+                        <div class="form-group">
+                            {{ sform.otherInfo.label(class="form-control-label") }}
+                            {% if sform.otherInfo.errors %}
+                                {{ sform.otherInfo(class="form-control form-control-lg is-invalid", value=student.otherInfo) }}
+                                <div class="invalid-feedback">
+                                    {% for error in sform.otherInfo.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ sform.otherInfo(class="form-control form-control-lg", value=student.otherInfo) }}
+                            {% endif %}
+                        </div>
+
                     </div>
 
                     <div class="content-section p-4">
@@ -275,6 +291,58 @@
                                     <option value="12th">12th</option>
                                 {% endif %}
                             </select>
+                        </div>
+
+                        <!-- expSchool field -->
+                        <div class="form-group">
+                            {{ sform.expSchool.label(class="form-control-label") }}
+                            {% if sform.expSchool.errors %}
+                                {{ sform.expSchool(class="form-control form-control-lg is-invalid", value=student.expSchool) }}
+                                <div class="invalid-feedback">
+                                    {% for error in sform.expSchool.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ sform.expSchool(class="form-control form-control-lg", value=student.expSchool) }}
+                            {% endif %}
+                        </div>
+
+                        <!-- expSchoolType field -->
+                        <div class="form-group">
+                            {{ sform.expSchoolType.label(class="form-control-label") }}
+                            <select class="form-control" id="expSchoolType" name="expSchoolType">
+                                {% if student.expSchoolType == 'Public' %}
+                                    <option selected value="Public">Public</option>
+                                {% else %}
+                                    <option value="Public">Public</option>
+                                {% endif %}
+                                {% if student.expSchoolType == 'Private' %}
+                                    <option selected value="Private">Private</option>
+                                {% else %}
+                                    <option value="Private">Private</option>
+                                {% endif %}
+                                {% if student.expSchoolType == 'Home Schooled' %}
+                                    <option selected value="Home Schooled">Home Schooled</option>
+                                {% else %}
+                                    <option value="Home Schooled">Home Schooled</option>
+                                {% endif %}
+                            </select>
+                        </div>
+
+                        <!-- expSchoolDistrict field -->
+                        <div class="form-group">
+                            {{ sform.expSchoolDistrict.label(class="form-control-label") }}
+                            {% if sform.expSchoolDistrict.errors %}
+                                {{ sform.expSchoolDistrict(class="form-control form-control-lg is-invalid", value=school.district) }}
+                                <div class="invalid-feedback">
+                                    {% for error in sform.expSchoolDistrict.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ sform.expSchoolDistrict(class="form-control form-control-lg", value=school.district) }}
+                            {% endif %}
                         </div>
 
                         <!-- expGradDate field -->

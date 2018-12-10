@@ -148,21 +148,6 @@
                         <option value="Indian">Indian</option>
                     </select>
                 </div>
-
-                <!-- otherInfo field -->
-                <div class="form-group">
-                    {{ form.otherInfo.label(class="form-control-label") }}
-                    {% if form.otherInfo.errors %}
-                        {{ form.otherInfo(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.otherInfo.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.otherInfo(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
             </div>
 
             <div class="content-section p-4">
@@ -185,10 +170,50 @@
                     </select>
                 </div>
 
+                <!-- expSchool field -->
+                <div class="form-group">
+                    {{ form.expSchool.label(class="form-control-label") }}
+                    {% if form.expSchool.errors %}
+                        {{ form.expSchool(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.expSchool.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.expSchool(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+                <!-- expSchoolType field -->
+                <div class="form-group">
+                    {{ form.expSchoolType.label(class="form-control-label") }}
+                    <select class="form-control" id="expSchoolType" name="expSchoolType">
+                        <option value="Public">Public</option>
+                        <option value="Private">Private</option>
+                        <option value="Home Schooled">Home Schooled</option>
+                    </select>
+                </div>
+
+                <!-- expSchoolDistrict field -->
+                <div class="form-group">
+                    {{ form.expSchoolDistrict.label(class="form-control-label") }}
+                    {% if form.expSchoolDistrict.errors %}
+                        {{ form.expSchoolDistrict(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.expSchoolDistrict.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.expSchoolDistrict(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
                 <!-- expGradDate field -->
                 <div class="form-group">
                     {{ form.expGradDate.label(class="form-control-label") }}
-                    {{ form.expGradDate(class="col-md-4 form-control", type="date", format="%Y-%m-%d") }}
+                    {{ form.expGradDate(class="col-md-4 form-control", type="date") }}
                 </div>
             </div>
 

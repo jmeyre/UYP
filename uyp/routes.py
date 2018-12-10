@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect, request
 from uyp import app, config, bcrypt
 from uyp.forms import LoginForm, CreateAccountForm, ProfileForm, AddClassForm, StudentInfo, CreateSessionForm, \
     StaffForm, SiblingForm
-from uyp.models import User, Student, Class, Staff, Disability, HealthCondition, Guardian
+from uyp.models import User, Student, Class, Staff, Disability, HealthCondition, Guardian, School
 from mysql import connector
 from flask_login import login_user, current_user, logout_user, login_required
 import random
@@ -31,7 +31,7 @@ def home():
 
         student = Student(stu[0], stu[1], stu[2], stu[3], stu[4], stu[5], stu[6], stu[7], stu[8], stu[9], stu[10],
                           stu[11], stu[12], stu[13], stu[14], stu[15], stu[16], stu[17], stu[18], stu[19], stu[20],
-                          stu[21], stu[22], stu[23], stu[24])
+                          stu[21], stu[22], stu[23], stu[24], stu[25], stu[26])
 
         cursor.execute("SELECT c.*, i.fName, i.lName "
                        "FROM takes t, class c, staff i "
@@ -223,6 +223,7 @@ def profile(user_id):
     guardian1 = None
     guardian2 = None
     staff = None
+    school = None
     # Prevent students from accessing other students' profiles
     if current_user.category == 'Student' and str(current_user.id) != str(user_id):
         return redirect(url_for('profile', user_id=current_user.id))
@@ -267,7 +268,7 @@ def profile(user_id):
         if stu:
             student = Student(stu[0], stu[1], stu[2], stu[3], stu[4], stu[5], stu[6], stu[7], stu[8], stu[9], stu[10],
                               stu[11], stu[12], stu[13], stu[14], stu[15], stu[16], stu[17], stu[18], stu[19], stu[20],
-                              stu[21], stu[22], stu[23], stu[24])
+                              stu[21], stu[22], stu[23], stu[24], stu[25], stu[26])
 
         cursor.execute("SELECT * FROM disability WHERE studentID = '{0}'".format(user_id))
         # Only one disability for now...
@@ -291,9 +292,15 @@ def profile(user_id):
             guardian1 = Guardian(guardians[0][0], guardians[0][1], guardians[0][2], guardians[0][3], guardians[0][4],
                                  guardians[0][5], guardians[0][6], guardians[0][7], guardians[0][8], guardians[0][9])
 
-        if guardians[1]:
+        if len(guardians) > 1:
             guardian2 = Guardian(guardians[1][0], guardians[1][1], guardians[1][2], guardians[1][3], guardians[1][4],
                                  guardians[1][5], guardians[1][6], guardians[1][7], guardians[1][8], guardians[1][9])
+
+        cursor.execute("SELECT * FROM school WHERE studentID = '{0}'".format(user_id))
+        sch = cursor.fetchone()
+
+        if sch:
+            school = School(sch[0], sch[1], sch[2], sch[3], sch[4])
 
     elif category == 'Staff':
         cursor.execute("SELECT * FROM staff WHERE id = '{0}'".format(user_id))
@@ -396,6 +403,12 @@ def profile(user_id):
                     "INSERT INTO healthcondition (studentID, cond, descript) VALUES('{0}', '{1}', '{2}')".format(
                         user_id, sform.healthCondsCond.data, sform.healthCondsDesc.data))
 
+            # school
+            cursor.execute("UPDATE school SET studentID = '{0}', name = '{1}', type = '{2}', district = '{3}'".format(
+                user_id, sform.expSchool.data, sform.expSchoolType.data, sform.expSchoolDistrict.data))
+
+            # gt
+
             # Commit the data to the database
             conn.commit()
 
@@ -432,7 +445,8 @@ def profile(user_id):
 
     return render_template('profile.html', title='Profile', form=form, sform=sform, staffForm=staffForm,
                            user_id=user_id, category=category, student=student, disability=disability,
-                           healthCondition=healthCondition, guardian1=guardian1, guardian2=guardian2, staff=staff)
+                           healthCondition=healthCondition, guardian1=guardian1, guardian2=guardian2, staff=staff,
+                           school=school)
 
 
 @app.route('/student_activate', methods=['GET', 'POST'])
@@ -465,11 +479,11 @@ def student_activate():
             gradDate = form.expGradDate.data
 
         cursor.execute(
-            "UPDATE students SET fName = '{1}', mName = '{2}', lName = '{3}', suffix = '{4}', preferred = '{5}', birthday = '{6}', gender = '{7}', race = '{8}', gradeLevel = '{9}', expGradDate = {10}, street = '{11}', city = '{12}', state = '{13}', zip = '{14}', email = '{15}', phone = '{16}', bill = '{17}', otherInfo = '{18}' WHERE id = '{0}'".format(
+            "UPDATE students SET fName = '{1}', mName = '{2}', lName = '{3}', suffix = '{4}', preferred = '{5}', birthday = '{6}', gender = '{7}', race = '{8}', gradeLevel = '{9}', expGradDate = '{10}', street = '{11}', city = '{12}', state = '{13}', zip = '{14}', email = '{15}', phone = '{16}', bill = '{17}', otherInfo = '{18}', expSchool = '{19}' WHERE id = '{0}'".format(
                 current_user.id, form.fName.data, form.mName.data, form.lName.data, form.suffix.data,
                 form.preferred.data, form.bDay.data, form.gender.data, form.race.data, form.gradeLevel.data,
                 gradDate, form.street.data, form.city.data, form.state.data, form.zip.data,
-                form.email.data, form.phone.data, 20, form.otherInfo.data))
+                form.email.data, form.phone.data, 20, form.otherInfo.data, form.expSchool.data))
 
         # # Disability query
         # if form.disability.data == 'on':
@@ -497,6 +511,21 @@ def student_activate():
                     current_user.id, form.guardian2_fName.data, form.guardian2_mName.data, form.guardian2_lName.data,
                     form.guardian2_phone.data, form.guardian2_email.data, form.guardian2_street.data,
                     form.guardian2_city.data, form.guardian2_state.data, form.guardian2_zip.data))
+
+        # School query
+        id_chars = "0123456789"
+
+        schoolID = ''
+        for x in range(6):
+            schoolID += random.choice(id_chars)
+
+        cursor.execute(
+            "INSERT INTO school (studentID, name, type, district, schoolID) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}')".format(
+                current_user.id, form.expSchool.data, form.expSchoolType.data, form.expSchoolDistrict.data,
+                schoolID))
+
+        # gt query
+        cursor.execute("INSERT INTO gt (studentID, schoolID) VALUES ('{0}', '{1}')".format(current_user.id, schoolID))
 
         conn.commit()
         cursor.close()
