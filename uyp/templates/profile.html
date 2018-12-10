@@ -321,64 +321,256 @@
                         <div class="form-group">
                             {{ sform.state.label(class="form-control-label") }}
                             <select class="form-control" id="state" name="state">
-                                {% if student.gradeLevel =='AL' %}
+                                {% if student.state =='AL' %}
                                     <option selected value="AL">Alabama</option>
                                 {% else %}
                                     <option value="AL">Alabama</option>
                                 {% endif %}
-                                {% if student.gradeLevel =='AK' %}
+                                {% if student.state =='AK' %}
                                     <option selected value="AK">Alaska</option>
                                 {% else %}
                                     <option value="AK">Alaska</option>
                                 {% endif %}
-                                <option value="AZ">Arizona</option>
-                                <option value="AR">Arkansas</option>
-                                <option value="CA">California</option>
-                                <option value="CO">Colorado</option>
-                                <option value="CT">Connecticut</option>
-                                <option value="DE">Delaware</option>
-                                <option value="FL">Florida</option>
-                                <option value="GA">Georgia</option>
-                                <option value="HI">Hawaii</option>
-                                <option value="ID">Idaho</option>
-                                <option value="IL">Illinois</option>
-                                <option value="IN">Indiana</option>
-                                <option value="IA">Iowa</option>
-                                <option value="KS">Kansas</option>
-                                <option value="KY">Kentucky</option>
-                                <option value="LA">Louisiana</option>
-                                <option value="ME">Maine</option>
-                                <option value="MD">Maryland</option>
-                                <option value="MA">Massachusetts</option>
-                                <option value="MI">Michigan</option>
-                                <option value="MN">Minnesota</option>
-                                <option value="MS">Mississippi</option>
-                                <option value="MO">Missouri</option>
-                                <option value="MT">Montana</option>
-                                <option value="NE">Nebraska</option>
-                                <option value="NV">Nevada</option>
-                                <option value="NH">New Hampshire</option>
-                                <option value="NJ">New Jersey</option>
-                                <option value="NM">New Mexico</option>
-                                <option value="NY">New York</option>
-                                <option value="NC">North Carolina</option>
-                                <option value="ND">North Dakota</option>
-                                <option value="OH">Ohio</option>
-                                <option value="OK">Oklahoma</option>
-                                <option value="OR">Oregon</option>
-                                <option value="PA">Pennsylvania</option>
-                                <option value="RI">Rhode Island</option>
-                                <option value="SC">South Carolina</option>
-                                <option value="SD">South Dakota</option>
-                                <option value="TN">Tennessee</option>
-                                <option value="TX">Texas</option>
-                                <option value="UT">Utah</option>
-                                <option value="VT">Vermont</option>
-                                <option value="VA">Virginia</option>
-                                <option value="WA">Washington</option>
-                                <option value="WV">West Virginia</option>
-                                <option value="WI">Wisconsin</option>
-                                <option value="WY">Wyoming</option>
+                                {% if student.state == 'AZ' %}
+                                    <option selected value="AZ">Arizona</option>
+                                {% else %}
+                                    <option value="AZ">Arizona</option>
+                                {% endif %}
+                                {% if student.state == 'AR' %}
+                                    <option selected value="AR">Arkansas</option>
+                                {% else %}
+                                    <option value="AR">Arkansas</option>
+                                {% endif %}
+                                {% if student.state == 'CA' %}
+                                    <option selected value="CA">California</option>
+                                {% else %}
+                                    <option value="CA">California</option>
+                                {% endif %}
+                                {% if student.state == 'CO' %}
+                                    <option selected value="CO">Colorado</option>
+                                {% else %}
+                                    <option value="CO">Colorado</option>
+                                {% endif %}
+                                {% if student.state == 'CT' %}
+                                    <option selected value="CT">Connecticut</option>
+                                {% else %}
+                                    <option value="CT">Connecticut</option>
+                                {% endif %}
+                                {% if student.state == 'DE' %}
+                                    <option selected value="DE">Delaware</option>
+                                {% else %}
+                                    <option value="DE">Delaware</option>
+                                {% endif %}
+                                {% if student.state == 'FL' %}
+                                    <option selected value="FL">Florida</option>
+                                {% else %}
+                                    <option value="FL">Florida</option>
+                                {% endif %}
+                                {% if student.state == 'GA' %}
+                                    <option selected value="GA">Georgia</option>
+                                {% else %}
+                                    <option value="GA">Georgia</option>
+                                {% endif %}
+                                {% if student.state == 'HI' %}
+                                    <option selected value="HI">Hawaii</option>
+                                {% else %}
+                                    <option value="HI">Hawaii</option>
+                                {% endif %}
+                                {% if student.state == 'ID' %}
+                                    <option selected value="ID">Idaho</option>
+                                {% else %}
+                                    <option value="ID">Idaho</option>
+                                {% endif %}
+                                {% if student.state == 'IL' %}
+                                    <option selected value="IL">Illinois</option>
+                                {% else %}
+                                    <option value="IL">Illinois</option>
+                                {% endif %}
+                                {% if student.state == 'IN' %}
+                                    <option selected value="IN">Indiana</option>
+                                {% else %}
+                                    <option value="IN">Indiana</option>
+                                {% endif %}
+                                {% if student.state == 'IA' %}
+                                    <option selected value="IA">Iowa</option>
+                                {% else %}
+                                    <option value="IA">Iowa</option>
+                                {% endif %}
+                                {% if student.state == 'KS' %}
+                                    <option selected value="KS">Kansas</option>
+                                {% else %}
+                                    <option value="KS">Kansas</option>
+                                {% endif %}
+                                {% if student.state == 'KY' %}
+                                    <option selected value="KY">Kentucky</option>
+                                {% else %}
+                                    <option value="KY">Kentucky</option>
+                                {% endif %}
+                                {% if student.state == 'LA' %}
+                                    <option selected value="LA">Louisiana</option>
+                                {% else %}
+                                    <option value="LA">Louisiana</option>
+                                {% endif %}
+                                {% if student.state == 'ME' %}
+                                    <option selected value="ME">Maine</option>
+                                {% else %}
+                                    <option value="ME">Maine</option>
+                                {% endif %}
+                                {% if student.state == 'MD' %}
+                                    <option selected value="MD">Maryland</option>
+                                {% else %}
+                                    <option value="MD">Maryland</option>
+                                {% endif %}
+                                {% if student.state == 'MA' %}
+                                    <option selected value="MA">Massachusetts</option>
+                                {% else %}
+                                    <option value="MA">Massachusetts</option>
+                                {% endif %}
+                                {% if student.state == 'MI' %}
+                                    <option selected value="MI">Michigan</option>
+                                {% else %}
+                                    <option value="MI">Michigan</option>
+                                {% endif %}
+                                {% if student.state == 'MN' %}
+                                    <option selected value="MN">Minnesota</option>
+                                {% else %}
+                                    <option value="MN">Minnesota</option>
+                                {% endif %}
+                                {% if student.state == 'MS' %}
+                                    <option selected value="MS">Mississippi</option>
+                                {% else %}
+                                    <option value="MS">Mississippi</option>
+                                {% endif %}
+                                {% if student.state == 'MO' %}
+                                    <option selected value="MO">Missouri</option>
+                                {% else %}
+                                    <option value="MO">Missouri</option>
+                                {% endif %}
+                                {% if student.state == 'MT' %}
+                                    <option selected value="MT">Montana</option>
+                                {% else %}
+                                    <option value="MT">Montana</option>
+                                {% endif %}
+                                {% if student.state == 'NE' %}
+                                    <option selected value="NE">Nebraska</option>
+                                {% else %}
+                                    <option value="NE">Nebraska</option>
+                                {% endif %}
+                                {% if student.state == 'NV' %}
+                                    <option selected value="NV">Nevada</option>
+                                {% else %}
+                                    <option value="NV">Nevada</option>
+                                {% endif %}
+                                {% if student.state == 'NH' %}
+                                    <option selected value="NH">New Hampshire</option>
+                                {% else %}
+                                    <option value="NH">New Hampshire</option>
+                                {% endif %}
+                                {% if student.state == 'NJ' %}
+                                    <option selected value="NJ">New Jersey</option>
+                                {% else %}
+                                    <option value="NJ">New Jersey</option>
+                                {% endif %}
+                                {% if student.state == 'NM' %}
+                                    <option selected value="NM">New Mexico</option>
+                                {% else %}
+                                    <option value="NM">New Mexico</option>
+                                {% endif %}
+                                {% if student.state == 'NY' %}
+                                    <option selected value="NY">New York</option>
+                                {% else %}
+                                    <option value="NY">New York</option>
+                                {% endif %}
+                                {% if student.state == 'NC' %}
+                                    <option selected value="NC">North Carolina</option>
+                                {% else %}
+                                    <option value="NC">North Carolina</option>
+                                {% endif %}
+                                {% if student.state == 'ND' %}
+                                    <option selected value="ND">North Dakota</option>
+                                {% else %}
+                                    <option value="ND">North Dakota</option>
+                                {% endif %}
+                                {% if student.state == 'OH' %}
+                                    <option selected value="OH">Ohio</option>
+                                {% else %}
+                                    <option value="OH">Ohio</option>
+                                {% endif %}
+                                {% if student.state == 'OK' %}
+                                    <option selected value="OK">Oklahoma</option>
+                                {% else %}
+                                    <option value="OK">Oklahoma</option>
+                                {% endif %}
+                                {% if student.state == 'OR' %}
+                                    <option selected value="OR">Oregon</option>
+                                {% else %}
+                                    <option value="OR">Oregon</option>
+                                {% endif %}
+                                {% if student.state == 'PA' %}
+                                    <option selected value="PA">Pennsylvania</option>
+                                {% else %}
+                                    <option value="PA">Pennsylvania</option>
+                                {% endif %}
+                                {% if student.state == 'RI' %}
+                                    <option selected value="RI">Rhode Island</option>
+                                {% else %}
+                                    <option value="RI">Rhode Island</option>
+                                {% endif %}
+                                {% if student.state == 'SC' %}
+                                    <option selected value="SC">South Carolina</option>
+                                {% else %}
+                                    <option value="SC">South Carolina</option>
+                                {% endif %}
+                                {% if student.state == 'SD' %}
+                                    <option selected value="SD">South Dakota</option>
+                                {% else %}
+                                    <option value="SD">South Dakota</option>
+                                {% endif %}
+                                {% if student.state == 'TN' %}
+                                    <option selected value="TN">Tennessee</option>
+                                {% else %}
+                                    <option value="TN">Tennessee</option>
+                                {% endif %}
+                                {% if student.state == 'TX' %}
+                                    <option selected value="TX">Texas</option>
+                                {% else %}
+                                    <option value="TX">Texas</option>
+                                {% endif %}
+                                {% if student.state == 'UT' %}
+                                    <option selected value="UT">Utah</option>
+                                {% else %}
+                                    <option value="UT">Utah</option>
+                                {% endif %}
+                                {% if student.state == 'VT' %}
+                                    <option selected value="VT">Vermont</option>
+                                {% else %}
+                                    <option value="VT">Vermont</option>
+                                {% endif %}
+                                {% if student.state == 'VA' %}
+                                    <option selected value="VA">Virginia</option>
+                                {% else %}
+                                    <option value="VA">Virginia</option>
+                                {% endif %}
+                                {% if student.state == 'WA' %}
+                                    <option selected value="WA">Washington</option>
+                                {% else %}
+                                    <option value="WA">Washington</option>
+                                {% endif %}
+                                {% if student.state == 'WV' %}
+                                    <option selected value="WV">West Virginia</option>
+                                {% else %}
+                                    <option value="WV">West Virginia</option>
+                                {% endif %}
+                                {% if student.state == 'WI' %}
+                                    <option selected value="WI">Wisconsin</option>
+                                {% else %}
+                                    <option value="WI">Wisconsin</option>
+                                {% endif %}
+                                {% if student.state == 'WY' %}
+                                    <option selected value="WY">Wyoming</option>
+                                {% else %}
+                                    <option value="WY">Wyoming</option>
+                                {% endif %}
                             </select>
                         </div>
 
