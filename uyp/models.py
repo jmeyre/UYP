@@ -126,3 +126,30 @@ class Staff:
         return "Class( id={0}, fName={1}, mName={2}, lName={3}, suffix={4}, phone={5}, email={6}, street={7}, city={8}, state={9}, zip={10} )".format(
             self.id, self.fName, self.mName, self.lName, self.suffix, self.phone, self.email, self.street, self.city,
             self.state, self.zip)
+
+class Guardian:
+    def __init__(self, studentID, fName, mName, lName, suffix, phone, email, street, city, state, zip):
+        self.studentID = studentID
+        self.fName = fName
+        self.mName = mName
+        self.lName = lName
+        self.suffix = suffix
+        self.street = street
+        self.city = city
+        self.state = state
+        self.zip = zip
+        self.email = email
+        self.phone = phone
+
+
+class HealthCondition:
+    def __init__(self, studentID, condition, description):
+        self.studentID = studentID
+        self.condition = condition
+        self.description = description
+
+
+class Disability:
+    def __init__(self, studentID, disability):
+        self.studentID = studentID
+        self.disability = disability
