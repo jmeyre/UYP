@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request
 from uyp import app, config, bcrypt
 from uyp.forms import LoginForm, CreateAccountForm, ProfileForm, AddClassForm, StudentInfo, CreateSessionForm
-from uyp.models import User, Student, Class
+from uyp.models import User, Student, Class, Staff
 from mysql import connector
 from flask_login import login_user, current_user, logout_user, login_required
 import random
@@ -13,7 +13,8 @@ from wtforms.validators import ValidationError
 @app.route('/home')
 @login_required
 def home():
-    user = None
+    student = None
+    staff = None
     classes = None
     if current_user.category == 'Student':
 
@@ -22,10 +23,12 @@ def home():
 
         cursor.execute("SELECT * FROM students WHERE id = '{0}'".format(current_user.id))
 
-        user = cursor.fetchone()
+        stu = cursor.fetchone()
 
-        if not user:
+        if not stu:
             return redirect(url_for('student_activate'))
+
+        student = Student(stu[0], stu[1], stu[2], stu[3], stu[4], stu[5], stu[6], stu[7], stu[8], stu[9], stu[10], stu[11], stu[12], stu[13], stu[14], stu[15], stu[16], stu[17], stu[18])
 
         cursor.execute("SELECT c.*, i.fName, i.lName "
                        "FROM takes t, class c, staff i "
@@ -47,7 +50,12 @@ def home():
 
         cursor.execute("SELECT * FROM staff WHERE id = '{0}'".format(current_user.id))
 
-        user = cursor.fetchone()
+        sta = cursor.fetchone()
+
+        if not sta:
+            return redirect(url_for('staff_activate'))
+
+        staff = Staff(sta[0], sta[1], sta[2], sta[3], sta[4], sta[5], sta[6], sta[7], sta[8], sta[9], sta[10])
 
         cursor.execute("SELECT c.*, i.fName, i.lName "
                        "FROM  class c, staff i "
@@ -59,7 +67,7 @@ def home():
         cursor.close()
         conn.close()
 
-    return render_template('home.html', user=user, classes=classes)
+    return render_template('home.html', student=student, staff=staff, classes=classes)
 
 
 @app.route('/class_search')
