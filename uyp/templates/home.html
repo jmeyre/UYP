@@ -50,6 +50,9 @@
                                 <p class="card-text ml-2"><b>Level: </b>{{ lvl }}</p>
                                 <p class="card-text ml-2"><b>Price: </b>${{ price }}</p>
                                 <p class="card-text ml-2"><b>Room: </b>{{ room }}</p>
+                                {% if current_user.category == 'Staff' %}
+                                    <p class="card-text ml-2"><b>Registered: </b>{{ curSize }}/{{ maxCap }}</p>
+                                {% endif %}
                             </div>
                         </div>
                     {% endfor %}

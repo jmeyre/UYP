@@ -870,28 +870,32 @@ def edit_class(class_id):
 @app.route('/roster/<class_id>', methods=['GET', 'POST'])
 @login_required
 def roster(class_id):
+    students = None
     if current_user.category == 'Student':
         flash('You do not have access to that page!', 'danger')
         return redirect(url_for('home'))
 
-        # Create the connection to the database
-        conn = connector.connect(**config)
+    # Create the connection to the database
+    conn = connector.connect(**config)
 
-        # Create the cursor for the connection
-        cursor = conn.cursor()
+    # Create the cursor for the connection
+    cursor = conn.cursor()
 
-        cursor.execute("SELECT * "
-                       "FROM students s, class c, takes t"
-                       "WHERE s.id = t.studentID "
-                       "AND c.id = takes.classID ")
+    cursor.execute("SELECT * "
+                   "FROM students s, class c, takes t "
+                   "WHERE s.id = t.studentID "
+                   "AND c.classID = t.classID "
+                   "AND c.classID = '{0}'".format(class_id))
 
-        # Commit the data to the database
-        conn.commit()
+    students = cursor.fetchall()
 
-        # Close the cursor
-        cursor.close()
+    # Commit the data to the database
+    conn.commit()
 
-        # Close the connection to the database
-        conn.close()
+    # Close the cursor
+    cursor.close()
 
-    return render_template('roster.html', title='Roster')
+    # Close the connection to the database
+    conn.close()
+
+    return render_template('roster.html', title='Roster', students=students)

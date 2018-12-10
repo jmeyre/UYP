@@ -41,6 +41,10 @@
                         <a href="{{ url_for('register_class', class_id=classID) }}"><button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Register</button></a>
                     {% endif %}
                     {% if current_user.category == 'Staff' %}
+                        <p class="card-text ml-2"><b>Registered: </b>{{ curSize }}/{{ maxCap }}</p>
+                        <a href="{{ url_for('roster', class_id=classID) }}">
+                            <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Roster</button>
+                        </a>
                         <a href="{{ url_for('edit_class', class_id=classID) }}">
                             <button type="button" class="ml-2 mt-2 btn text-white bg-baylor-green-std">Edit</button>
                         </a>

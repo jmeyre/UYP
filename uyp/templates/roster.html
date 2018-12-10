@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Roster</li>
+        </ol>
+    </nav>
+
+    {% if students %}
+        {% for student in students %}
+            <h1>{{ student[1] }} {{ student[3] }}</h1>
+        {% endfor %}
+    {% endif %}
+
+{% endblock content %}
