@@ -159,7 +159,6 @@ def create_account():
                                                                                          user.pword))
 
         if user.category == 'Student':
-
             currentDate = date.today()
 
             cursor.execute(
@@ -347,10 +346,22 @@ def profile(user_id):
                            "preferred = '{5}', birthday = '{6}', gender = '{7}', race = '{8}', gradeLevel = '{9}', "
                            "expGradDate = '{10}', street = '{11}', city = '{12}', state='{13}', zip='{14}', email = '{15}',"
                            " phone = '{16}', esl='{17}', gt = '{18}' WHERE id = '{0}'".format(user_id, sform.fName.data,
-                            sform.mName.data, sform.lName.data, sform.suffix.data, sform.preferred.data, sform.bDay.data,
-                            sform.gender.data, sform.race.data, sform.gradeLevel.data, sform.expGradDate.data,
-                            sform.street.data, sform.city.data, sform.state.data, sform.zip.data, sform.email.data,
-                            sform.phone.data, esl_data, gt_data))
+                                                                                              sform.mName.data,
+                                                                                              sform.lName.data,
+                                                                                              sform.suffix.data,
+                                                                                              sform.preferred.data,
+                                                                                              sform.bDay.data,
+                                                                                              sform.gender.data,
+                                                                                              sform.race.data,
+                                                                                              sform.gradeLevel.data,
+                                                                                              sform.expGradDate.data,
+                                                                                              sform.street.data,
+                                                                                              sform.city.data,
+                                                                                              sform.state.data,
+                                                                                              sform.zip.data,
+                                                                                              sform.email.data,
+                                                                                              sform.phone.data,
+                                                                                              esl_data, gt_data))
 
             # disability
             cursor.execute("SELECT * FROM disability WHERE studentID = '{0}'".format(user_id))
@@ -361,9 +372,11 @@ def profile(user_id):
                 if stuDis[1] == '':
                     cursor.execute("DELETE FROM disability WHERE studentID = '{0}'".format(user_id))
                 else:
-                    cursor.execute("UPDATE disability SET studentID = '{0}', disability = '{1}'".format(user_id, sform.disabilityDesc.data))
+                    cursor.execute("UPDATE disability SET studentID = '{0}', disability = '{1}'".format(user_id,
+                                                                                                        sform.disabilityDesc.data))
             else:
-                cursor.execute("INSERT INTO disability (studentID, disability) VALUES('{0}', '{1}')".format(user_id, sform.disabilityDesc.data))
+                cursor.execute("INSERT INTO disability (studentID, disability) VALUES('{0}', '{1}')".format(user_id,
+                                                                                                            sform.disabilityDesc.data))
 
             # health condition
             cursor.execute("SELECT * FROM healthcondition WHERE studentID = '{0}'".format(user_id))
@@ -375,9 +388,13 @@ def profile(user_id):
                     cursor.execute("DELETE FROM healthcondition WHERE studentID = '{0}'".format(user_id))
                 else:
                     cursor.execute("UPDATE healthcondition "
-                                   "SET studentID = '{0}', cond = '{1}', descript = '{2}'".format(user_id, sform.healthCondsCond.data, sform.healthCondsDesc.data))
+                                   "SET studentID = '{0}', cond = '{1}', descript = '{2}'".format(user_id,
+                                                                                                  sform.healthCondsCond.data,
+                                                                                                  sform.healthCondsDesc.data))
             else:
-                cursor.execute("INSERT INTO healthcondition (studentID, cond, descript) VALUES('{0}', '{1}', '{2}')".format(user_id, sform.healthCondsCond.data, sform.healthCondsDesc.data))
+                cursor.execute(
+                    "INSERT INTO healthcondition (studentID, cond, descript) VALUES('{0}', '{1}', '{2}')".format(
+                        user_id, sform.healthCondsCond.data, sform.healthCondsDesc.data))
 
             # Commit the data to the database
             conn.commit()
@@ -399,9 +416,9 @@ def profile(user_id):
             # needs to  be update query
             cursor.execute("UPDATE staff SET fName='{1}', mName='{2}', lName='{3}', suffix='{4}', street='{5}', "
                            "city='{6}', state='{7}', zip='{8}', email='{9}', phone='{10}' WHERE id='{0}'".format(
-                            user_id, staffForm.fName.data, staffForm.mName.data, staffForm.lName.data, staffForm.suffix.data,
-                            staffForm.street.data, staffForm.city.data, staffForm.state.data, staffForm.zip.data,
-                            staffForm.email.data, staffForm.phone.data))
+                user_id, staffForm.fName.data, staffForm.mName.data, staffForm.lName.data, staffForm.suffix.data,
+                staffForm.street.data, staffForm.city.data, staffForm.state.data, staffForm.zip.data,
+                staffForm.email.data, staffForm.phone.data))
 
             # Commit the data to the database
             conn.commit()
@@ -443,12 +460,16 @@ def student_activate():
         conn = connector.connect(**config)
         cursor = conn.cursor()
 
+        gradDate = 0
+        if form.expGradDate.data:
+            gradDate = form.expGradDate.data
+
         cursor.execute(
-            "UPDATE students SET fName = '{1}', mName = '{2}', lName = '{3}', suffix = '{4}', preferred = '{5}', birthday = '{6}', gender = '{7}', race = '{8}', gradeLevel = '{9}', expGradDate = '{10}', street = '{11}', city = '{12}', state = '{13}', zip = '{14}', email = '{15}', phone = '{16}', bill = '{17}' WHERE id = '{0}'".format(
+            "UPDATE students SET fName = '{1}', mName = '{2}', lName = '{3}', suffix = '{4}', preferred = '{5}', birthday = '{6}', gender = '{7}', race = '{8}', gradeLevel = '{9}', expGradDate = {10}, street = '{11}', city = '{12}', state = '{13}', zip = '{14}', email = '{15}', phone = '{16}', bill = '{17}', otherInfo = '{18}' WHERE id = '{0}'".format(
                 current_user.id, form.fName.data, form.mName.data, form.lName.data, form.suffix.data,
                 form.preferred.data, form.bDay.data, form.gender.data, form.race.data, form.gradeLevel.data,
-                form.expGradDate.data, form.street.data, form.city.data, form.state.data, form.zip.data,
-                form.email.data, form.phone.data, 20))
+                gradDate, form.street.data, form.city.data, form.state.data, form.zip.data,
+                form.email.data, form.phone.data, 20, form.otherInfo.data))
 
         # # Disability query
         # if form.disability.data == 'on':

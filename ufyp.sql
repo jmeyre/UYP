@@ -132,6 +132,7 @@ CREATE TABLE `guardian` (
 
 LOCK TABLES `guardian` WRITE;
 /*!40000 ALTER TABLE `guardian` DISABLE KEYS */;
+INSERT INTO `guardian` VALUES ('722274','asdf','asdff','adsf','1234567890','asdf@asdf.com','asdf','asdf','AL','77777'),('507509','asdf','asdff','asdff','1234567890','asdf@asdf.com','asdf','asdff','AL','77777');
 /*!40000 ALTER TABLE `guardian` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -340,6 +341,7 @@ CREATE TABLE `students` (
   `status` varchar(255) DEFAULT NULL,
   `grantFunded` varchar(255) DEFAULT NULL,
   `otherInfo` varchar(8000) DEFAULT NULL,
+  `expSchool` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`),
   KEY `acceptedBy` (`acceptedBy`),
@@ -354,6 +356,7 @@ CREATE TABLE `students` (
 
 LOCK TABLES `students` WRITE;
 /*!40000 ALTER TABLE `students` DISABLE KEYS */;
+INSERT INTO `students` VALUES ('507509','asdf','','asdf','','','1998-07-07','Male','Caucasian','12th','0000-00-00','asdf','asdf','AL','77777','','',NULL,NULL,2018,'000001',20,NULL,NULL,NULL,'asldkfjlsadkhfhjfjlqwneflwqefkjjqwfiuhfosadjaskjkjbqwrkjgbqkuhoasdjfnflsadjfbsaldjfb',NULL),('722274','John','','Eyre','','','1998-07-07','Female','African American','6th','2016-06-20','asdf','asdf','TX','77777','','',NULL,NULL,2018,'000001',20,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `students` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -429,7 +432,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('000001','Staff','$2b$12$syivdenDKojWCsPxTU/q2ON2zI6BUBi6XnWXF50rclVTWklreAOci');
+INSERT INTO `users` VALUES ('000001','Staff','$2b$12$syivdenDKojWCsPxTU/q2ON2zI6BUBi6XnWXF50rclVTWklreAOci'),('507509','Student','$2b$12$eGzAqKvamMsn24RqvxZOpeygyZMw.cjjl0aZdFmlc6FFIan57LbNy'),('722274','Student','$2b$12$Jtf0aq/MvSyNJlb8pbkesuKIJc295q20Z/9n3E8b8qLLFetf0AIYy');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -442,4 +445,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-10  8:15:53
+-- Dump completed on 2018-12-10 10:00:21

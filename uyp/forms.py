@@ -53,6 +53,7 @@ class StudentInfo(FlaskForm):
     bDay = DateField('Birthday*', validators=[DataRequired()], format='%Y-%m-%d')
     gender = StringField('Gender*', validators=[DataRequired()])
     race = StringField('Race', validators=[Optional()])
+    otherInfo = StringField('Important Information about Student', validators=[Optional()])
 
     gradeLevel = StringField('Grade Level', validators=[Optional()])
     expGradDate = DateField('Expected Graduation Date', validators=[Optional()], format='%Y-%m-%d')
