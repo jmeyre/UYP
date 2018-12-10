@@ -43,45 +43,60 @@ class AddClassForm(FlaskForm):
 
 
 class StudentInfo(FlaskForm):
-    fName = StringField('First Name', validators=[DataRequired()])
+    fName = StringField('First Name*', validators=[DataRequired()])
     mName = StringField('Middle Name', validators=[Optional()])
-    lName = StringField('Last Name', validators=[DataRequired()])
+    lName = StringField('Last Name*', validators=[DataRequired()])
     suffix = StringField('Suffix', validators=[Optional()])
     preferred = StringField('Preferred Name', validators=[Optional()])
-    bDay = DateField('Birthday', validators=[Optional()], format='%Y-%m-%d')
-    gender = RadioField('Gender', choices=[('Male', 'Male'), ('Female', 'Female')], validators=[DataRequired()])
+    email = StringField('Student Email', validators=[Optional(), Email()])
+    phone = StringField('Student Phone Number', validators=[Optional(), Length(min=10, max=10, message='Please enter a 10 digit phone number')])
+    bDay = DateField('Birthday*', validators=[DataRequired()], format='%Y-%m-%d')
+    gender = RadioField('Gender*', choices=[('Male', 'Male'), ('Female', 'Female')], validators=[DataRequired()])
     race = RadioField('Race',
                       choices=[('White', 'Caucasian'), ('Black', 'African American'), ('Native', 'Native American'),
                                ('Islander', 'Pacific Islander'),
                                ('Asian', 'Asian'), ('Indian', 'Indian')], validators=[Optional()])
+
     gradeLevel = StringField('Grade Level', validators=[Optional()])
     expGradYear = DateField('Expected Graduation Year', validators=[Optional()], format='%Y-%m-%d')
-    #expHighSchool = StringField('Expected High School', validators=[Optional()])
-    street = StringField('Street', validators=[DataRequired()])
-    city = StringField('City', validators=[DataRequired()])
-    state = StringField('State', validators=[DataRequired()])
-    zip = StringField('Zip', validators=[DataRequired(), Length(min=5, max=5, message='Please enter a 5 digit zip code')])
-    email = StringField('Email', validators=[Optional(), Email()])
-    phone = StringField('Phone Number', validators=[Optional(), Length(min=10, max=10, message='Please enter a 10 digit phone number')])
-    #siblings = StringField('Sibling IDs', validators=[Optional()])
+
+    street = StringField('Street*', validators=[DataRequired()])
+    city = StringField('City*', validators=[DataRequired()])
+    state = StringField('State*', validators=[DataRequired()])
+    zip = StringField('Zip*', validators=[DataRequired(), Length(min=5, max=5, message='Please enter a 5 digit zip code')])
+
     disability = StringField('Disabilities?', validators=[Optional()])
     disabilityDesc = StringField('Describe disability', validators=[Optional()])
+
     healthConds = StringField('Health Conditions?', validators=[Optional()])
     healthCondsCond = StringField('What is the condition?', validators=[Optional()])
     healthCondsDesc = StringField('Describe health condition', validators=[Optional()])
-    ESL = RadioField('English Second Language?', choices=[('1', 'Yes'), ('0', 'No')], validators=[Optional()])
-    GT = RadioField('GT?', choices=[('1', 'Yes'), ('0', 'No')], validators=[Optional()])
+
+    ESL = StringField('English Second Language?', validators=[Optional()])
+    GT = StringField('GT?', validators=[Optional()])
+
+    guardian1_fName = StringField('Guardian First Name*', validators=[DataRequired()])
+    guardian1_mName = StringField('Guardian Middle Name', validators=[Optional()])
+    guardian1_lName = StringField('Guardian Last Name*', validators=[DataRequired()])
+    guardian1_phone = StringField('Guardian Phone Number*', validators=[DataRequired()])
+    guardian1_email = StringField('Guardian Email*', validators=[DataRequired(), Email()])
+    guardian1_street = StringField('Guardian Street*', validators=[DataRequired()])
+    guardian1_city = StringField('Guardian City*', validators=[DataRequired()])
+    guardian1_state = StringField('Guardian State*', validators=[DataRequired()])
+    guardian1_zip = StringField('Guardian Zip*', validators=[DataRequired()])
+
+    guardian2_prompt = StringField('Add a 2nd guardian?', validators=[Optional()])
+    guardian2_fName = StringField('Guardian First Name', validators=[Optional()])
+    guardian2_mName = StringField('Guardian Middle Name', validators=[Optional()])
+    guardian2_lName = StringField('Guardian Last Name', validators=[Optional()])
+    guardian2_phone = StringField('Guardian Phone Number', validators=[Optional()])
+    guardian2_email = StringField('Guardian Email', validators=[Optional(), Email()])
+    guardian2_street = StringField('Street', validators=[Optional()])
+    guardian2_city = StringField('City', validators=[Optional()])
+    guardian2_state = StringField('Street', validators=[Optional()])
+    guardian2_zip = StringField('Zip', validators=[Optional()])
+
     submit = SubmitField('Submit Info')
-
-
-class DisabilityForm(FlaskForm):
-    type = StringField('Form of disability', validator=[DataRequired(), Length(min=2, max=50)])
-    submit = SubmitField('Save Changes')
-
-
-class HealthConditionForm(FlaskForm):
-    cond = StringField('Health Condition', validator=[DataRequired(), Length(min=2, max=20)])
-    desc = StringField('Description', validator=[DataRequired(), Length(min=2, max=200)])
 
 
 class GuardianForm(FlaskForm):

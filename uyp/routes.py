@@ -16,10 +16,8 @@ def home():
     user = None
     classes = None
     if current_user.category == 'Student':
-        # Create the connection to the database
-        conn = connector.connect(**config)
 
-        # Create the cursor for the connection
+        conn = connector.connect(**config)
         cursor = conn.cursor()
 
         cursor.execute("SELECT * FROM students WHERE id = '{0}'".format(current_user.id))
@@ -39,18 +37,12 @@ def home():
 
         # Commit the data to the database
         conn.commit()
-
-        # Close the cursor
         cursor.close()
-
-        # Close the connection to the database
         conn.close()
 
     elif current_user.category == 'Staff':
-        # Create the connection to the database
-        conn = connector.connect(**config)
 
-        # Create the cursor for the connection
+        conn = connector.connect(**config)
         cursor = conn.cursor()
 
         cursor.execute("SELECT * FROM staff WHERE id = '{0}'".format(current_user.id))
@@ -63,13 +55,8 @@ def home():
 
         classes = cursor.fetchall()
 
-        # Commit the data to the database
         conn.commit()
-
-        # Close the cursor
         cursor.close()
-
-        # Close the connection to the database
         conn.close()
 
     return render_template('home.html', user=user, classes=classes)
@@ -80,33 +67,21 @@ def home():
 def class_search():
     if current_user.category == 'Student':
 
-        # Create the connection to the database
         conn = connector.connect(**config)
-
-        # Create the cursor for the connection
         cursor = conn.cursor()
 
         cursor.execute("SELECT * FROM students WHERE id = '{0}'".format(current_user.id))
-
         result = cursor.fetchone()
 
         if not result:
             flash('You need to activate your account first!', 'danger')
             return redirect(url_for('student_activate'))
 
-        # Commit the data to the database
         conn.commit()
-
-        # Close the cursor
         cursor.close()
-
-        # Close the connection to the database
         conn.close()
 
-        # Create the connection to the database
         conn = connector.connect(**config)
-
-        # Create the cursor for the connection
         cursor = conn.cursor()
 
         cursor.execute("SELECT c1.*, i.fName , i.lName "
@@ -119,39 +94,25 @@ def class_search():
                        "(SELECT c.classID FROM class c, takes t, sessions s WHERE t.classID = c.classID "
                        "AND c.sessionID = s.id "
                        "AND s.startDate > '{0}' AND c.curSize < c.maxCap)".format(date.today()))
-
         classes = cursor.fetchall()
 
-        # Commit the data to the database
         conn.commit()
-
-        # Close the cursor
         cursor.close()
-
-        # Close the connection to the database
         conn.close()
 
     else:
 
-        # Create the connection to the database
         conn = connector.connect(**config)
-
-        # Create the cursor for the connection
         cursor = conn.cursor()
 
-        # For now... (otherwise, make a query that applies filters)
         cursor.execute("SELECT c.*, i.fName, i.lName FROM class c, staff i WHERE c.instructorID = i.id")
 
         classes = cursor.fetchall()
 
-        # Commit the data to the database
         conn.commit()
-
-        # Close the cursor
         cursor.close()
-
-        # Close the connection to the database
         conn.close()
+
     return render_template('class_search.html', title='Class Search', classes=classes)
 
 
@@ -178,28 +139,21 @@ def create_account():
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
         user = User(id, form.category.data, hashed_password)
 
-        # Create the connection to the database
         conn = connector.connect(**config)
-
-        # Create the cursor for the connection
         cursor = conn.cursor()
 
         cursor.execute(
             "INSERT INTO users (id, category, pword) VALUES('{0}', '{1}', '{2}')".format(user.id, user.category,
                                                                                          user.pword))
 
-        # Commit the data to the database
         conn.commit()
-
-        # Close the cursor
         cursor.close()
-
-        # Close the connection to the database
         conn.close()
 
         flash('{0} account created with User ID: {1} and Password: {2}'.format(user.category, user.id, password),
               'success')
         return redirect(url_for('home'))
+
     return render_template('create_account.html', title='Create Account', form=form)
 
 
@@ -211,27 +165,18 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
 
-        # Create the connection to the database
         conn = connector.connect(**config)
-
-        # Create the cursor for the connection
         cursor = conn.cursor()
 
         cursor.execute(
             "SELECT * FROM users WHERE id = '{0}'".format(form.user_id.data))
-
         result = cursor.fetchone()
 
         if result:
             user = User(result[0], result[1], result[2])
 
-        # Commit the data to the database
         conn.commit()
-
-        # Close the cursor
         cursor.close()
-
-        # Close the connection to the database
         conn.close()
 
         if result and user and bcrypt.check_password_hash(user.pword, form.password.data):
@@ -240,6 +185,7 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
             flash('Login failed. Incorrect user id or password.', 'danger')
+
     return render_template('login.html', title='Login', form=form)
 
 
@@ -305,21 +251,13 @@ def profile(user_id):
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
 
-        # Create the connection to the database
         conn = connector.connect(**config)
-
-        # Create the cursor for the connection
         cursor = conn.cursor()
 
         cursor.execute("UPDATE users SET pword = '{0}' WHERE id = '{1}'".format(hashed_password, user_id))
 
-        # Commit the data to the database
         conn.commit()
-
-        # Close the cursor
         cursor.close()
-
-        # Close the connection to the database
         conn.close()
 
     if sform.validate_on_submit():
@@ -378,69 +316,71 @@ def profile(user_id):
 @login_required
 def student_activate():
     if current_user.category == 'Student':
-        # Create the connection to the database
-        conn = connector.connect(**config)
 
-        # Create the cursor for the connection
+        conn = connector.connect(**config)
         cursor = conn.cursor()
 
         cursor.execute("SELECT id FROM students WHERE students.id = '{0}'".format(current_user.id))
-
         result = cursor.fetchone()
 
         if result:
             return redirect(url_for('home'))
 
-        # Commit the data to the database
         conn.commit()
-
-        # Close the cursor
         cursor.close()
-
-        # Close the connection to the database
         conn.close()
 
     form = StudentInfo()
 
     if form.validate_on_submit():
-        # Create the connection to the database
-        conn = connector.connect(**config)
 
-        # Create the cursor for the connection
+        conn = connector.connect(**config)
         cursor = conn.cursor()
 
+        year = 0
+        if form.expGradYear.data:
+            year = form.expGradYear.data.year
+
         cursor.execute(
-            "INSERT INTO students (id, fName, mName, lName, suffix, preferred, birthday, gender, race, gradeLevel, expGradYear, street, city, state, zip, email, phone, esl, gt) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}', '{16}', '{17}', '{18}')".format(
+            "INSERT INTO students (id, fName, mName, lName, suffix, preferred, birthday, gender, race, gradeLevel, expGradYear, street, city, state, zip, email, phone, esl, gt) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', {10}, '{11}', '{12}', '{13}', '{14}', '{15}', '{16}', '{17}', '{18}')".format(
                 current_user.id, form.fName.data, form.mName.data, form.lName.data, form.suffix.data,
                 form.preferred.data, form.bDay.data,
-                form.gender.data, form.race.data, form.gradeLevel.data, form.expGradYear.data.year, form.street.data,
+                form.gender.data, form.race.data, form.gradeLevel.data, year, form.street.data,
                 form.city.data, form.state.data,
-                form.zip.data, form.email.data, form.phone.data, form.ESL.data, form.GT.data))
-
-        # Sibling query
+                form.zip.data, form.email.data, form.phone.data, form.ESL.data if form.ESL.data is None else 0,
+                form.GT.data if form.GT.data is None else 0))
 
         # Disability query
-        print(form.disabilityDesc.data)
         if form.disability.data == 'on':
             cursor.execute(
                 "INSERT INTO disability (studentID, disability) VALUES ('{0}', '{1}')".format(current_user.id,
                                                                                               form.disabilityDesc.data))
 
         # Health condition query
-        print(form.healthCondsCond.data)
-        print(form.healthCondsDesc.data)
         if form.healthConds.data == 'on':
             cursor.execute(
                 "INSERT INTO healthcondition (studentID, cond, descript) VALUES ('{0}', '{1}', '{2}')".format(
                     current_user.id, form.healthCondsCond.data, form.healthCondsDesc.data))
 
-        # Commit the data to the database
+        # Guardian1 query
+        cursor.execute(
+            "INSERT INTO guardian (studentID, fName, mName, lName, phone, email, street, city, state, zip) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}')".format(
+                current_user.id, form.guardian1_fName.data, form.guardian1_mName.data, form.guardian1_lName.data,
+                form.guardian1_phone.data, form.guardian1_email.data, form.guardian1_street.data,
+                form.guardian1_city.data, form.guardian1_state.data, form.guardian1_zip.data))
+
+        # Guardian2 query
+        if form.guardian2_prompt.data == 'on':
+            cursor.execute(
+                "INSERT INTO guardian (studentID, fName, mName, lName, phone, email, street, city, state, zip) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}')".format(
+                    current_user.id, form.guardian2_fName.data, form.guardian2_mName.data, form.guardian2_lName.data,
+                    form.guardian2_phone.data, form.guardian2_email.data, form.guardian2_street.data,
+                    form.guardian2_city.data, form.guardian2_state.data, form.guardian2_zip.data))
+
+        # Sibling query
+
         conn.commit()
-
-        # Close the cursor
         cursor.close()
-
-        # Close the connection to the database
         conn.close()
 
         flash('Successfully activated your account!', 'success')
@@ -464,6 +404,8 @@ def add_class():
     resultTimeslots = cursor.fetchall()
     cursor.execute("SELECT * FROM staff")
     resultStaff = cursor.fetchall()
+
+    conn.commit()
     cursor.close()
     conn.close()
 
@@ -476,24 +418,15 @@ def add_class():
         for x in range(6):
             id += random.choice(id_chars)
 
-        # Create the connection to the database
         conn = connector.connect(**config)
-
-        # Create the cursor for the connection
         cursor = conn.cursor()
-
         cursor.execute(
             "INSERT INTO class (title, lvl, maxCap, curSize, instructorID, room, timeSlotID, sessionID, classID, price) VALUES ('{0}', '{1}', {2}, {3}, '{4}', '{5}', '{6}', '{7}', '{8}', '{9}')".format(
                 form.title.data, form.lvl.data, form.maxCap.data, 0, form.instructorID.data, form.room.data,
                 form.timeslotID.data, form.sessionID.data, id, form.price.data))
 
-        # Commit the data to the database
         conn.commit()
-
-        # Close the cursor
         cursor.close()
-
-        # Close the connection to the database
         conn.close()
 
         flash('Class Added!', 'success')
@@ -520,10 +453,7 @@ def create_session():
                 id += random.choice(id_chars)
 
             try:
-                # Create the connection to the database
                 conn = connector.connect(**config)
-
-                # Create the cursor for the connection
                 cursor = conn.cursor()
 
                 cursor.execute("INSERT INTO sessions(id, year, endDate, startDate)"
@@ -534,13 +464,8 @@ def create_session():
                 # Session Already Exists
                 flash('Session already exists with start/end dates. You might want to edit that session', 'danger')
 
-            # Commit the data to the database
             conn.commit()
-
-            # Close the cursor
             cursor.close()
-
-            # Close the connection to the database
             conn.close()
 
             flash('Session from {0}/{1}/{2} to {3}/{4}/{5} created!'.format(form.startDate.data.month,
@@ -560,25 +485,16 @@ def create_session():
 @app.route('/sessions_search')
 @login_required
 def sessions_search():
-    # Create the connection to the database
     conn = connector.connect(**config)
-
-    # Create the cursor for the connection
     cursor = conn.cursor()
 
-    # For now... (otherwise, make a query that applies filters)
     cursor.execute("SELECT * FROM sessions WHERE endDate > '{0}'".format(date.today()))
-
     sessions = cursor.fetchall()
 
-    # Commit the data to the database
     conn.commit()
-
-    # Close the cursor
     cursor.close()
-
-    # Close the connection to the database
     conn.close()
+
     return render_template('sessions_search.html', title='Sessions', sessions=sessions)
 
 
@@ -589,46 +505,27 @@ def edit_session(session_id):
         flash('You do not have access to that page!', 'danger')
         return redirect(url_for('home'))
 
-    # Create the connection to the database
     conn = connector.connect(**config)
-
-    # Create the cursor for the connection
     cursor = conn.cursor()
 
-    # For now... (otherwise, make a query that applies filters)
     cursor.execute("SELECT * FROM sessions WHERE id = '{0}'".format(session_id))
-
     (id, year, endDate, startDate) = cursor.fetchone()
 
-    # Commit the data to the database
     conn.commit()
-
-    # Close the cursor
     cursor.close()
-
-    # Close the connection to the database
     conn.close()
 
     form = CreateSessionForm()
     try:
         if form.validate_on_submit() and form.validate_date():
-            # Create the connection to the database
             conn = connector.connect(**config)
-
-            # Create the cursor for the connection
             cursor = conn.cursor()
 
-            # For now... (otherwise, make a query that applies filters)
             cursor.execute("UPDATE sessions SET startDate = '{0}', endDate= '{1}' WHERE id = '{2}'".format(
                 form.startDate.data, form.endDate.data, session_id))
 
-            # Commit the data to the database
             conn.commit()
-
-            # Close the cursor
             cursor.close()
-
-            # Close the connection to the database
             conn.close()
 
             flash('Session successfully updated!', 'success')
@@ -649,25 +546,17 @@ def delete_session(session_id):
         #  flash('You do not have access to that page!', 'danger')
         return redirect(url_for('home'))
 
-    # Create the connection to the database
     conn = connector.connect(**config)
-
-    # Create the cursor for the connection
     cursor = conn.cursor()
 
-    # For now... (otherwise, make a query that applies filters)
     cursor.execute("DELETE FROM sessions WHERE id = '{0}'".format(session_id))
 
-    # Commit the data to the database
     conn.commit()
-
-    # Close the cursor
     cursor.close()
-
-    # Close the connection to the database
     conn.close()
 
     flash('Successfully deleted session', 'success')
+
     return redirect(url_for('sessions_search'))
 
 
@@ -679,25 +568,17 @@ def delete_class(class_id):
         #  flash('You do not have access to that page!', 'danger')
         return redirect(url_for('home'))
 
-    # Create the connection to the database
     conn = connector.connect(**config)
-
-    # Create the cursor for the connection
     cursor = conn.cursor()
 
-    # For now... (otherwise, make a query that applies filters)
     cursor.execute("DELETE FROM class WHERE classID = '{0}'".format(class_id))
 
-    # Commit the data to the database
     conn.commit()
-
-    # Close the cursor
     cursor.close()
-
-    # Close the connection to the database
     conn.close()
 
     flash('Successfully deleted class!', 'success')
+
     return redirect(url_for('class_search'))
 
 
