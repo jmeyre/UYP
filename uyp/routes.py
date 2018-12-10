@@ -26,7 +26,7 @@ def home():
 
         stu = cursor.fetchone()
 
-        if not stu:
+        if not stu[1]:
             return redirect(url_for('student_activate'))
 
         student = Student(stu[0], stu[1], stu[2], stu[3], stu[4], stu[5], stu[6], stu[7], stu[8], stu[9], stu[10],
@@ -81,7 +81,8 @@ def class_search():
         conn = connector.connect(**config)
         cursor = conn.cursor()
 
-        cursor.execute("SELECT * FROM students WHERE id = '{0}'".format(current_user.id))
+        cursor.execute("SELECT fName FROM students WHERE id = '{0}'".format(current_user.id))
+
         result = cursor.fetchone()
 
         if not result:
@@ -157,6 +158,14 @@ def create_account():
             "INSERT INTO users (id, category, pword) VALUES('{0}', '{1}', '{2}')".format(user.id, user.category,
                                                                                          user.pword))
 
+        if user.category == 'Student':
+
+            currentDate = date.today()
+
+            cursor.execute(
+                "INSERT INTO students (id, acceptedYear, acceptedBy, bill) VALUES('{0}', '{1}', '{2}', '{3}')".format(
+                    user.id, currentDate.year, current_user.id, 0))
+
         conn.commit()
         cursor.close()
         conn.close()
@@ -226,7 +235,7 @@ def profile(user_id):
         # Create the cursor for the connection
         cursor = conn.cursor()
 
-        cursor.execute("SELECT * FROM students WHERE id = '{0}'".format(current_user.id))
+        cursor.execute("SELECT fName FROM students WHERE id = '{0}'".format(current_user.id))
 
         result = cursor.fetchone()
 
@@ -417,10 +426,10 @@ def student_activate():
         conn = connector.connect(**config)
         cursor = conn.cursor()
 
-        cursor.execute("SELECT id FROM students WHERE students.id = '{0}'".format(current_user.id))
+        cursor.execute("SELECT fName FROM students WHERE students.id = '{0}'".format(current_user.id))
         result = cursor.fetchone()
 
-        if result:
+        if not result:
             return redirect(url_for('home'))
 
         conn.commit()
@@ -435,7 +444,7 @@ def student_activate():
         cursor = conn.cursor()
 
         cursor.execute(
-            "INSERT INTO students (id, fName, mName, lName, suffix, preferred, birthday, gender, race, gradeLevel, expGradDate, street, city, state, zip, email, phone, bill) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', {10}, '{11}', '{12}', '{13}', '{14}', '{15}', '{16}', '{17}')".format(
+            "UPDATE students SET fName = '{1}', mName = '{2}', lName = '{3}', suffix = '{4}', preferred = '{5}', birthday = '{6}', gender = '{7}', race = '{8}', gradeLevel = '{9}', expGradDate = '{10}', street = '{11}', city = '{12}', state = '{13}', zip = '{14}', email = '{15}', phone = '{16}', bill = '{17}' WHERE id = '{0}'".format(
                 current_user.id, form.fName.data, form.mName.data, form.lName.data, form.suffix.data,
                 form.preferred.data, form.bDay.data, form.gender.data, form.race.data, form.gradeLevel.data,
                 form.expGradDate.data, form.street.data, form.city.data, form.state.data, form.zip.data,

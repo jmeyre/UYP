@@ -55,7 +55,7 @@ class StudentInfo(FlaskForm):
     race = StringField('Race', validators=[Optional()])
 
     gradeLevel = StringField('Grade Level', validators=[Optional()])
-    expGradDate = DateField('Expected Graduation Year', validators=[Optional()], format='%Y-%m-%d')
+    expGradDate = DateField('Expected Graduation Date', validators=[Optional()], format='%Y-%m-%d')
 
     street = StringField('Street*', validators=[DataRequired()])
     city = StringField('City*', validators=[DataRequired()])
@@ -97,16 +97,16 @@ class StudentInfo(FlaskForm):
 
 
 class StaffForm(FlaskForm):
-    fName = StringField('First Name', validators=[DataRequired()])
+    fName = StringField('First Name*', validators=[DataRequired()])
     mName = StringField('Middle Name', validators=[Optional()])
-    lName = StringField('Last Name', validators=[DataRequired()])
+    lName = StringField('Last Name*', validators=[DataRequired()])
     suffix = StringField('Suffix', validators=[Optional()])
-    phone = StringField('Phone Number', validators=[DataRequired()])
-    email = StringField('Email', validators=[Email(), DataRequired()])
-    street = StringField('Street', validators=[DataRequired()])
-    city = StringField('City', validators=[DataRequired()])
-    state = StringField('State', validators=[DataRequired()])
-    zip = IntegerField('Zip', validators=[DataRequired()])
+    phone = StringField('Phone Number*', validators=[DataRequired()])
+    email = StringField('Email*', validators=[Email(), DataRequired()])
+    street = StringField('Street*', validators=[DataRequired()])
+    city = StringField('City*', validators=[DataRequired()])
+    state = StringField('State*', validators=[DataRequired()])
+    zip = IntegerField('Zip*', validators=[DataRequired()])
 
     submit = SubmitField('Submit')
 
