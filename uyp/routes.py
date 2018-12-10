@@ -62,7 +62,7 @@ def home():
 
         cursor.execute("SELECT c.*, i.fName, i.lName "
                        "FROM  class c, staff i "
-                       "WHERE c.instructorID = '{0}'".format(current_user.id))
+                       "WHERE c.instructorID = i.id AND c.instructorID = '{0}'".format(current_user.id))
 
         classes = cursor.fetchall()
 
@@ -105,7 +105,7 @@ def class_search():
                        "AND c1.classID NOT IN "
                        "(SELECT c.classID FROM class c, takes t, sessions s WHERE t.classID = c.classID "
                        "AND c.sessionID = s.id "
-                       "AND s.startDate > '{0}' AND c.curSize < c.maxCap)".format(date.today()))
+                       "AND s.startDate > '{0}' AND c.curSize < c.maxCap AND t.studentID = '{1}')".format(date.today(), current_user.id))
         classes = cursor.fetchall()
 
         conn.commit()
@@ -288,13 +288,14 @@ def profile(user_id):
         # Only one disability for now...
         guardians = cursor.fetchall()
 
-        if guardians[0]:
-            guardian1 = Guardian(guardians[0][0], guardians[0][1], guardians[0][2], guardians[0][3], guardians[0][4],
-                                 guardians[0][5], guardians[0][6], guardians[0][7], guardians[0][8], guardians[0][9])
+        if guardians:
+            if guardians[0]:
+                guardian1 = Guardian(guardians[0][0], guardians[0][1], guardians[0][2], guardians[0][3], guardians[0][4],
+                                     guardians[0][5], guardians[0][6], guardians[0][7], guardians[0][8], guardians[0][9])
 
-        if len(guardians) > 1:
-            guardian2 = Guardian(guardians[1][0], guardians[1][1], guardians[1][2], guardians[1][3], guardians[1][4],
-                                 guardians[1][5], guardians[1][6], guardians[1][7], guardians[1][8], guardians[1][9])
+            if len(guardians) > 1:
+                guardian2 = Guardian(guardians[1][0], guardians[1][1], guardians[1][2], guardians[1][3], guardians[1][4],
+                                     guardians[1][5], guardians[1][6], guardians[1][7], guardians[1][8], guardians[1][9])
 
         cursor.execute("SELECT * FROM school WHERE studentID = '{0}'".format(user_id))
         sch = cursor.fetchone()
@@ -314,19 +315,20 @@ def profile(user_id):
     staffForm = StaffForm()
 
     if request.method == 'POST':
-        # if form.validate_on_submit():
-        #     hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
-        #
-        #     conn = connector.connect(**config)
-        #     cursor = conn.cursor()
-        #
-        #     cursor.execute("UPDATE users SET pword = '{0}' WHERE id = '{1}'".format(hashed_password, user_id))
-        #
-        #     conn.commit()
-        #     cursor.close()
-        #     conn.close()
-        #
-        #     flash('Password changed successfully!', 'success')
+        if form.validate_on_submit():
+            if not form.new_password.data == '':
+                hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
+
+                conn = connector.connect(**config)
+                cursor = conn.cursor()
+
+                cursor.execute("UPDATE users SET pword = '{0}' WHERE id = '{1}'".format(hashed_password, user_id))
+
+                conn.commit()
+                cursor.close()
+                conn.close()
+
+                flash('Password changed successfully!', 'success')
 
         if sform.validate_on_submit():
 
@@ -845,9 +847,9 @@ def edit_class(class_id):
 
         cursor.execute(
             "UPDATE class SET title='{0}', lvl='{1}', maxCap='{2}', instructorID='{3}', room='{4}', "
-            "timeSlotID='{5}', sessionID='{6}', price='{7}'".format(
+            "timeSlotID='{5}', sessionID='{6}', price='{7}' WHERE classID = '{8}'".format(
                 form.title.data, form.lvl.data, form.maxCap.data, form.instructorID.data, form.room.data,
-                form.timeslotID.data, form.sessionID.data, form.price.data))
+                form.timeslotID.data, form.sessionID.data, form.price.data, class_id))
 
         # Commit the data to the database
         conn.commit()
@@ -863,3 +865,33 @@ def edit_class(class_id):
 
     return render_template('edit_class.html', title='Edit Class', form=form, sessions=resultSessions,
                            timeslots=resultTimeslots, staff=resultStaff, resultClass=resultClass)
+
+
+@app.route('/roster/<class_id>', methods=['GET', 'POST'])
+@login_required
+def roster(class_id):
+    if current_user.category == 'Student':
+        flash('You do not have access to that page!', 'danger')
+        return redirect(url_for('home'))
+
+        # Create the connection to the database
+        conn = connector.connect(**config)
+
+        # Create the cursor for the connection
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT * "
+                       "FROM students s, class c, takes t"
+                       "WHERE s.id = t.studentID "
+                       "AND c.id = takes.classID ")
+
+        # Commit the data to the database
+        conn.commit()
+
+        # Close the cursor
+        cursor.close()
+
+        # Close the connection to the database
+        conn.close()
+
+    return render_template('roster.html', title='Roster')
