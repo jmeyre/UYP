@@ -51,11 +51,8 @@ class StudentInfo(FlaskForm):
     email = StringField('Student Email', validators=[Optional(), Email()])
     phone = StringField('Student Phone Number', validators=[Optional(), Length(min=10, max=10, message='Please enter a 10 digit phone number')])
     bDay = DateField('Birthday*', validators=[DataRequired()], format='%Y-%m-%d')
-    gender = RadioField('Gender*', choices=[('Male', 'Male'), ('Female', 'Female')], validators=[DataRequired()])
-    race = RadioField('Race',
-                      choices=[('White', 'Caucasian'), ('Black', 'African American'), ('Native', 'Native American'),
-                               ('Islander', 'Pacific Islander'),
-                               ('Asian', 'Asian'), ('Indian', 'Indian')], validators=[Optional()])
+    gender = StringField('Gender*', validators=[DataRequired()])
+    race = StringField('Race', validators=[Optional()])
 
     gradeLevel = StringField('Grade Level', validators=[Optional()])
     expGradYear = DateField('Expected Graduation Year', validators=[Optional()], format='%Y-%m-%d')

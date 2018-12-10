@@ -353,25 +353,22 @@ def student_activate():
             year = form.expGradYear.data.year
 
         cursor.execute(
-            "INSERT INTO students (id, fName, mName, lName, suffix, preferred, birthday, gender, race, gradeLevel, expGradYear, street, city, state, zip, email, phone, esl, gt) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', {10}, '{11}', '{12}', '{13}', '{14}', '{15}', '{16}', '{17}', '{18}')".format(
+            "INSERT INTO students (id, fName, mName, lName, suffix, preferred, birthday, gender, race, gradeLevel, expGradYear, street, city, state, zip, email, phone) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', {10}, '{11}', '{12}', '{13}', '{14}', '{15}', '{16}')".format(
                 current_user.id, form.fName.data, form.mName.data, form.lName.data, form.suffix.data,
-                form.preferred.data, form.bDay.data,
-                form.gender.data, form.race.data, form.gradeLevel.data, year, form.street.data,
-                form.city.data, form.state.data,
-                form.zip.data, form.email.data, form.phone.data, form.ESL.data if form.ESL.data is None else 0,
-                form.GT.data if form.GT.data is None else 0))
+                form.preferred.data, form.bDay.data, form.gender.data, form.race.data, form.gradeLevel.data, year,
+                form.street.data, form.city.data, form.state.data, form.zip.data, form.email.data, form.phone.data))
 
-        # Disability query
-        if form.disability.data == 'on':
-            cursor.execute(
-                "INSERT INTO disability (studentID, disability) VALUES ('{0}', '{1}')".format(current_user.id,
-                                                                                              form.disabilityDesc.data))
-
-        # Health condition query
-        if form.healthConds.data == 'on':
-            cursor.execute(
-                "INSERT INTO healthcondition (studentID, cond, descript) VALUES ('{0}', '{1}', '{2}')".format(
-                    current_user.id, form.healthCondsCond.data, form.healthCondsDesc.data))
+        # # Disability query
+        # if form.disability.data == 'on':
+        #     cursor.execute(
+        #         "INSERT INTO disability (studentID, disability) VALUES ('{0}', '{1}')".format(current_user.id,
+        #                                                                                       form.disabilityDesc.data))
+        #
+        # # Health condition query
+        # if form.healthConds.data == 'on':
+        #     cursor.execute(
+        #         "INSERT INTO healthcondition (studentID, cond, descript) VALUES ('{0}', '{1}', '{2}')".format(
+        #             current_user.id, form.healthCondsCond.data, form.healthCondsDesc.data))
 
         # Guardian1 query
         cursor.execute(

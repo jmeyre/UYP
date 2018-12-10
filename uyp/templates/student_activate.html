@@ -129,32 +129,44 @@
                 <!-- gender field -->
                 <div class="form-group">
                     {{ form.gender.label(class="form-control-label") }}
-                    {{ form.gender(class="radio") }}
+                    <select class="form-control" id="gender" name="gender">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
                 </div>
 
                 <!-- race field -->
                 <div class="form-group">
                     {{ form.race.label(class="form-control-label") }}
-                    {{ form.race(class="radio") }}
+                    <select class="form-control" id="race" name="race">
+                        <option value="Caucasian">Caucasian</option>
+                        <option value="African American">African American</option>
+                        <option value="Native American">Native American</option>
+                        <option value="Pacific Islander">Pacific Islander</option>
+                        <option value="Asian">Asian</option>
+                        <option value="Indian">Indian</option>
+                    </select>
                 </div>
             </div>
 
             <div class="content-section p-4">
 
                 <legend class="border-bottom mb-4">Education Information</legend>
+
                 <!-- gradeLevel field -->
                 <div class="form-group">
                     {{ form.gradeLevel.label(class="form-control-label") }}
-                    {% if form.gradeLevel.errors %}
-                        {{ form.gradeLevel(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.gradeLevel.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.gradeLevel(class="form-control form-control-lg") }}
-                    {% endif %}
+                    <select class="form-control" id="gradeLevel" name="gradeLevel">
+                        <option value="4th">4th</option>
+                        <option value="5th">5th</option>
+                        <option value="6th">6th</option>
+                        <option value="7th">7th</option>
+                        <option value="8th">8th</option>
+                        <option value="9th">9th</option>
+                        <option value="10th">10th</option>
+                        <option value="11th">11th</option>
+                        <option value="12th">12th</option>
+                    </select>
                 </div>
 
                 <!-- expGradYear field -->
@@ -270,81 +282,81 @@
                 </div>
             </div>
 
-            <div class="content-section p-4">
-
-                <legend class="border-bottom mb-4">Extra Student Information</legend>
-
-                <div>
-                    <!-- disability field -->
-                    {{ form.disability.label(class="form-control-label") }}
-                    <input class="conditional_form_part_activator form-group" type="checkbox" id="disability" name="disability">
-                    <div class="form-group conditional_form_part">
-
-                        <!-- disabilityDesc field -->
-                        <div class="form-group">
-                            {{ form.disabilityDesc.label(class="form-control-label") }}
-                            {% if form.disabilityDesc.errors %}
-                                {{ form.disabilityDesc(class="form-control form-control-lg is-invalid") }}
-                                <div class="invalid-feedback">
-                                    {% for error in form.disabilityDesc.errors %}
-                                        <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ form.disabilityDesc(class="form-control form-control-lg") }}
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-
-                <!-- healthConds field -->
-                {{ form.healthConds.label(class="form-control-label") }}
-                <input class="conditional_form_part_activator form-group" type="checkbox" id="healthConds" name="healthConds">
-                <div class="form-group conditional_form_part">
-
-                    <!-- healthCondsCond field -->
-                    <div class="form-group">
-                        {{ form.healthCondsCond.label(class="form-control-label") }}
-                        {% if form.healthCondsCond.errors %}
-                            {{ form.healthCondsCond(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.healthCondsCond.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.healthCondsCond(class="form-control form-control-lg") }}
-                        {% endif %}
-                    </div>
-
-                    <!-- healthCondsDesc field -->
-                    <div class="form-group">
-                        {{ form.healthCondsDesc.label(class="form-control-label") }}
-                        {% if form.healthCondsDesc.errors %}
-                            {{ form.healthCondsDesc(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.healthCondsDesc.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.healthCondsDesc(class="form-control form-control-lg") }}
-                        {% endif %}
-                    </div>
-                </div>
-
-                <!-- ESL field -->
-                <div class="form-group">
-                    {{ form.ESL.label(class="form-control-label") }}
-                    <input class="form-group" type="checkbox" id="ESL" name="ESL">
-                </div>
-
-                <!-- GT field -->
-                <div class="form-group">
-                    {{ form.GT.label(class="form-control-label") }}
-                    <input class="form-group" type="checkbox" id="GT" name="GT">
-                </div>
-            </div>
+{#            <div class="content-section p-4">#}
+{##}
+{#                <legend class="border-bottom mb-4">Extra Student Information</legend>#}
+{##}
+{#                <div>#}
+{#                    <!-- disability field -->#}
+{#                    {{ form.disability.label(class="form-control-label") }}#}
+{#                    <input class="conditional_form_part_activator form-group" type="checkbox" id="disability" name="disability">#}
+{#                    <div class="form-group conditional_form_part">#}
+{##}
+{#                        <!-- disabilityDesc field -->#}
+{#                        <div class="form-group">#}
+{#                            {{ form.disabilityDesc.label(class="form-control-label") }}#}
+{#                            {% if form.disabilityDesc.errors %}#}
+{#                                {{ form.disabilityDesc(class="form-control form-control-lg is-invalid") }}#}
+{#                                <div class="invalid-feedback">#}
+{#                                    {% for error in form.disabilityDesc.errors %}#}
+{#                                        <span>{{ error }}</span>#}
+{#                                    {% endfor %}#}
+{#                                </div>#}
+{#                            {% else %}#}
+{#                                {{ form.disabilityDesc(class="form-control form-control-lg") }}#}
+{#                            {% endif %}#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{##}
+{#                <!-- healthConds field -->#}
+{#                {{ form.healthConds.label(class="form-control-label") }}#}
+{#                <input class="conditional_form_part_activator form-group" type="checkbox" id="healthConds" name="healthConds">#}
+{#                <div class="form-group conditional_form_part">#}
+{##}
+{#                    <!-- healthCondsCond field -->#}
+{#                    <div class="form-group">#}
+{#                        {{ form.healthCondsCond.label(class="form-control-label") }}#}
+{#                        {% if form.healthCondsCond.errors %}#}
+{#                            {{ form.healthCondsCond(class="form-control form-control-lg is-invalid") }}#}
+{#                            <div class="invalid-feedback">#}
+{#                                {% for error in form.healthCondsCond.errors %}#}
+{#                                    <span>{{ error }}</span>#}
+{#                                {% endfor %}#}
+{#                            </div>#}
+{#                        {% else %}#}
+{#                            {{ form.healthCondsCond(class="form-control form-control-lg") }}#}
+{#                        {% endif %}#}
+{#                    </div>#}
+{##}
+{#                    <!-- healthCondsDesc field -->#}
+{#                    <div class="form-group">#}
+{#                        {{ form.healthCondsDesc.label(class="form-control-label") }}#}
+{#                        {% if form.healthCondsDesc.errors %}#}
+{#                            {{ form.healthCondsDesc(class="form-control form-control-lg is-invalid") }}#}
+{#                            <div class="invalid-feedback">#}
+{#                                {% for error in form.healthCondsDesc.errors %}#}
+{#                                    <span>{{ error }}</span>#}
+{#                                {% endfor %}#}
+{#                            </div>#}
+{#                        {% else %}#}
+{#                            {{ form.healthCondsDesc(class="form-control form-control-lg") }}#}
+{#                        {% endif %}#}
+{#                    </div>#}
+{#                </div>#}
+{##}
+{#                <!-- ESL field -->#}
+{#                <div class="form-group">#}
+{#                    {{ form.ESL.label(class="form-control-label") }}#}
+{#                    <input class="form-group" type="checkbox" id="ESL" name="ESL">#}
+{#                </div>#}
+{##}
+{#                <!-- GT field -->#}
+{#                <div class="form-group">#}
+{#                    {{ form.GT.label(class="form-control-label") }}#}
+{#                    <input class="form-group" type="checkbox" id="GT" name="GT">#}
+{#                </div>#}
+{#            </div>#}
 
             <div class="content-section p-4">
 
