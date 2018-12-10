@@ -312,17 +312,17 @@
                         <div class="form-group">
                             {{ sform.expSchoolType.label(class="form-control-label") }}
                             <select class="form-control" id="expSchoolType" name="expSchoolType">
-                                {% if student.expSchoolType == 'Public' %}
+                                {% if school.type == 'Public' %}
                                     <option selected value="Public">Public</option>
                                 {% else %}
                                     <option value="Public">Public</option>
                                 {% endif %}
-                                {% if student.expSchoolType == 'Private' %}
+                                {% if school.type == 'Private' %}
                                     <option selected value="Private">Private</option>
                                 {% else %}
                                     <option value="Private">Private</option>
                                 {% endif %}
-                                {% if student.expSchoolType == 'Home Schooled' %}
+                                {% if school.type == 'Home Schooled' %}
                                     <option selected value="Home Schooled">Home Schooled</option>
                                 {% else %}
                                     <option value="Home Schooled">Home Schooled</option>
