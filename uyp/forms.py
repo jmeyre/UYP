@@ -96,6 +96,11 @@ class StudentInfo(FlaskForm):
     submit = SubmitField('Submit Info')
 
 
+class SiblingForm(FlaskForm):
+    siblingID = StringField('Sibling ID', validators=[DataRequired()])
+    submit = SubmitField('Add Sibling')
+
+
 class GuardianForm(FlaskForm):
     fName = StringField('First Name', validators=[DataRequired(), Length(min=2, max=20)])
     mName = StringField('Middle Name', validators=[Length(min=2, max=20)])

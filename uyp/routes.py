@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from uyp import app, config, bcrypt
-from uyp.forms import LoginForm, CreateAccountForm, ProfileForm, AddClassForm, StudentInfo, CreateSessionForm, StaffForm
+from uyp.forms import LoginForm, CreateAccountForm, ProfileForm, AddClassForm, StudentInfo, CreateSessionForm, StaffForm, SiblingForm
 from uyp.models import User, Student, Class, Staff
 from mysql import connector
 from flask_login import login_user, current_user, logout_user, login_required
@@ -367,6 +367,7 @@ def student_activate():
         conn.close()
 
     form = StudentInfo()
+    siblingForm = SiblingForm()
 
     if form.validate_on_submit():
 
@@ -417,7 +418,18 @@ def student_activate():
         conn.close()
 
         flash('Successfully activated your account!', 'success')
-        return redirect(url_for('home'))
+        # return redirect(url_for('home'))
+
+    if siblingForm.validate_on_submit():
+
+        conn = connector.connect(**config)
+        cursor = conn.cursor()
+
+
+
+        conn.commit()
+        cursor.close()
+        conn.close()
 
     return render_template('student_activate.html', title='Activate Account', form=form)
 

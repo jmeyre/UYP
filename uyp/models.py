@@ -53,10 +53,10 @@ class User:
 
 
 class Class:
-    def __init__(self, title, lvl, maxCapacity, curSize, instructorID, room, timeslotID, sessionID, classID, price):
+    def __init__(self, title, lvl, maxCap, curSize, instructorID, room, timeslotID, sessionID, classID, price):
         self.title = title
         self.lvl = lvl
-        self.maxCapacity = maxCapacity
+        self.maxCap = maxCap
         self.curSize = curSize
         self.instructorID = instructorID
         self.room = room
@@ -66,15 +66,15 @@ class Class:
         self.price = price
 
     def __repr__(self):
-        return "Class( ID={0}, Title=\"{1}\", Level={2}, MaxCapacity={3}, " \
-               "CurrentSize={4}, InstructorID={5}, Room={6}, TimeSlotID={7}, SessionID={8} )".format(
-            self.id, self.title, self.lvl, self.maxCapacity, self.curSize, self.instructorID, self.room,
-            self.timeslotID, self.sessionID)
+        return "Class( title={0}, lvl={1}, maxCap={2}, curSize={3}, instructorID={4}, room={5}, timeslotID={6}, sessionID={7}, classID={8}, price={9} )".format(
+            self.title, self.lvl, self.maxCap, self.curSize, self.instructorID, self.room, self.timeslotID,
+            self.sessionID, self.classID, self.price)
 
 
 class Student:
     def __init__(self, id, fName, mName, lName, suffix, preferred, bDay, gender, race, gradeLevel, expGradYear,
-                 street, city, state, zip, email, phone, esl, gt, accepted, acceptedBy, bill, NCHI, status, grantFunded):
+                 street, city, state, zip, email, phone, esl, gt, accepted, acceptedBy, bill, NCHI, status,
+                 grantFunded):
         self.id = id
         self.fName = fName
         self.mName = mName
@@ -101,10 +101,15 @@ class Student:
         self.status = status
         self.grantFunded = grantFunded
 
+    def __repr__(self):
+        return "Class( id={0}, fName={1}, mName={2}, lName={3}, suffix={4}, preferred={5}, bDay={6}, gender={7}, race={8}, gradeLevel={9}, expGradYear={10}, street={11}, city={12}, state={13}, zip={14}, email={15}, phone={16}, esl={17}, gt={18}, accepted={19}, acceptedBy={20}, bill={21}, NCHI={22}, status={23}, grantFunded={24} )".format(
+            self.id, self.fName, self.mName, self.lName, self.suffix, self.preferred, self.bDay, self.gender, self.race,
+            self.gradeLevel, self.expGradYear, self.street, self.city, self.state, self.zip, self.email, self.phone,
+            self.esl, self.gt, self.accepted, self.acceptedBy, self.bill, self.NCHI, self.status, self.grantFunded)
+
 
 class Staff:
     def __init__(self, id, fName, mName, lName, suffix, phone, email, street, city, state, zip):
-
         self.id = id
         self.fName = fName
         self.mName = mName
@@ -117,3 +122,7 @@ class Staff:
         self.email = email
         self.phone = phone
 
+    def __repr__(self):
+        return "Class( id={0}, fName={1}, mName={2}, lName={3}, suffix={4}, phone={5}, email={6}, street={7}, city={8}, state={9}, zip={10} )".format(
+            self.id, self.fName, self.mName, self.lName, self.suffix, self.phone, self.email, self.street, self.city,
+            self.state, self.zip)
