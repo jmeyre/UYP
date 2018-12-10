@@ -13,6 +13,8 @@ from wtforms.validators import ValidationError
 @app.route('/home')
 @login_required
 def home():
+    user = None
+    classes = None
     if current_user.category == 'Student':
         # Create the connection to the database
         conn = connector.connect(**config)
@@ -22,10 +24,18 @@ def home():
 
         cursor.execute("SELECT * FROM students WHERE id = '{0}'".format(current_user.id))
 
-        result = cursor.fetchone()
+        user = cursor.fetchone()
 
-        if not result:
+        if not user:
             return redirect(url_for('student_activate'))
+
+        cursor.execute("SELECT c.*, i.fName, i.lName "
+                       "FROM takes t, class c, staff i "
+                       "WHERE t.studentID = '{0}' "
+                       "AND c.instructorID = i.id "
+                       "AND t.classID = c.classID".format(current_user.id))
+
+        classes = cursor.fetchall()
 
         # Commit the data to the database
         conn.commit()
@@ -45,7 +55,13 @@ def home():
 
         cursor.execute("SELECT * FROM staff WHERE id = '{0}'".format(current_user.id))
 
-        result = cursor.fetchone()
+        user = cursor.fetchone()
+
+        cursor.execute("SELECT c.*, i.fName, i.lName "
+                       "FROM  class c, staff i "
+                       "WHERE c.instructorID = '{0}'".format(current_user.id))
+
+        classes = cursor.fetchall()
 
         # Commit the data to the database
         conn.commit()
@@ -56,7 +72,7 @@ def home():
         # Close the connection to the database
         conn.close()
 
-    return render_template('home.html', user=result)
+    return render_template('home.html', user=user, classes=classes)
 
 
 @app.route('/class_search')
@@ -93,9 +109,13 @@ def class_search():
         # Create the cursor for the connection
         cursor = conn.cursor()
 
-        # For now... (otherwise, make a query that applies filters)
-        cursor.execute("SELECT c1.* FROM class c1, sessions s1 WHERE c1.sessionID = s1.id AND s1.startDate  > '{0}' "
-                       "AND c1.curSize < c1.maxCap AND c1.classID NOT IN "
+        cursor.execute("SELECT c1.*, i.fName , i.lName "
+                       "FROM class c1, sessions s1, staff i "
+                       "WHERE c1.sessionID = s1.id "
+                       "AND c1.instructorID = i.id "
+                       "AND s1.startDate  > '{0}' "
+                       "AND c1.curSize < c1.maxCap "
+                       "AND c1.classID NOT IN "
                        "(SELECT c.classID FROM class c, takes t, sessions s WHERE t.classID = c.classID "
                        "AND c.sessionID = s.id "
                        "AND s.startDate > '{0}' AND c.curSize < c.maxCap)".format(date.today()))
@@ -120,7 +140,7 @@ def class_search():
         cursor = conn.cursor()
 
         # For now... (otherwise, make a query that applies filters)
-        cursor.execute("SELECT * FROM class")
+        cursor.execute("SELECT c.*, i.fName, i.lName FROM class c, staff i WHERE c.instructorID = i.id")
 
         classes = cursor.fetchall()
 
@@ -217,7 +237,6 @@ def login():
         if result and user and bcrypt.check_password_hash(user.pword, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
-            flash('You have been logged in, {0}!'.format(user.id), 'success')
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
             flash('Login failed. Incorrect user id or password.', 'danger')

@@ -24,6 +24,10 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #fecb00;
 }
 
+.bottom-gold-bar {
+  border-bottom: 4px solid #fecb00;
+}
+
 .uyp-link {
   border-left: 2px solid #fecb00;
   font-size: 24px;
