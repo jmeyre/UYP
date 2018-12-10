@@ -321,8 +321,16 @@
                         <div class="form-group">
                             {{ sform.state.label(class="form-control-label") }}
                             <select class="form-control" id="state" name="state">
-                                <option value="AL">Alabama</option>
-                                <option value="AK">Alaska</option>
+                                {% if student.gradeLevel =='AL' %}
+                                    <option selected value="AL">Alabama</option>
+                                {% else %}
+                                    <option value="AL">Alabama</option>
+                                {% endif %}
+                                {% if student.gradeLevel =='AK' %}
+                                    <option selected value="AK">Alaska</option>
+                                {% else %}
+                                    <option value="AK">Alaska</option>
+                                {% endif %}
                                 <option value="AZ">Arizona</option>
                                 <option value="AR">Arkansas</option>
                                 <option value="CA">California</option>
