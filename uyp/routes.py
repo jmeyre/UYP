@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from uyp import app, config, bcrypt
-from uyp.forms import LoginForm, CreateAccountForm, ProfileForm, AddClassForm, StudentInfo, CreateSessionForm
+from uyp.forms import LoginForm, CreateAccountForm, ProfileForm, AddClassForm, StudentInfo, CreateSessionForm, StaffForm
 from uyp.models import User, Student, Class, Staff
 from mysql import connector
 from flask_login import login_user, current_user, logout_user, login_required
@@ -212,6 +212,7 @@ def profile(user_id):
     if current_user.category == 'Student' and str(current_user.id) != str(user_id):
         return redirect(url_for('profile', user_id=current_user.id))
 
+    result = ''
     if current_user.category == 'Student':
         # Create the connection to the database
         conn = connector.connect(**config)
@@ -247,6 +248,7 @@ def profile(user_id):
     # Create student object
     if category == 'Student':
         cursor.execute("SELECT * FROM students WHERE id = '{0}'".format(user_id))
+        result = cursor.fetchone()
         result = Student(result[0], result[1], result[2], result[3], result[4], result[5], result[6], result[7],
                          result[8], result[9], result[10], result[11], result[12], result[13], result[14],
                          result[15], result[16], result[17], result[18], result[19], result[20], result[21],
@@ -254,73 +256,96 @@ def profile(user_id):
 
     elif category == 'Staff':
         cursor.execute("SELECT * FROM staff WHERE id = '{0}'".format(user_id))
-        # Create Staff Object
+        result = cursor.fetchone()
+        result = Staff(result[0], result[1], result[2], result[3], result[4], result[5], result[6], result[7],
+                       result[8], result[9], result[10])
 
     form = ProfileForm()
     sform = StudentInfo()
+    staffForm = StaffForm()
 
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
+    if request.method == 'POST':
+        if form.validate:
+            hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
 
-        conn = connector.connect(**config)
-        cursor = conn.cursor()
+            conn = connector.connect(**config)
+            cursor = conn.cursor()
 
-        cursor.execute("UPDATE users SET pword = '{0}' WHERE id = '{1}'".format(hashed_password, user_id))
+            cursor.execute("UPDATE users SET pword = '{0}' WHERE id = '{1}'".format(hashed_password, user_id))
 
-        conn.commit()
-        cursor.close()
-        conn.close()
+            conn.commit()
+            cursor.close()
+            conn.close()
 
-    if sform.validate_on_submit():
+            flash('Password changed successfully!', 'success')
 
-        # Create the connection to the database
-        conn = connector.connect(**config)
+        elif sform.validate:
 
-        # Create the cursor for the connection
-        cursor = conn.cursor()
+                # Create the connection to the database
+                conn = connector.connect(**config)
 
-        # if a student entered info
-        if category == 'Student':
-            # needs to be update query
-            cursor.execute("UPDATE students SET fName = '{1}', mName = '{2}', lName = '{3}', suffix = '{4}', "
-                           "preferred = '{5}', birthday = '{6}', gender = '{7}', race = '{8}', gradeLevel = '{9}', "
-                           "expGradYear = '{10}', street = '{11}', city = '{12}', state='{13}', zip='{14}', email = '{15}',"
-                           " phone = '{16}', esl='{17}', gt = '{18}' WHERE id = '{0}'".format(user_id, form.fName.data,
-                                                                                              form.mName.data,
-                                                                                              form.lName.data,
-                                                                                              form.suffix.data,
-                                                                                              form.preferred.data,
-                                                                                              form.bDay.data,
-                                                                                              form.gender.data,
-                                                                                              form.race.data,
-                                                                                              form.gradeLevel.data,
-                                                                                              form.expGradYear.data.year,
-                                                                                              form.street.data,
-                                                                                              form.city.data,
-                                                                                              form.state.data,
-                                                                                              form.zip.data,
-                                                                                              form.email.data,
-                                                                                              form.phone.data,
-                                                                                              form.ESL.data,
-                                                                                              form.GT.data))
+                # Create the cursor for the connection
+                cursor = conn.cursor()
 
-        # if staff info is entered
-        elif category == 'Staff':
-            # needs to  be update query
-            cursor.execute("UPDATE staff SET WHERE id = '{0}'".format(user_id))
-            result = cursor.fetchone()
 
-        # Commit the data to the database
-        conn.commit()
+                # needs to be update query
+                cursor.execute("UPDATE students SET fName = '{1}', mName = '{2}', lName = '{3}', suffix = '{4}', "
+                               "preferred = '{5}', birthday = '{6}', gender = '{7}', race = '{8}', gradeLevel = '{9}', "
+                               "expGradYear = '{10}', street = '{11}', city = '{12}', state='{13}', zip='{14}', email = '{15}',"
+                               " phone = '{16}', esl='{17}', gt = '{18}' WHERE id = '{0}'".format(user_id, sform.fName.data,
+                                                                                                  sform.mName.data,
+                                                                                                  sform.lName.data,
+                                                                                                  sform.suffix.data,
+                                                                                                  sform.preferred.data,
+                                                                                                  sform.bDay.data,
+                                                                                                  sform.gender.data,
+                                                                                                  sform.race.data,
+                                                                                                  sform.gradeLevel.data,
+                                                                                                  sform.expGradYear.data.year,
+                                                                                                  sform.street.data,
+                                                                                                  sform.city.data,
+                                                                                                  sform.state.data,
+                                                                                                  sform.zip.data,
+                                                                                                  sform.email.data,
+                                                                                                  sform.phone.data,
+                                                                                                  sform.ESL.data,
+                                                                                                  sform.GT.data))
+                # Commit the data to the database
+                conn.commit()
 
-        # Close the cursor
-        cursor.close()
+                # Close the cursor
+                cursor.close()
 
-        # Close the connection to the database
-        conn.close()
+                # Close the connection to the database
+                conn.close()
+                flash('Info updated successfully!', 'success')
 
-    return render_template('profile.html', title='Profile', form=form, sform=sform, user_id=user_id, result=result,
-                           category=category)
+        elif staffForm.validate:
+                # Create the connection to the database
+                conn = connector.connect(**config)
+
+                # Create the cursor for the connection
+                cursor = conn.cursor()
+
+                # needs to  be update query
+                cursor.execute("UPDATE staff SET fName='{1}', mName='{2}', lName='{3}', suffix='{4}', street='{5}', "
+                               "city='{6}', state='{7}', zip='{8}', email='{9}', phone='{10}' WHERE id='{0}'".format(
+                    user_id, staffForm.fName.data, staffForm.mName.data, staffForm.lName.data, staffForm.suffix.data,
+                    staffForm.street.data, staffForm.city.data, staffForm.state.data, staffForm.zip.data,
+                    staffForm.email.data, staffForm.phone.data))
+
+                # Commit the data to the database
+                conn.commit()
+
+                # Close the cursor
+                cursor.close()
+
+                # Close the connection to the database
+                conn.close()
+                flash('Info updated successfully!', 'success')
+
+    return render_template('profile.html', title='Profile', form=form, sform=sform, staffForm=staffForm,
+                           user_id=user_id, result=result, category=category)
 
 
 @app.route('/student_activate', methods=['GET', 'POST'])

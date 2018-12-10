@@ -132,3 +132,17 @@ class CreateSessionForm(FlaskForm):
             raise ValidationError('Start Date is before End Date')
         else:
             return True
+
+
+class StaffForm(FlaskForm):
+    fName = StringField('First Name', validators=[DataRequired(), Length(min=2, max=20)])
+    mName = StringField('Middle Name', validators=[Optional(), Length(min=2, max=20)])
+    lName = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=20)])
+    suffix = StringField('Suffix', validators=[Optional(), Length(min=1, max=3)])
+    phone = StringField('Phone Number', validators=[DataRequired()])
+    email = StringField('Email', validators=[Email(), DataRequired()])
+    street = StringField('Street', validators=[DataRequired(), Length(min=2, max=20)])
+    city = StringField('City', validators=[DataRequired(), Length(min=2, max=20)])
+    state = StringField('State', validators=[DataRequired(), Length(min=2, max=20)])
+    zip = IntegerField('Zip', validators=[DataRequired(), Length(min=5, max=9)])
+    submit = SubmitField('Submit')
