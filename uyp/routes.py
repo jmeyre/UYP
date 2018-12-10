@@ -712,6 +712,12 @@ def register_class(class_id):
         cursor = conn.cursor()
 
         cursor.execute("INSERT INTO takes(studentID, classID) VALUES ('{0}', '{1}')".format(current_user.id, class_id))
+        cursor.execute("SELECT curSize FROM class WHERE classID = '{0}'".format(class_id))
+
+        class_size = cursor.fetchone()
+
+        # Increment the class' curSize
+        cursor.execute("UPDATE class SET curSize = {0} WHERE classID = '{1}'".format(class_size[0] + 1, class_id))
 
         cursor.execute("SELECT title FROM class WHERE classID = '{0}'".format(class_id))
         title = cursor.fetchone()
