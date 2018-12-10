@@ -127,6 +127,7 @@ class Staff:
             self.id, self.fName, self.mName, self.lName, self.suffix, self.phone, self.email, self.street, self.city,
             self.state, self.zip)
 
+
 class Guardian:
     def __init__(self, studentID, fName, mName, lName, suffix, phone, email, street, city, state, zip):
         self.studentID = studentID

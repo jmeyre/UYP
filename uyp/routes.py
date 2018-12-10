@@ -209,11 +209,12 @@ def logout():
 @app.route('/profile/<user_id>', methods=['GET', 'POST'])
 @login_required
 def profile(user_id):
+    student = None
+    staff = None
     # Prevent students from accessing other students' profiles
     if current_user.category == 'Student' and str(current_user.id) != str(user_id):
         return redirect(url_for('profile', user_id=current_user.id))
 
-    result = ''
     if current_user.category == 'Student':
         # Create the connection to the database
         conn = connector.connect(**config)
@@ -243,23 +244,22 @@ def profile(user_id):
     conn = connector.connect(**config)
     cursor = conn.cursor()
     cursor.execute("SELECT category FROM users WHERE id = '{0}'".format(user_id))
-    category = cursor.fetchone()
-    category = category[0]
+    cat = cursor.fetchone()
+    category = cat[0]
 
     # Create student object
     if category == 'Student':
         cursor.execute("SELECT * FROM students WHERE id = '{0}'".format(user_id))
-        result = cursor.fetchone()
-        result = Student(result[0], result[1], result[2], result[3], result[4], result[5], result[6], result[7],
-                         result[8], result[9], result[10], result[11], result[12], result[13], result[14],
-                         result[15], result[16], result[17], result[18], result[19], result[20], result[21],
-                         result[22], result[23], result[24])
+        stu = cursor.fetchone()
+        student = Student(stu[0], stu[1], stu[2], stu[3], stu[4], stu[5], stu[6], stu[7], stu[8], stu[9], stu[10],
+                          stu[11], stu[12], stu[13], stu[14], stu[15], stu[16], stu[17], stu[18], stu[19], stu[20],
+                          stu[21], stu[22], stu[23], stu[24])
+
 
     elif category == 'Staff':
         cursor.execute("SELECT * FROM staff WHERE id = '{0}'".format(user_id))
-        result = cursor.fetchone()
-        result = Staff(result[0], result[1], result[2], result[3], result[4], result[5], result[6], result[7],
-                       result[8], result[9], result[10])
+        sta = cursor.fetchone()
+        staff = Staff(sta[0], sta[1], sta[2], sta[3], sta[4], sta[5], sta[6], sta[7], sta[8], sta[9], sta[10])
 
     form = ProfileForm()
     sform = StudentInfo()
@@ -345,7 +345,7 @@ def profile(user_id):
             flash('Info updated successfully!', 'success')
 
     return render_template('profile.html', title='Profile', form=form, sform=sform, staffForm=staffForm,
-                           user_id=user_id, result=result, category=category)
+                           user_id=user_id, category=category, student=student, staff=staff)
 
 
 @app.route('/student_activate', methods=['GET', 'POST'])

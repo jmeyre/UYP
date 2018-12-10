@@ -59,14 +59,14 @@
                         <div class="form-group">
                             {{ sform.fName.label(class="form-control-label") }}
                             {% if sform.fName.errors %}
-                                {{ sform.fName(class="form-control form-control-lg is-invalid") }}
+                                {{ sform.fName(class="form-control form-control-lg is-invalid", value=student.fName) }}
                                 <div class="invalid-feedback">
                                     {% for error in sform.fName.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ sform.fName(class="form-control form-control-lg") }}
+                                {{ sform.fName(class="form-control form-control-lg", value=student.fName) }}
                             {% endif %}
                         </div>
 
@@ -74,14 +74,14 @@
                         <div class="form-group">
                             {{ sform.mName.label(class="form-control-label") }}
                             {% if sform.mName.errors %}
-                                {{ sform.mName(class="form-control form-control-lg is-invalid") }}
+                                {{ sform.mName(class="form-control form-control-lg is-invalid", value=student.mName) }}
                                 <div class="invalid-feedback">
                                     {% for error in sform.mName.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ sform.mName(class="form-control form-control-lg") }}
+                                {{ sform.mName(class="form-control form-control-lg", value=student.mName) }}
                             {% endif %}
                         </div>
 
@@ -89,14 +89,14 @@
                         <div class="form-group">
                             {{ sform.lName.label(class="form-control-label") }}
                             {% if sform.lName.errors %}
-                                {{ sform.lName(class="form-control form-control-lg is-invalid") }}
+                                {{ sform.lName(class="form-control form-control-lg is-invalid", value=student.lName) }}
                                 <div class="invalid-feedback">
                                     {% for error in sform.lName.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ sform.lName(class="form-control form-control-lg") }}
+                                {{ sform.lName(class="form-control form-control-lg", value=student.lName) }}
                             {% endif %}
                         </div>
 
@@ -104,14 +104,14 @@
                         <div class="form-group">
                             {{ sform.suffix.label(class="form-control-label") }}
                             {% if sform.suffix.errors %}
-                                {{ sform.suffix(class="form-control form-control-lg is-invalid") }}
+                                {{ sform.suffix(class="form-control form-control-lg is-invalid", value=student.suffix) }}
                                 <div class="invalid-feedback">
                                     {% for error in sform.suffix.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ sform.suffix(class="form-control form-control-lg") }}
+                                {{ sform.suffix(class="form-control form-control-lg", value=student.suffix) }}
                             {% endif %}
                         </div>
 
@@ -119,14 +119,14 @@
                         <div class="form-group">
                             {{ sform.preferred.label(class="form-control-label") }}
                             {% if sform.preferred.errors %}
-                                {{ sform.preferred(class="form-control form-control-lg is-invalid") }}
+                                {{ sform.preferred(class="form-control form-control-lg is-invalid", value=student.preferred) }}
                                 <div class="invalid-feedback">
                                     {% for error in sform.preferred.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ sform.preferred(class="form-control form-control-lg") }}
+                                {{ sform.preferred(class="form-control form-control-lg", value=student.preferred) }}
                             {% endif %}
                         </div>
 
@@ -134,14 +134,14 @@
                         <div class="form-group">
                             {{ sform.email.label(class="form-control-label") }}
                             {% if sform.email.errors %}
-                                {{ sform.email(class="form-control form-control-lg is-invalid") }}
+                                {{ sform.email(class="form-control form-control-lg is-invalid", value=student.email) }}
                                 <div class="invalid-feedback">
                                     {% for error in sform.email.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ sform.email(class="form-control form-control-lg") }}
+                                {{ sform.email(class="form-control form-control-lg", value=student.email) }}
                             {% endif %}
                         </div>
 
@@ -149,29 +149,37 @@
                         <div class="form-group">
                             {{ sform.phone.label(class="form-control-label") }}
                             {% if sform.phone.errors %}
-                                {{ sform.phone(class="form-control form-control-lg is-invalid") }}
+                                {{ sform.phone(class="form-control form-control-lg is-invalid", value=student.phone) }}
                                 <div class="invalid-feedback">
                                     {% for error in sform.phone.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ sform.phone(class="form-control form-control-lg") }}
+                                {{ sform.phone(class="form-control form-control-lg", value=student.phone) }}
                             {% endif %}
                         </div>
 
                         <!-- bDay field -->
                         <div class="form-group">
                             {{ sform.bDay.label(class="form-control-label") }}
-                            {{ sform.bDay(class="col-md-4 form-control", type="date") }}
+                            {{ sform.bDay(class="col-md-4 form-control", type="date", value=student.bDay) }}
                         </div>
 
                         <!-- gender field -->
                         <div class="form-group">
                             {{ sform.gender.label(class="form-control-label") }}
                             <select class="form-control" id="gender" name="gender">
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
+                                {% if student.gender == 'Male' %}
+                                    <option selected value="Male">Male</option>
+                                {% else %}
+                                    <option value="Male">Male</option>
+                                {% endif %}
+                                {% if student.gender == 'Female' %}
+                                    <option selected value="Female">Female</option>
+                                {% else %}
+                                    <option value="Female">Female</option>
+                                {% endif %}
                             </select>
                         </div>
 
@@ -179,12 +187,36 @@
                         <div class="form-group">
                             {{ sform.race.label(class="form-control-label") }}
                             <select class="form-control" id="race" name="race">
-                                <option value="Caucasian">Caucasian</option>
-                                <option value="African American">African American</option>
-                                <option value="Native American">Native American</option>
-                                <option value="Pacific Islander">Pacific Islander</option>
-                                <option value="Asian">Asian</option>
-                                <option value="Indian">Indian</option>
+                                {% if student.race =='Caucasian' %}
+                                    <option selected value="Caucasian">Caucasian</option>
+                                {% else %}
+                                    <option value="Caucasian">Caucasian</option>
+                                {% endif %}
+                                {% if student.race =='African American' %}
+                                    <option selected value="African American">African American</option>
+                                {% else %}
+                                    <option value="African American">African American</option>
+                                {% endif %}
+                                {% if student.race =='Native American' %}
+                                    <option selected value="Native American">Native American</option>
+                                {% else %}
+                                    <option value="Native American">Native American</option>
+                                {% endif %}
+                                {% if student.race =='Pacific Islander' %}
+                                    <option selected value="Pacific Islander">Pacific Islander</option>
+                                {% else %}
+                                    <option value="Pacific Islander">Pacific Islander</option>
+                                {% endif %}
+                                {% if student.race =='Asian' %}
+                                    <option selected value="Asian">Asian</option>
+                                {% else %}
+                                    <option value="Asian">Asian</option>
+                                {% endif %}
+                                {% if student.race =='Indian' %}
+                                    <option selected value="Indian">Indian</option>
+                                {% else %}
+                                    <option value="Indian">Indian</option>
+                                {% endif %}
                             </select>
                         </div>
                     </div>
@@ -197,22 +229,58 @@
                         <div class="form-group">
                             {{ sform.gradeLevel.label(class="form-control-label") }}
                             <select class="form-control" id="gradeLevel" name="gradeLevel">
-                                <option value="4th">4th</option>
-                                <option value="5th">5th</option>
-                                <option value="6th">6th</option>
-                                <option value="7th">7th</option>
-                                <option value="8th">8th</option>
-                                <option value="9th">9th</option>
-                                <option value="10th">10th</option>
-                                <option value="11th">11th</option>
-                                <option value="12th">12th</option>
+                                {% if student.gradeLevel =='4th' %}
+                                    <option selected value="4th">4th</option>
+                                {% else %}
+                                    <option value="4th">4th</option>
+                                {% endif %}
+                                {% if student.gradeLevel =='5th' %}
+                                    <option selected value="5th">5th</option>
+                                {% else %}
+                                    <option value="5th">5th</option>
+                                {% endif %}
+                                {% if student.gradeLevel =='6th' %}
+                                    <option selected value="6th">6th</option>
+                                {% else %}
+                                    <option value="6th">6th</option>
+                                {% endif %}
+                                {% if student.gradeLevel =='7th' %}
+                                    <option selected value="7th">7th</option>
+                                {% else %}
+                                    <option value="7th">7th</option>
+                                {% endif %}
+                                {% if student.gradeLevel =='8th' %}
+                                    <option selected value="8th">8th</option>
+                                {% else %}
+                                    <option value="8th">8th</option>
+                                {% endif %}
+                                {% if student.gradeLevel =='9th' %}
+                                    <option selected value="9th">9th</option>
+                                {% else %}
+                                    <option value="9th">9th</option>
+                                {% endif %}
+                                {% if student.gradeLevel =='10th' %}
+                                    <option selected value="10th">10th</option>
+                                {% else %}
+                                    <option value="10th">10th</option>
+                                {% endif %}
+                                {% if student.gradeLevel =='11th' %}
+                                    <option selected value="11th">11th</option>
+                                {% else %}
+                                    <option value="11th">11th</option>
+                                {% endif %}
+                                {% if student.gradeLevel =='12th' %}
+                                    <option selected value="12th">12th</option>
+                                {% else %}
+                                    <option value="12th">12th</option>
+                                {% endif %}
                             </select>
                         </div>
 
                         <!-- expGradYear field -->
                         <div class="form-group">
                             {{ sform.expGradYear.label(class="form-control-label") }}
-                            {{ sform.expGradYear(class="col-md-4 form-control", type="date", format="%Y") }}
+                            {{ sform.expGradYear(class="col-md-4 form-control", type="date", format="%Y", value=student.expGradYear) }}
                         </div>
                     </div>
 
@@ -223,14 +291,14 @@
                         <div class="form-group">
                             {{ sform.street.label(class="form-control-label") }}
                             {% if sform.street.errors %}
-                                {{ sform.street(class="form-control form-control-lg is-invalid") }}
+                                {{ sform.street(class="form-control form-control-lg is-invalid", value=student.street) }}
                                 <div class="invalid-feedback">
                                     {% for error in sform.street.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ sform.street(class="form-control form-control-lg") }}
+                                {{ sform.street(class="form-control form-control-lg", value=student.street) }}
                             {% endif %}
                         </div>
 
@@ -238,14 +306,14 @@
                         <div class="form-group">
                             {{ sform.city.label(class="form-control-label") }}
                             {% if sform.city.errors %}
-                                {{ sform.city(class="form-control form-control-lg is-invalid") }}
+                                {{ sform.city(class="form-control form-control-lg is-invalid", value=student.city) }}
                                 <div class="invalid-feedback">
                                     {% for error in sform.city.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ sform.city(class="form-control form-control-lg") }}
+                                {{ sform.city(class="form-control form-control-lg", value=student.city) }}
                             {% endif %}
                         </div>
 
@@ -310,14 +378,14 @@
                         <div class="form-group">
                             {{ sform.zip.label(class="form-control-label") }}
                             {% if sform.zip.errors %}
-                                {{ sform.zip(class="form-control form-control-lg is-invalid") }}
+                                {{ sform.zip(class="form-control form-control-lg is-invalid", value=student.zip) }}
                                 <div class="invalid-feedback">
                                     {% for error in sform.zip.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ sform.zip(class="form-control form-control-lg") }}
+                                {{ sform.zip(class="form-control form-control-lg", value=student.zip) }}
                             {% endif %}
                         </div>
                     </div>
@@ -779,206 +847,211 @@
         </div>
     {% elif category == 'Staff' %}
         <div class="content-section">
-        <form method="POST" action="">
-        {{ staffForm.hidden_tag() }}
-        <fieldset class="form-group">
+            <form method="POST" action="">
+                {{ staffForm.hidden_tag() }}
+                <fieldset class="form-group">
 
-        <div class="content-section p-4">
-        <!-- fName field -->
-        <div class="form-group">
-            {{ staffForm.fName.label(class="form-control-label") }}
-            {% if staffForm.fName.errors %}
-                {{ staffForm.fName(class="form-control form-control-lg is-invalid", value=result.fName) }}
-                <div class="invalid-feedback">
-                    {% for error in staffForm.fName.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-            {% else %}
-                {{ staffForm.fName(class="form-control form-control-lg", value=result.fName) }}
-            {% endif %}
-        </div>
+                    <div class="content-section p-4">
+                        <!-- fName field -->
+                        <div class="form-group">
+                            {{ staffForm.fName.label(class="form-control-label") }}
+                            {% if staffForm.fName.errors %}
+                                {{ staffForm.fName(class="form-control form-control-lg is-invalid", value=staff.fName) }}
+                                <div class="invalid-feedback">
+                                    {% for error in staffForm.fName.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ staffForm.fName(class="form-control form-control-lg", value=staff.fName) }}
+                            {% endif %}
+                        </div>
 
-        <!-- mName field -->
-        <div class="form-group">
-            {{ staffForm.mName.label(class="form-control-label") }}
-            {% if staffForm.mName.errors %}
-                {{ staffForm.mName(class="form-control form-control-lg is-invalid", value=result.mName) }}
-                <div class="invalid-feedback">
-                    {% for error in staffForm.mName.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-            {% else %}
-                {{ staffForm.mName(class="form-control form-control-lg", value=result.mName) }}
-            {% endif %}
-        </div>
+                        <!-- mName field -->
+                        <div class="form-group">
+                            {{ staffForm.mName.label(class="form-control-label") }}
+                            {% if staffForm.mName.errors %}
+                                {{ staffForm.mName(class="form-control form-control-lg is-invalid", value=staff.mName) }}
+                                <div class="invalid-feedback">
+                                    {% for error in staffForm.mName.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ staffForm.mName(class="form-control form-control-lg", value=staff.mName) }}
+                            {% endif %}
+                        </div>
 
-        <!-- lName field -->
-        <div class="form-group">
-            {{ staffForm.lName.label(class="form-control-label") }}
-            {% if staffForm.lName.errors %}
-                {{ staffForm.lName(class="form-control form-control-lg is-invalid", value=result.lName) }}
-                <div class="invalid-feedback">
-                    {% for error in staffForm.lName.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-            {% else %}
-                {{ staffForm.lName(class="form-control form-control-lg", value=result.lName) }}
-            {% endif %}
-        </div>
+                        <!-- lName field -->
+                        <div class="form-group">
+                            {{ staffForm.lName.label(class="form-control-label") }}
+                            {% if staffForm.lName.errors %}
+                                {{ staffForm.lName(class="form-control form-control-lg is-invalid", value=staff.lName) }}
+                                <div class="invalid-feedback">
+                                    {% for error in staffForm.lName.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ staffForm.lName(class="form-control form-control-lg", value=staff.lName) }}
+                            {% endif %}
+                        </div>
 
-        <!-- suffix field -->
-        <div class="form-group">
-            {{ staffForm.suffix.label(class="form-control-label") }}
-            {% if staffForm.suffix.errors %}
-                {{ staffForm.suffix(class="form-control form-control-lg is-invalid", value=result.suffix) }}
-                <div class="invalid-feedback">
-                    {% for error in staffForm.suffix.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-            {% else %}
-                {{ staffForm.suffix(class="form-control form-control-lg", value=result.suffix) }}
-            {% endif %}
-        </div>
+                        <!-- suffix field -->
+                        <div class="form-group">
+                            {{ staffForm.suffix.label(class="form-control-label") }}
+                            {% if staffForm.suffix.errors %}
+                                {{ staffForm.suffix(class="form-control form-control-lg is-invalid", value=staff.suffix) }}
+                                <div class="invalid-feedback">
+                                    {% for error in staffForm.suffix.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ staffForm.suffix(class="form-control form-control-lg", value=staff.suffix) }}
+                            {% endif %}
+                        </div>
 
 
-        <div class="content-section p-4">
-            <!-- street field -->
-            <div class="form-group">
-                {{ staffForm.street.label(class="form-control-label") }}
-                {% if staffForm.street.errors %}
-                    {{ staffForm.street(class="form-control form-control-lg is-invalid", value=result.street) }}
-                    <div class="invalid-feedback">
-                        {% for error in staffForm.street.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
+                        <div class="content-section p-4">
+                            <!-- street field -->
+                            <div class="form-group">
+                                {{ staffForm.street.label(class="form-control-label") }}
+                                {% if staffForm.street.errors %}
+                                    {{ staffForm.street(class="form-control form-control-lg is-invalid", value=staff.street) }}
+                                    <div class="invalid-feedback">
+                                        {% for error in staffForm.street.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ staffForm.street(class="form-control form-control-lg", value=staff.street) }}
+                                {% endif %}
+                            </div>
+
+                            <!-- city field -->
+                            <div class="form-group">
+                                {{ staffForm.city.label(class="form-control-label") }}
+                                {% if staffForm.city.errors %}
+                                    {{ staffForm.city(class="form-control form-control-lg is-invalid", value=staff.city) }}
+                                    <div class="invalid-feedback">
+                                        {% for error in staffForm.city.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ staffForm.city(class="form-control form-control-lg", value=staff.city) }}
+                                {% endif %}
+                            </div>
+
+                            <!-- state field -->
+                            <div class="form-group">
+                                {{ staffForm.state.label(class="form-control-label") }}
+                                <select class="form-control" id="state" name="state">
+                                    <option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="AR">Arkansas</option>
+                                    <option value="CA">California</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="GA">Georgia</option>
+                                    <option value="HI">Hawaii</option>
+                                    <option value="ID">Idaho</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="IN">Indiana</option>
+                                    <option value="IA">Iowa</option>
+                                    <option value="KS">Kansas</option>
+                                    <option value="KY">Kentucky</option>
+                                    <option value="LA">Louisiana</option>
+                                    <option value="ME">Maine</option>
+                                    <option value="MD">Maryland</option>
+                                    <option value="MA">Massachusetts</option>
+                                    <option value="MI">Michigan</option>
+                                    <option value="MN">Minnesota</option>
+                                    <option value="MS">Mississippi</option>
+                                    <option value="MO">Missouri</option>
+                                    <option value="MT">Montana</option>
+                                    <option value="NE">Nebraska</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="NH">New Hampshire</option>
+                                    <option value="NJ">New Jersey</option>
+                                    <option value="NM">New Mexico</option>
+                                    <option value="NY">New York</option>
+                                    <option value="NC">North Carolina</option>
+                                    <option value="ND">North Dakota</option>
+                                    <option value="OH">Ohio</option>
+                                    <option value="OK">Oklahoma</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="PA">Pennsylvania</option>
+                                    <option value="RI">Rhode Island</option>
+                                    <option value="SC">South Carolina</option>
+                                    <option value="SD">South Dakota</option>
+                                    <option value="TN">Tennessee</option>
+                                    <option value="TX">Texas</option>
+                                    <option value="UT">Utah</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WA">Washington</option>
+                                    <option value="WV">West Virginia</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="WY">Wyoming</option>
+                                </select>
+                            </div>
+                            <!-- zip field -->
+                            <div class="form-group">
+                                {{ staffForm.zip.label(class="form-control-label") }}
+                                {% if staffForm.zip.errors %}
+                                    {{ staffForm.zip(class="form-control form-control-lg is-invalid", value=staff.zip) }}
+                                    <div class="invalid-feedback">
+                                        {% for error in staffForm.zip.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ staffForm.zip(class="form-control form-control-lg", value=staff.zip) }}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="content-section p-4">
+                            <!-- email field -->
+                            <div class="form-group">
+                                {{ staffForm.email.label(class="form-control-label") }}
+                                {% if staffForm.email.errors %}
+                                    {{ staffForm.email(class="form-control form-control-lg is-invalid", value=staff.email) }}
+                                    <div class="invalid-feedback">
+                                        {% for error in staffForm.email.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ staffForm.email(class="form-control form-control-lg", value=staff.email) }}
+                                {% endif %}
+                            </div>
+
+                            <!-- phone field -->
+                            <div class="form-group">
+                                {{ staffForm.phone.label(class="form-control-label") }}
+                                {% if staffForm.phone.errors %}
+                                    {{ staffForm.phone(class="form-control form-control-lg is-invalid", value=staff.phome) }}
+                                    <div class="invalid-feedback">
+                                        {% for error in staffForm.phone.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ staffForm.phone(class="form-control form-control-lg", value=staff.phone) }}
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
-                {% else %}
-                    {{ staffForm.street(class="form-control form-control-lg", value=result.street) }}
-                {% endif %}
-            </div>
-
-            <!-- city field -->
-            <div class="form-group">
-                {{ staffForm.city.label(class="form-control-label") }}
-                {% if staffForm.city.errors %}
-                    {{ staffForm.city(class="form-control form-control-lg is-invalid", value=result.city) }}
-                    <div class="invalid-feedback">
-                        {% for error in staffForm.city.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    {{ staffForm.city(class="form-control form-control-lg", value=result.city) }}
-                {% endif %}
-            </div>
-
-            <!-- state field -->
-            <div class="form-group">
-                {{ staffForm.state.label(class="form-control-label") }}
-                <select class="form-control" id="state" name="state">
-                    <option value="AL">Alabama</option>
-                    <option value="AK">Alaska</option>
-                    <option value="AZ">Arizona</option>
-                    <option value="AR">Arkansas</option>
-                    <option value="CA">California</option>
-                    <option value="CO">Colorado</option>
-                    <option value="CT">Connecticut</option>
-                    <option value="DE">Delaware</option>
-                    <option value="FL">Florida</option>
-                    <option value="GA">Georgia</option>
-                    <option value="HI">Hawaii</option>
-                    <option value="ID">Idaho</option>
-                    <option value="IL">Illinois</option>
-                    <option value="IN">Indiana</option>
-                    <option value="IA">Iowa</option>
-                    <option value="KS">Kansas</option>
-                    <option value="KY">Kentucky</option>
-                    <option value="LA">Louisiana</option>
-                    <option value="ME">Maine</option>
-                    <option value="MD">Maryland</option>
-                    <option value="MA">Massachusetts</option>
-                    <option value="MI">Michigan</option>
-                    <option value="MN">Minnesota</option>
-                    <option value="MS">Mississippi</option>
-                    <option value="MO">Missouri</option>
-                    <option value="MT">Montana</option>
-                    <option value="NE">Nebraska</option>
-                    <option value="NV">Nevada</option>
-                    <option value="NH">New Hampshire</option>
-                    <option value="NJ">New Jersey</option>
-                    <option value="NM">New Mexico</option>
-                    <option value="NY">New York</option>
-                    <option value="NC">North Carolina</option>
-                    <option value="ND">North Dakota</option>
-                    <option value="OH">Ohio</option>
-                    <option value="OK">Oklahoma</option>
-                    <option value="OR">Oregon</option>
-                    <option value="PA">Pennsylvania</option>
-                    <option value="RI">Rhode Island</option>
-                    <option value="SC">South Carolina</option>
-                    <option value="SD">South Dakota</option>
-                    <option value="TN">Tennessee</option>
-                    <option value="TX">Texas</option>
-                    <option value="UT">Utah</option>
-                    <option value="VT">Vermont</option>
-                    <option value="VA">Virginia</option>
-                    <option value="WA">Washington</option>
-                    <option value="WV">West Virginia</option>
-                    <option value="WI">Wisconsin</option>
-                    <option value="WY">Wyoming</option>
-                </select>
-            </div>
-            <!-- zip field -->
-            <div class="form-group">
-                {{ staffForm.zip.label(class="form-control-label") }}
-                {% if staffForm.zip.errors %}
-                    {{ staffForm.zip(class="form-control form-control-lg is-invalid", value=result.zip) }}
-                    <div class="invalid-feedback">
-                        {% for error in staffForm.zip.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    {{ staffForm.zip(class="form-control form-control-lg", value=result.zip) }}
-                {% endif %}
-            </div>
-        </div>
-
-        <div class="content-section p-4">
-            <!-- email field -->
-            <div class="form-group">
-                {{ staffForm.email.label(class="form-control-label") }}
-                {% if staffForm.email.errors %}
-                    {{ staffForm.email(class="form-control form-control-lg is-invalid", value=result.email) }}
-                    <div class="invalid-feedback">
-                        {% for error in staffForm.email.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    {{ staffForm.email(class="form-control form-control-lg", value=result.email) }}
-                {% endif %}
-            </div>
-
-            <!-- phone field -->
-            <div class="form-group">
-                {{ staffForm.phone.label(class="form-control-label") }}
-                {% if staffForm.phone.errors %}
-                    {{ staffForm.phone(class="form-control form-control-lg is-invalid", value=result.phome) }}
-                    <div class="invalid-feedback">
-                        {% for error in staffForm.phone.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    {{ staffForm.phone(class="form-control form-control-lg", value=result.phone) }}
-                {% endif %}
-            </div>
+                </fieldset>
+            </form>
         </div>
     {% endif %}
-</div>
+
+    </div>
 {% endblock content %}
