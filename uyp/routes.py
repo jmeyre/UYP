@@ -28,7 +28,9 @@ def home():
         if not stu:
             return redirect(url_for('student_activate'))
 
-        student = Student(stu[0], stu[1], stu[2], stu[3], stu[4], stu[5], stu[6], stu[7], stu[8], stu[9], stu[10], stu[11], stu[12], stu[13], stu[14], stu[15], stu[16], stu[17], stu[18])
+        student = Student(stu[0], stu[1], stu[2], stu[3], stu[4], stu[5], stu[6], stu[7], stu[8], stu[9], stu[10],
+                          stu[11], stu[12], stu[13], stu[14], stu[15], stu[16], stu[17], stu[18], stu[19], stu[20],
+                          stu[21], stu[22], stu[23], stu[24])
 
         cursor.execute("SELECT c.*, i.fName, i.lName "
                        "FROM takes t, class c, staff i "
@@ -247,7 +249,8 @@ def profile(user_id):
         cursor.execute("SELECT * FROM students WHERE id = '{0}'".format(user_id))
         result = Student(result[0], result[1], result[2], result[3], result[4], result[5], result[6], result[7],
                          result[8], result[9], result[10], result[11], result[12], result[13], result[14],
-                         result[15], result[16], result[17], result[18])
+                         result[15], result[16], result[17], result[18], result[19], result[20], result[21],
+                         result[22], result[23], result[24])
 
     elif category == 'Staff':
         cursor.execute("SELECT * FROM staff WHERE id = '{0}'".format(user_id))

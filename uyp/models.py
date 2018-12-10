@@ -74,7 +74,7 @@ class Class:
 
 class Student:
     def __init__(self, id, fName, mName, lName, suffix, preferred, bDay, gender, race, gradeLevel, expGradYear,
-                 street, city, state, zip, email, phone, esl, gt):
+                 street, city, state, zip, email, phone, esl, gt, accepted, acceptedBy, bill, NCHI, status, grantFunded):
         self.id = id
         self.fName = fName
         self.mName = mName
@@ -94,6 +94,12 @@ class Student:
         self.phone = phone
         self.esl = esl
         self.gt = gt
+        self.accepted = accepted
+        self.acceptedBy = acceptedBy
+        self.bill = bill
+        self.NCHI = NCHI
+        self.status = status
+        self.grantFunded = grantFunded
 
 
 class Staff:

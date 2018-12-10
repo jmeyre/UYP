@@ -22,6 +22,7 @@
                         <p><b>Role:</b> {{ current_user.category }}</p>
                         <p><b>Grade Level:</b> {{ student.gradeLevel }}</p>
                         <p><b>Graduation Year:</b> {{ student.expGradYear }}</p>
+                        <p><b>Balance Due:</b> {{ student.bill }}</p>
                     </div>
                 {% elif staff %}
                     <div class="card-body">
