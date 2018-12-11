@@ -85,7 +85,7 @@ def class_search():
 
         result = cursor.fetchone()
 
-        if not result:
+        if not result[0]:
             flash('You need to activate your account first!', 'danger')
             return redirect(url_for('student_activate'))
 
@@ -239,7 +239,8 @@ def profile(user_id):
 
         result = cursor.fetchone()
 
-        if not result:
+        if not result[0]:
+            flash('You need to activate your account first!', 'danger')
             return redirect(url_for('student_activate'))
 
         # Commit the data to the database
@@ -460,7 +461,7 @@ def student_activate():
         cursor.execute("SELECT fName FROM students WHERE students.id = '{0}'".format(current_user.id))
         result = cursor.fetchone()
 
-        if not result:
+        if result[0]:
             return redirect(url_for('home'))
 
         conn.commit()
